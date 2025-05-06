@@ -1,6 +1,6 @@
 'use client';
 
-import *ానికి React from 'react';
+import * as React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -125,3 +125,4 @@ export default function TestimonialsSection() {
     </section>
   );
 }
+
