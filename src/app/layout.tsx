@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: siteConfig.keywords,
   icons: {
-    icon: siteConfig.ogImage.src, // Use the existing logo as the favicon
+    icon: '/favicon.ico', // Use the favicon.ico file as the favicon
   },
   openGraph: {
     title: `${siteConfig.name} - Premium Steel Products`,
