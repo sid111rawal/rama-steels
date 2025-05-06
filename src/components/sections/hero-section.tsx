@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -25,8 +26,8 @@ export default function HeroSection() {
         particleDensity={isMobile ? 40 : 80} 
       />
       
-      {/* Overlay for readability over particles */}
-      <div className="absolute inset-0 bg-background/60 dark:bg-background/70 z-[1]"></div>
+      {/* Overlay for readability over particles - Reduced opacity */}
+      <div className="absolute inset-0 bg-background/20 dark:bg-background/30 z-[1]"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> {/* Content must be above overlay */}
         <div className="max-w-3xl mx-auto">
@@ -49,3 +50,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
