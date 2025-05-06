@@ -19,6 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { submitInquiryAction } from '@/app/actions/inquiryActions';
 
 const inquiryFormSchema = z.object({
   name: z.string().min(2, {
@@ -42,16 +43,6 @@ const inquiryFormSchema = z.object({
 
 export type InquiryFormValues = z.infer<typeof inquiryFormSchema>;
 
-// This can beちゃう server action
-async function onSubmit(data: InquiryFormValues) {
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  console.log('Form submitted:', data);
-  // Here you would typically send the data to your backend
-  return { success: true, data };
-}
-
-
 export default function InquiryForm() {
   const { toast } = useToast();
   const form = useForm<InquiryFormValues>({
@@ -69,7 +60,7 @@ export default function InquiryForm() {
 
   const handleFormSubmit = async (values: InquiryFormValues) => {
     try {
-      const result = await onSubmit(values);
+      const result = await submitInquiryAction(values);
       if (result.success) {
         toast({
           title: "Inquiry Sent!",
@@ -79,7 +70,7 @@ export default function InquiryForm() {
       } else {
         toast({
           title: "Submission Failed",
-          description: "Something went wrong. Please try again.",
+          description: result.error || "Something went wrong. Please try again.",
           variant: "destructive",
         });
       }
