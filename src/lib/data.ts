@@ -18,6 +18,12 @@ import en9Img from '../images/ferrous/en-9.png';
 import ss400SeriesImg from '../images/ferrous/ss-400 series.png';
 import aisi52100Img from '../images/ferrous/aisi-52100.png';
 
+// Gauge Product Images
+import typeOgGaugeImg from '../images/gauge/type og gauge.jpg';
+import customMadeGaugesImg from '../images/gauge/custom made gauges.png';
+import plugGaugesImg from '../images/gauge/plug-gauges.png';
+import gaugeImg from '../images/gauge/gauge.png';
+
 
 export interface Product {
   id: string;
@@ -40,9 +46,9 @@ export interface ProductCategory {
 
 // Updated product data to use imported static images
 export const productsData: Product[] = [
-  // Ferrous Balls Category - Updated with new products
+  // Ferrous Balls Category
   {
-    id: 'fb-001', // Changed ID prefix for ferrous balls
+    id: 'fb-001',
     name: 'EN-31',
     description: 'High-quality EN-31 ferrous ball for demanding industrial applications. Known for its high hardness and excellent wear resistance.',
     imageSrc: en31Img,
@@ -104,8 +110,43 @@ export const productsData: Product[] = [
     price: '$30.50/kg',
     category: 'Ferrous Balls',
   },
-  // Placeholder products for other categories will be added later.
-  // For now, we are focusing on the Ferrous Balls category.
+  // Gauges Category
+  {
+    id: 'gg-001',
+    name: 'Type Og Gauge',
+    description: 'Precision Type Og Gauge for accurate measurements in various industrial settings. High durability and reliability.',
+    imageSrc: typeOgGaugeImg,
+    imageHint: 'type og gauge',
+    price: '$49.99',
+    category: 'Gauges',
+  },
+  {
+    id: 'gg-002',
+    name: 'Custom Made Gauges',
+    description: 'Tailor-made gauges designed to meet specific customer requirements. High precision and quality for unique applications.',
+    imageSrc: customMadeGaugesImg,
+    imageHint: 'custom gauges',
+    price: 'Contact for Quote',
+    category: 'Gauges',
+  },
+  {
+    id: 'gg-003',
+    name: 'Plug Gauges',
+    description: 'High-quality plug gauges for verifying hole diameters and tolerances. Essential for quality control processes.',
+    imageSrc: plugGaugesImg,
+    imageHint: 'plug gauges set',
+    price: '$75.00/set',
+    category: 'Gauges',
+  },
+  {
+    id: 'gg-004',
+    name: 'Gauge',
+    description: 'General-purpose industrial gauge for various measurement tasks. Robust construction for long-lasting performance.',
+    imageSrc: gaugeImg,
+    imageHint: 'industrial gauge',
+    price: '$35.00',
+    category: 'Gauges',
+  },
 ];
 
 // Data for the 5 main categories to be displayed on the home page
