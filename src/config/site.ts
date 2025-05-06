@@ -9,10 +9,11 @@ export const siteConfig = {
   url: "https://www.ramasons.com", // Replace with actual URL
   ogImage: appLogo as StaticImageData,
   contactInfo: {
-    address: "123 Industrial Road, Tech City, Country",
-    phone: "+1 (123) 456-7890",
-    email: "info@ramasons.com",
-    formSubmitEmail: "sidrawal1200@gmail.com",
+    address: "Jaipur House, Agra, India",
+    phone: "+91-63976-82296",
+    email: "ramasons2001@gmail.com",
+    formSubmitEmail: "sidrawal1200@gmail.com", // Updated form submit email
+    formSubmitRedirectUrl: "/", // Default redirect, can be changed to a thank you page
   },
   socialLinks: {
     facebook: "#",
@@ -20,6 +21,8 @@ export const siteConfig = {
     linkedin: "#",
   },
   whatsAppDefaultMessage: "Hi Rama & Sons. I have a question",
-  heroParticleColor: "#CBD5E1", // Slate 300 for light theme, will be adjusted for dark
+  heroParticleColor: {
+    light: "#A0AEC0", // Slate 400 - A medium gray for light mode
+    dark: "#F9FAFB" // Gray 50 - A very light gray for dark mode
+  },
 };
-

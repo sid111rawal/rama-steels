@@ -14,24 +14,23 @@ export default function HeroSection() {
   const parallaxRef = useParallax<HTMLElement>({ factor: 25 });
   const isMobile = useIsMobile();
   const { theme } = useTheme();
-  const [particleColor, setParticleColor] = useState('#CBD5E1'); // Default for light theme (Slate 300)
+  const [particleColor, setParticleColor] = useState(siteConfig.heroParticleColor.light);
 
   useEffect(() => {
     // Update particle color based on theme
-    // For light theme, use a light slate gray. For dark theme, use a very light gray.
-    setParticleColor(theme === 'dark' ? '#F9FAFB' : '#CBD5E1'); // Dark: Gray 50, Light: Slate 300
+    setParticleColor(theme === 'dark' ? siteConfig.heroParticleColor.dark : siteConfig.heroParticleColor.light);
   }, [theme]);
 
   return (
     <section
       id="home"
       ref={parallaxRef}
-      className="relative bg-gradient-to-br from-background to-secondary py-24 sm:py-32 md:py-40 flex items-center justify-center text-center overflow-hidden"
+      className="relative bg-gradient-to-br from-background to-secondary py-24 sm:py-32 md:py-40 flex items-center justify-center text-center overflow-hidden animated-element"
     >
       <ParticlesComponent
         containerId="hero-particles"
         particleColor={particleColor}
-        particleDensity={isMobile ? 75 : 150} // Increased density by 3x
+        particleDensity={isMobile ? 75 : 150}
       />
 
       {/* Overlay for readability over particles - reduced opacity further */}

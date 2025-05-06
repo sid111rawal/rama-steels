@@ -31,10 +31,11 @@ interface ProductCarouselProps {
 
 export default function ProductCarousel({ products, previewMode = false }: ProductCarouselProps) {
   const [loadedImages, setLoadedImages] = React.useState<Record<string, boolean>>({});
-
+ // State to track if the component is in view
   const handleImageLoad = (productId: string) => {
     setLoadedImages(prev => ({ ...prev, [productId]: true }));
   };
+
 
   return (
     <Carousel
@@ -45,8 +46,10 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
       className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto fade-in-element"
     >
       <CarouselContent className="-ml-2 md:-ml-4">
-        {products.map((product) => (
-          <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+        {products.map((product, index) => (
+          <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 fade-in-element"
+            // Add animation delay based on index
+ style={{ animationDelay: `${index * 0.1}s` }}>
             <div className="p-1 h-full">
               <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="p-0 relative">
@@ -60,6 +63,7 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
                     placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                     data-ai-hint={product.imageHint}
                     onLoad={() => handleImageLoad(product.id)}
+ loading="lazy"
                   />
                    <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>
                 </CardHeader>

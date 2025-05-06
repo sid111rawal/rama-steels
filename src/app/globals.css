@@ -98,6 +98,17 @@ html {
   }
 }
 
+/* Keyframes for scroll-triggered animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); }
+  to { transform: translateY(0); }
+}
+
 @layer components {
   /* Image loading animation */
   .img-loading {
@@ -109,9 +120,16 @@ html {
   /* General fade-in animation for components */
   .fade-in-element {
     animation: fadeInElement 0.7s ease-in-out forwards;
-    opacity: 0;
+  }
+
+  /* Styles for elements animated on scroll */
+  .animate-on-scroll {
+    opacity: 0; /* Initially hidden */
+    transform: translateY(20px); /* Initially slightly below final position */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
   }
 }
+
 
 @keyframes fadeInPage {
   from { opacity: 0; }

@@ -49,8 +49,8 @@ export default function Header() {
             <Image
               src={siteConfig.ogImage}
               alt={`${siteConfig.name} Logo`}
-              width={50} // Increased logo width
-              height={50} // Increased logo height
+              width={75} // Increased logo width by 50% (50 * 1.5 = 75)
+              height={75} // Increased logo height by 50% (50 * 1.5 = 75)
               className="rounded-full group-hover:opacity-80 transition-opacity duration-300"
               data-ai-hint="company logo"
               placeholder="blur"

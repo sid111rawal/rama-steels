@@ -79,9 +79,7 @@ export default function InquiryForm() {
             {/* Hidden fields for formsubmit.co */}
             <input type="hidden" name="_subject" value={`New Inquiry from ${siteConfig.name} Website`} />
             <input type="hidden" name="_captcha" value="false" />
-            {/* Optional: _next for redirecting to a thank you page. Example:
-            <input type="hidden" name="_next" value={typeof window !== 'undefined' ? `${window.location.origin}/thank-you` : '/thank-you'} />
-            */}
+            <input type="hidden" name="_next" value={`${siteConfig.url}${siteConfig.contactInfo.formSubmitRedirectUrl}`} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField

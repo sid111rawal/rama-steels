@@ -16,8 +16,8 @@ export default function Footer() {
               <Image
                 src={siteConfig.ogImage}
                 alt={`${siteConfig.name} Logo`}
-                width={60} // Slightly larger logo in footer
-                height={60}
+                width={80} // Increased size by roughly 33%
+                height={80}
                 className="rounded-full hover:opacity-80 transition-opacity duration-300"
                 data-ai-hint="company logo"
                 placeholder="blur"
