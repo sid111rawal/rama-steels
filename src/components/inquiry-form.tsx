@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,10 +16,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-// Removed useToast as formsubmit.co handles success/error UX
+// Removed Checkbox import as it's no longer used
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-// Removed submitInquiryAction import
 import { siteConfig } from '@/config/site';
 
 const inquiryFormSchema = z.object({
@@ -40,7 +37,7 @@ const inquiryFormSchema = z.object({
   }).max(500, {
     message: 'Message must not exceed 500 characters.'
   }),
-  subscribe: z.boolean().default(false).optional(),
+  // Removed subscribe field from schema
 });
 
 export type InquiryFormValues = z.infer<typeof inquiryFormSchema>;
@@ -55,11 +52,9 @@ export default function InquiryForm() {
       phone: '',
       productInterest: '',
       message: '',
-      subscribe: false,
+      // Removed subscribe from defaultValues
     },
   });
-
-  // Removed handleFormSubmit function as form submission is now native to formsubmit.co
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-xl">
@@ -69,14 +64,11 @@ export default function InquiryForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          {/* Updated form tag to submit to formsubmit.co */}
-          {/* Removed form.handleSubmit from onSubmit, relying on native form submission for action attribute */}
           <form
             action={`https://formsubmit.co/${siteConfig.contactInfo.formSubmitEmail}`}
             method="POST"
             className="space-y-8"
           >
-            {/* Hidden fields for formsubmit.co */}
             <input type="hidden" name="_subject" value={`New Inquiry from ${siteConfig.name} Website`} />
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_next" value={`${siteConfig.url}${siteConfig.contactInfo.formSubmitRedirectUrl}`} />
@@ -89,7 +81,7 @@ export default function InquiryForm() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} />
+                      <Input placeholder="Your Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -102,7 +94,7 @@ export default function InquiryForm() {
                   <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="john.doe@example.com" {...field} />
+                      <Input type="email" placeholder="your.email@example.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,7 +109,7 @@ export default function InquiryForm() {
                   <FormItem>
                     <FormLabel>Company (Optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Acme Corp" {...field} />
+                      <Input placeholder="Your Company Pvt. Ltd." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -130,7 +122,7 @@ export default function InquiryForm() {
                   <FormItem>
                     <FormLabel>Phone Number (Optional)</FormLabel>
                     <FormControl>
-                      <Input type="tel" placeholder="+1 (123) 456-7890" {...field} />
+                      <Input type="tel" placeholder="+91 98765 43210" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,29 +162,7 @@ export default function InquiryForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="subscribe"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      name="subscribeToNewsletter" // Added name attribute for form submission
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Subscribe to our newsletter
-                    </FormLabel>
-                    <FormDescription>
-                      Receive updates on new products and promotions.
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
+            {/* Removed Subscribe to newsletter FormField */}
             <Button type="submit" size="lg" className="w-full md:w-auto transition-transform hover:scale-105" disabled={form.formState.isSubmitting || !form.formState.isValid}>
               {form.formState.isSubmitting ? "Submitting..." : "Send Inquiry"}
             </Button>

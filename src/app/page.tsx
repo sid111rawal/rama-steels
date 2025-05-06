@@ -53,8 +53,8 @@ export default function Home() {
                       />
                     </CardHeader>
                     <CardContent className="p-6 flex-grow">
-                      <CardTitle className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">{category.name}</CardTitle>
-                      <CardDescription className="text-muted-foreground line-clamp-3 mb-4">{category.description}</CardDescription>
+                      <CardTitle className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors fade-in-element">{category.name}</CardTitle>
+                      <CardDescription className="text-muted-foreground line-clamp-3 mb-4 fade-in-element">{category.description}</CardDescription>
                     </CardContent>
                   </Link>
                   <CardFooter className="p-6 pt-0">
