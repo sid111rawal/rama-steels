@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,9 +18,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from "@/hooks/use-toast"
+// Removed useToast as formsubmit.co handles success/error UX
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { submitInquiryAction } from '@/app/actions/inquiryActions';
+// Removed submitInquiryAction import
+import { siteConfig } from '@/config/site';
 
 const inquiryFormSchema = z.object({
   name: z.string().min(2, {
@@ -44,7 +46,6 @@ const inquiryFormSchema = z.object({
 export type InquiryFormValues = z.infer<typeof inquiryFormSchema>;
 
 export default function InquiryForm() {
-  const { toast } = useToast();
   const form = useForm<InquiryFormValues>({
     resolver: zodResolver(inquiryFormSchema),
     defaultValues: {
@@ -58,31 +59,7 @@ export default function InquiryForm() {
     },
   });
 
-  const handleFormSubmit = async (values: InquiryFormValues) => {
-    try {
-      const result = await submitInquiryAction(values);
-      if (result.success) {
-        toast({
-          title: "Inquiry Sent!",
-          description: "Thank you for your inquiry. We'll get back to you soon.",
-        });
-        form.reset();
-      } else {
-        toast({
-          title: "Submission Failed",
-          description: result.error || "Something went wrong. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
+  // Removed handleFormSubmit function as form submission is now native to formsubmit.co
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-xl">
@@ -92,7 +69,20 @@ export default function InquiryForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-8">
+          {/* Updated form tag to submit to formsubmit.co */}
+          {/* Removed form.handleSubmit from onSubmit, relying on native form submission for action attribute */}
+          <form
+            action={`https://formsubmit.co/${siteConfig.contactInfo.formSubmitEmail}`}
+            method="POST"
+            className="space-y-8"
+          >
+            {/* Hidden fields for formsubmit.co */}
+            <input type="hidden" name="_subject" value={`New Inquiry from ${siteConfig.name} Website`} />
+            <input type="hidden" name="_captcha" value="false" />
+            {/* Optional: _next for redirecting to a thank you page. Example:
+            <input type="hidden" name="_next" value={typeof window !== 'undefined' ? `${window.location.origin}/thank-you` : '/thank-you'} />
+            */}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -191,6 +181,7 @@ export default function InquiryForm() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      name="subscribeToNewsletter" // Added name attribute for form submission
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -204,8 +195,8 @@ export default function InquiryForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" size="lg" className="w-full md:w-auto transition-transform hover:scale-105" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Sending..." : "Send Inquiry"}
+            <Button type="submit" size="lg" className="w-full md:w-auto transition-transform hover:scale-105" disabled={form.formState.isSubmitting || !form.formState.isValid}>
+              {form.formState.isSubmitting ? "Submitting..." : "Send Inquiry"}
             </Button>
           </form>
         </Form>

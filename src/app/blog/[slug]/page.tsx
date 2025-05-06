@@ -1,3 +1,5 @@
+
+'use client'; // Added for useState
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -8,6 +10,7 @@ import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'luci
 import WhatsAppChat from '@/components/whatsapp-chat';
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
+import React, { useState } from 'react'; // Import useState
 
 // Re-using the blogPosts data from the blog page for simplicity.
 // In a real app, this would likely come from a CMS or database.
@@ -142,6 +145,11 @@ export async function generateStaticParams() {
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find(p => p.slug === params.slug);
+  const [loadedImage, setLoadedImage] = useState(false);
+
+  const handleImageLoad = () => {
+    setLoadedImage(true);
+  };
 
   if (!post) {
     // TODO: Create a proper 404 page
@@ -162,7 +170,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main role="main" className="flex-grow bg-background py-8 sm:py-12">
+      <main role="main" className="flex-grow bg-background py-8 sm:py-12 fade-in-element">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <Button variant="outline" asChild className="mb-8 group">
             <Link href="/blog">
@@ -171,7 +179,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             </Link>
           </Button>
 
-          <article className="bg-card p-6 sm:p-8 lg:p-10 rounded-lg shadow-xl">
+          <article className="bg-card p-6 sm:p-8 lg:p-10 rounded-lg shadow-xl fade-in-element">
             <header className="mb-8">
               <Badge variant="secondary" className="mb-3">{post.category}</Badge>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4">{post.title}</h1>
@@ -193,17 +201,18 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 alt={post.title}
                 width={800}
                 height={400}
-                className="w-full h-auto object-cover rounded-lg shadow-md"
+                className={`w-full h-auto object-cover rounded-lg shadow-md transition-opacity duration-500 ease-in-out ${loadedImage ? 'img-loaded' : 'img-loading'}`}
                 priority // Prioritize loading the main blog image
                 data-ai-hint={post.imageHint}
+                onLoad={handleImageLoad}
               />
             </figure>
 
-            <div 
+            <div
               className="prose prose-lg dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }} 
+              dangerouslySetInnerHTML={{ __html: post.content }}
             />
-            
+
             <Separator className="my-10" />
 
             <footer className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">

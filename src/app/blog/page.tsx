@@ -1,3 +1,5 @@
+
+'use client'; // Added for useState and useEffect
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -8,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle } from 'lucide-react';
 import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
+import React, { useState } from 'react'; // Import useState
 
 interface BlogPost {
   id: string;
@@ -70,11 +73,17 @@ const blogPosts: BlogPost[] = [
 
 
 export default function BlogPage() {
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
+  const handleImageLoad = (postId: string) => {
+    setLoadedImages(prev => ({ ...prev, [postId]: true }));
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main role="main" className="flex-grow">
-        <section id="blog-hero" className="py-20 bg-secondary text-center">
+        <section id="blog-hero" className="py-20 bg-secondary text-center fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">{siteConfig.name} Blog</h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -83,11 +92,11 @@ export default function BlogPage() {
           </div>
         </section>
 
-        <section id="blog-posts" className="py-16 sm:py-20 bg-background">
+        <section id="blog-posts" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post) => (
-                <Card key={post.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
+              {blogPosts.map((post, index) => (
+                <Card key={post.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
                   <Link href={`/blog/${post.slug}`} className="block">
                     <CardHeader className="p-0 relative">
                       <Image
@@ -95,8 +104,9 @@ export default function BlogPage() {
                         alt={post.title}
                         width={400}
                         height={250}
-                        className="object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105"
+                        className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[post.id] ? 'img-loaded' : 'img-loading'}`}
                         data-ai-hint={post.imageHint}
+                        onLoad={() => handleImageLoad(post.id)}
                       />
                        <Badge variant="default" className="absolute top-3 left-3">{post.category}</Badge>
                     </CardHeader>

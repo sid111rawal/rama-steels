@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Header from '@/components/layout/header';
@@ -22,6 +21,11 @@ export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsData);
   const [pageTitle, setPageTitle] = useState('Our Products');
   const [pageDescription, setPageDescription] = useState('Browse our comprehensive range of high-quality industrial products.');
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
+  const handleImageLoad = (productId: string) => {
+    setLoadedImages(prev => ({ ...prev, [productId]: true }));
+  };
 
   useEffect(() => {
     if (categoryFilter) {
@@ -37,13 +41,14 @@ export default function ProductsPage() {
       setPageTitle('Our Products');
       setPageDescription('Browse our comprehensive range of high-quality industrial products.');
     }
+    setLoadedImages({}); // Reset loaded images when filter changes
   }, [categoryFilter]);
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main role="main" className="flex-grow">
-        <section id="all-products" className="py-16 sm:py-20 bg-background">
+        <section id="all-products" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
@@ -62,23 +67,24 @@ export default function ProductsPage() {
                 </Badge>
               )}
             </div>
-            
+
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-                {filteredProducts.map((product) => (
-                  <Card key={product.id} className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                {filteredProducts.map((product, index) => (
+                  <Card key={product.id} className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
                     <CardHeader className="p-0 relative">
                       <Image
                         src={product.imageSrc}
                         alt={product.name}
                         width={400}
                         height={300}
-                        className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105 object-cover"
+                        className={`fill w-full h-48 sm:h-56 object-cover transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[product.id] ? 'img-loaded' : 'img-loading'}`}
                         sizes="100vw"
                         placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                         data-ai-hint={product.imageHint}
+                        onLoad={() => handleImageLoad(product.id)}
                       />
-                    
+
                       {!categoryFilter && <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>}
                     </CardHeader>
                     <CardContent className="p-4 flex-grow">

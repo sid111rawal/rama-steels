@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Facebook, Twitter, Linkedin } from 'lucide-react';
 import Image from 'next/image';
@@ -7,10 +8,25 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-secondary text-secondary-foreground">
+    <footer className="bg-secondary text-secondary-foreground transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="md:col-span-1">
+            <Link href="/" className="inline-block mb-4">
+              <Image
+                src={siteConfig.ogImage}
+                alt={`${siteConfig.name} Logo`}
+                width={60} // Slightly larger logo in footer
+                height={60}
+                className="rounded-full hover:opacity-80 transition-opacity duration-300"
+                data-ai-hint="company logo"
+                placeholder="blur"
+              />
+            </Link>
+            <p className="text-sm text-muted-foreground">{siteConfig.description.substring(0, 100)}...</p>
+          </div>
+
+          <div className="md:col-span-1">
             <h3 className="text-xl font-semibold text-primary mb-4">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
@@ -28,7 +44,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="md:col-span-1">
             <h3 className="text-xl font-semibold text-primary mb-4">Follow Us</h3>
             <div className="flex space-x-4">
               <Link href={siteConfig.socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-secondary-foreground hover:text-primary transition-colors">
@@ -41,11 +57,6 @@ export default function Footer() {
                 <Linkedin className="h-6 w-6" />
               </Link>
             </div>
-          </div>
-          
-          <div className="bg-muted rounded-lg p-4 flex items-center justify-center text-muted-foreground text-sm">
-            {/* Placeholder for Google Maps embed. For now, a static image. */}
-            <Image src="https://picsum.photos/seed/map/400/200" alt="Map placeholder" width={400} height={200} className="rounded-md object-cover" data-ai-hint="map location" />
           </div>
         </div>
       </div>

@@ -30,13 +30,19 @@ interface ProductCarouselProps {
 }
 
 export default function ProductCarousel({ products, previewMode = false }: ProductCarouselProps) {
+  const [loadedImages, setLoadedImages] = React.useState<Record<string, boolean>>({});
+
+  const handleImageLoad = (productId: string) => {
+    setLoadedImages(prev => ({ ...prev, [productId]: true }));
+  };
+
   return (
     <Carousel
       opts={{
         align: 'start',
         loop: products.length > 3, // Loop only if enough items
       }}
-      className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto"
+      className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto fade-in-element"
     >
       <CarouselContent className="-ml-2 md:-ml-4">
         {products.map((product) => (
@@ -49,10 +55,11 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
                     alt={product.name}
                     width={400}
                     height={300}
-                    className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105 object-cover"
+                    className={`fill w-full h-48 sm:h-56 object-cover transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[product.id] ? 'img-loaded' : 'img-loading'}`}
                     sizes="100vw"
-                    placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"} // Add blur for static images
+                    placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                     data-ai-hint={product.imageHint}
+                    onLoad={() => handleImageLoad(product.id)}
                   />
                    <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>
                 </CardHeader>
@@ -70,7 +77,7 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
           </CarouselItem>
         ))}
       </CarouselContent>
-      {products.length > 1 && ( // Show controls only if multiple items
+      {products.length > (previewMode ? 3 : 1) && ( // Adjust condition based on previewMode
         <>
           <CarouselPrevious className="absolute left-[-12px] sm:left-[-16px] md:left-[-20px] top-1/2 -translate-y-1/2 hidden sm:flex" />
           <CarouselNext className="absolute right-[-12px] sm:right-[-16px] md:right-[-20px] top-1/2 -translate-y-1/2 hidden sm:flex" />

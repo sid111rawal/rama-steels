@@ -9,7 +9,7 @@ import { siteConfig } from '@/config/site';
 import { mainCategoriesData } from '@/lib/data'; // Import main categories
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
       <Header />
       <main role="main" className="flex-grow">
         <HeroSection />
-        <section id="featured-categories" className="py-16 sm:py-20 bg-background">
+        <section id="featured-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
@@ -29,17 +29,17 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {mainCategoriesData.map((category) => (
-                <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
+              {mainCategoriesData.map((category, index) => (
+                <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
                   <Link href={category.path} className="block">
                     <CardHeader className="p-0 relative">
                       <Image
                         src={category.imageSrc}
                         alt={category.name}
-                        width={400} // Adjust as needed
-                        height={250} // Adjust as needed
+                        width={400}
+                        height={250}
                         className="object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105"
-                        placeholder="blur" // Optional: add blur placeholder
+                        placeholder="blur"
                         data-ai-hint={category.imageHint}
                       />
                     </CardHeader>
@@ -48,11 +48,11 @@ export default function Home() {
                       <CardDescription className="text-muted-foreground line-clamp-3 mb-4">{category.description}</CardDescription>
                     </CardContent>
                   </Link>
-                  <div className="p-6 pt-0">
+                  <CardFooter className="p-6 pt-0">
                     <Button variant="outline" asChild className="w-full sm:w-auto">
                       <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '')}</Link>
                     </Button>
-                  </div>
+                  </CardFooter>
                 </Card>
               ))}
             </div>

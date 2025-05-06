@@ -44,9 +44,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="transition-opacity duration-500 ease-in-out opacity-100">
-            {children}
-          </div>
+          {/* Removed the div with transition-opacity class for custom animations */}
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>
