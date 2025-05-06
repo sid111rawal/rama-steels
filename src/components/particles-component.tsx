@@ -58,7 +58,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
               "random": true, 
               "anim": { 
                 "enable": true, 
-                "speed": 1, 
+                "speed": 0.75, // Halved from 1.5
                 "opacity_min": 0.05, 
                 "sync": false 
               }
@@ -66,7 +66,12 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
             "size": {
               "value": 3,
               "random": true,
-              "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false }
+              "anim": { 
+                "enable": true, 
+                "speed": 5,     // Halved from 10
+                "size_min": 0.3, 
+                "sync": false 
+              }
             },
             "line_linked": {
               "enable": true,
@@ -77,8 +82,8 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
             },
             "move": {
               "enable": true,
-              "speed": 5, 
-              "direction": "none",
+              "speed": 3, // Halved from 6
+              "direction": "top", 
               "random": true, 
               "straight": false,
               "out_mode": "out",
@@ -89,7 +94,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "grab" }, 
+              "onhover": { "enable": true, "mode": "repulse" }, 
               "onclick": { "enable": true, "mode": "push" },  
               "resize": true
             },
@@ -99,11 +104,11 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
                 "distance": 400, 
                 "size": 40,      
                 "duration": 2,    
-                "opacity": 0.8, // Corrected from 8 to 0.8
-                "speed": 3
+                "opacity": 0.8, 
+                "speed": 1.5 // Halved from 3
               },
               "repulse": { 
-                "distance": 200,  
+                "distance": 150,  
                 "duration": 0.4 
               },
               "push": { "particles_nb": 4 },
