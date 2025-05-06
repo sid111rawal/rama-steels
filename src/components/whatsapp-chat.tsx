@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import Link from 'next/link';
 import { MessageCircle } from 'lucide-react'; // Using MessageCircle as a generic chat icon, can be replaced with a WhatsApp specific SVG if preferred.
 
