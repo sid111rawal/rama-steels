@@ -14,6 +14,7 @@ export default function HeroSection() {
   const parallaxRef = useParallax<HTMLElement>({ factor: 25 });
   const isMobile = useIsMobile();
   const { theme } = useTheme();
+  // Initialize with light theme color, useEffect will update it for dark theme
   const [particleColor, setParticleColor] = useState(siteConfig.heroParticleColor.light);
 
   useEffect(() => {
@@ -29,8 +30,8 @@ export default function HeroSection() {
     >
       <ParticlesComponent
         containerId="hero-particles"
-        particleColor={particleColor}
-        particleDensity={isMobile ? 75 : 150}
+        particleColor={particleColor} // Use the state variable here
+        particleDensity={isMobile ? 45 : 75} // Reduced density from 3x request
       />
 
       {/* Overlay for readability over particles - reduced opacity further */}
@@ -57,5 +58,3 @@ export default function HeroSection() {
     </section>
   );
 }
-
-
