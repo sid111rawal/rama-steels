@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect, memo } from 'react';
@@ -69,7 +70,7 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
               "random": true,
               "anim": {
                 "enable": true,
-                "speed": 2, 
+                "speed": 3, // Increased speed from 2 to 3 (1.5x)
                 "size_min": 0.3,
                 "sync": false
               }
@@ -83,7 +84,7 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
             },
             "move": {
               "enable": true,
-              "speed": 1.5, // Increased speed from 1 to 1.5
+              "speed": 2.25, // Increased speed from 1.5 to 2.25 (1.5x)
               "direction": "none", 
               "random": true,
               "straight": false,

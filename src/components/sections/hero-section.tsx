@@ -31,7 +31,7 @@ export default function HeroSection() {
       <ParticlesComponent
         containerId="hero-particles"
         particleColor={particleColor} 
-        particleDensity={isMobile ? Math.floor(45 * 1.5) : Math.floor(75 * 1.5)} // Increased particle density by 1.5x
+        particleDensity={isMobile ? Math.floor(45 * 2.25) : Math.floor(75 * 2.25)} // Increased particle density by another 1.5x
       />
 
       {/* Overlay for readability over particles - reduced opacity further */}
