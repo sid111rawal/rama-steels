@@ -9,7 +9,7 @@ import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmettalic.pn
 import firstpageGauge from '../images/gauge/firstpagegauge.png';
 import firstpagePolishMedia from '../images/polish-media/firstpagepolishmedia.jpg';
 
-// New Ferrous Product Images
+// Ferrous Product Images
 import en31Img from '../images/ferrous/en-31.png';
 import aisi1010Img from '../images/ferrous/aisi-1010.png';
 import oneHundredCR6Img from '../images/ferrous/100cr6.png';
@@ -42,122 +42,70 @@ export interface ProductCategory {
 export const productsData: Product[] = [
   // Ferrous Balls Category - Updated with new products
   {
-    id: 'sb-001',
+    id: 'fb-001', // Changed ID prefix for ferrous balls
     name: 'EN-31',
-    description: 'High-quality EN-31 ferrous ball for demanding industrial applications.',
+    description: 'High-quality EN-31 ferrous ball for demanding industrial applications. Known for its high hardness and excellent wear resistance.',
     imageSrc: en31Img,
     imageHint: 'EN-31 steel ball',
     price: '$19.99/kg',
     category: 'Ferrous Balls',
   },
   {
-    id: 'sb-002',
+    id: 'fb-002',
     name: 'AISI-1010',
-    description: 'Precision AISI-1010 ferrous ball, suitable for various applications.',
+    description: 'Precision AISI-1010 low-carbon steel ball, suitable for various general-purpose applications. Offers good formability.',
     imageSrc: aisi1010Img,
     imageHint: 'AISI-1010 steel ball',
     price: '$15.50/kg',
     category: 'Ferrous Balls',
   },
   {
-    id: 'sb-003',
+    id: 'fb-003',
     name: '100CR6',
-    description: 'Durable 100CR6 ferrous ball, known for its hardness and wear resistance.',
+    description: 'Durable 100CR6 bearing steel ball, known for its high hardness, wear resistance, and good fatigue strength. Equivalent to AISI 52100.',
     imageSrc: oneHundredCR6Img,
     imageHint: '100CR6 steel ball',
     price: '$22.75/kg',
     category: 'Ferrous Balls',
   },
   {
-    id: 'sb-004',
+    id: 'fb-004',
     name: 'SS-300 SERIES',
-    description: 'Corrosion-resistant SS-300 series ferrous ball for specialized environments.',
+    description: 'Corrosion-resistant SS-300 series austenitic stainless steel balls (e.g., 304, 316). Ideal for food processing and medical applications.',
     imageSrc: ss300SeriesImg,
     imageHint: 'SS-300 series steel ball',
     price: '$28.00/kg',
     category: 'Ferrous Balls',
   },
   {
-    id: 'sb-005',
+    id: 'fb-005',
     name: 'EN-9',
-    description: 'Versatile EN-9 ferrous ball offering good strength and toughness.',
+    description: 'Versatile EN-9 medium carbon steel ball offering good strength and toughness. Suitable for automotive and engineering parts.',
     imageSrc: en9Img,
     imageHint: 'EN-9 steel ball',
     price: '$17.25/kg',
     category: 'Ferrous Balls',
   },
   {
-    id: 'sb-006',
+    id: 'fb-006',
     name: 'SS-400 SERIES',
-    description: 'SS-400 series ferrous ball with excellent magnetic properties and hardness.',
+    description: 'SS-400 series martensitic stainless steel balls (e.g., 420, 440C) with excellent magnetic properties and high hardness after heat treatment.',
     imageSrc: ss400SeriesImg,
     imageHint: 'SS-400 series steel ball',
     price: '$25.00/kg',
     category: 'Ferrous Balls',
   },
   {
-    id: 'sb-007',
+    id: 'fb-007',
     name: 'AISI-52100',
-    description: 'High-carbon AISI-52100 bearing quality ferrous ball for precision bearings.',
+    description: 'High-carbon, chromium-containing low alloy steel AISI-52100 bearing quality ferrous ball for precision bearings and demanding applications.',
     imageSrc: aisi52100Img,
     imageHint: 'AISI-52100 steel ball',
     price: '$30.50/kg',
     category: 'Ferrous Balls',
   },
-  
-  // Other Categories (placeholders, to be updated similarly)
-  {
-    id: 'nfb-001',
-    name: 'Brass Balls',
-    description: 'Good corrosion resistance and electrical conductivity. Used in valves and electrical components.',
-    imageSrc: 'https://picsum.photos/seed/brassball1/400/300', // Placeholder
-    imageHint: 'brass ball',
-    price: '$22.00/kg',
-    category: 'Non-Ferrous Balls',
-  },
-  {
-    id: 'nmb-001',
-    name: 'Ceramic Balls (Silicon Nitride)',
-    description: 'Extremely hard, lightweight, and corrosion-resistant. Ideal for high-speed bearings.',
-    imageSrc: 'https://picsum.photos/seed/ceramicball1/400/300', // Placeholder
-    imageHint: 'ceramic sphere',
-    price: '$75.00/kg',
-    category: 'Non-Metallic Balls',
-  },
-  {
-    id: 'g-001',
-    name: 'Plug Gauges',
-    description: 'Precision gauges for verifying internal hole diameters to specific tolerances.',
-    imageSrc: 'https://picsum.photos/seed/gauge1/400/300', // Placeholder
-    imageHint: 'plug gauge',
-    price: '$50.00/set',
-    category: 'Gauges',
-  },
-  {
-    id: 'pm-001',
-    name: 'Ceramic Polishing Media',
-    description: 'Provides excellent surface finish for various materials. Long-lasting and effective.',
-    imageSrc: 'https://picsum.photos/seed/polishing1/400/300', // Placeholder
-    imageHint: 'ceramic media',
-    price: '$30.00/bag',
-    category: 'Polish Media & Abrasives',
-  },
-  {
-    id: 'pm-002',
-    name: 'Plastic Polishing Media',
-    description: 'Gentle polishing for delicate parts, preventing damage while achieving a smooth finish.',
-    imageSrc: 'https://picsum.photos/seed/polishing2/400/300', // Placeholder
-    imageHint: 'plastic cones',
-    category: 'Polish Media & Abrasives',
-  },
-  {
-    id: 'pm-003',
-    name: 'Walnut Shell Media (Abrasive)',
-    description: 'Natural and biodegradable, excellent for deburring and cleaning metal surfaces.',
-    imageSrc: 'https://picsum.photos/seed/polishing3/400/300', // Placeholder
-    imageHint: 'walnut shell',
-    category: 'Polish Media & Abrasives',
-  },
+  // Placeholder products for other categories will be added later.
+  // For now, we are focusing on the Ferrous Balls category.
 ];
 
 // Data for the 5 main categories to be displayed on the home page
@@ -182,7 +130,7 @@ export const mainCategoriesData: ProductCategory[] = [
     id: 'cat-non-metallic',
     name: 'Non-Metallic Balls',
     description: 'Includes ceramic, glass, and plastic balls for specialized uses.',
-    imageSrc: firstpageNonMetallic, 
+    imageSrc: firstpageNonMetallic,
     imageHint: 'non-metallic balls',
     path: '/products?category=Non-Metallic+Balls',
   },
