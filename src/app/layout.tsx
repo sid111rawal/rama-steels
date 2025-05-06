@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteConfig.name} - Premium Steel Products`,
     description: siteConfig.description,
-    images: [{ url: siteConfig.ogImage, dataAiHint: 'company logo' }], 
+    images: [{ url: siteConfig.ogImage.src, dataAiHint: 'company logo' }],
     url: siteConfig.url,
   },
 };
@@ -43,7 +44,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="transition-opacity duration-500 ease-in-out opacity-100">
+            {children}
+          </div>
           <Toaster />
         </ThemeProvider>
       </body>

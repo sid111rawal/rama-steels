@@ -10,6 +10,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%; /* White */
@@ -85,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-300 ease-in-out;
   }
   body {
     @apply bg-background text-foreground;
