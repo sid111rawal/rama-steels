@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect, memo } from 'react';
@@ -19,8 +20,9 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
       if (typeof window === 'undefined' || !isMounted) return;
 
       // Dynamically import particles.js
-      const particlesModule = await import('particles.js');
-      const particlesJSFn = particlesModule.default;
+      await import('particles.js');
+      // @ts-ignore
+      const particlesJSFn = window.particlesJS;
 
 
       if (!document.getElementById(containerId) && isMounted) {
