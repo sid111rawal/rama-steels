@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -30,7 +31,7 @@ export default function HeroSection() {
       <ParticlesComponent
         containerId="hero-particles"
         particleColor={particleColor}
-        particleDensity={isMobile ? 25 : 50} // Slightly reduced density
+        particleDensity={isMobile ? 75 : 150} // Increased density by 3x
       />
 
       {/* Overlay for readability over particles - reduced opacity further */}
@@ -57,3 +58,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
