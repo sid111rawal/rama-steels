@@ -9,7 +9,7 @@ interface ParticlesProps {
 }
 
 const ParticlesComponent: React.FC<ParticlesProps> = ({ 
-  particleColor = '#FFFFFF', // Default color, will be overridden by prop. Set to white for better visibility with overlay.
+  particleColor = '#FFFFFF', 
   particleDensity = 80,
   containerId = 'particles-js-hero' 
 }) => {
@@ -58,8 +58,8 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
               "random": true, 
               "anim": { 
                 "enable": true, 
-                "speed": 1, // Increased speed
-                "opacity_min": 0.05, // Lower min opacity for more twinkle
+                "speed": 1, 
+                "opacity_min": 0.05, 
                 "sync": false 
               }
             },
@@ -77,9 +77,9 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
             },
             "move": {
               "enable": true,
-              "speed": 5, // Increased speed
+              "speed": 5, 
               "direction": "none",
-              "random": true, // Enabled random movement
+              "random": true, 
               "straight": false,
               "out_mode": "out",
               "bounce": false,
@@ -89,21 +89,21 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "grab" }, // Changed back to grab
-              "onclick": { "enable": true, "mode": "push" },  // Changed back to push
+              "onhover": { "enable": true, "mode": "grab" }, 
+              "onclick": { "enable": true, "mode": "push" },  
               "resize": true
             },
             "modes": {
-              "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, // Increased distance for grab
+              "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, 
               "bubble": { 
-                "distance": 250, 
-                "size": 20,      
+                "distance": 400, 
+                "size": 40,      
                 "duration": 2,    
-                "opacity": 0.8,   
+                "opacity": 0.8, // Corrected from 8 to 0.8
                 "speed": 3
               },
               "repulse": { 
-                "distance": 100,  
+                "distance": 200,  
                 "duration": 0.4 
               },
               "push": { "particles_nb": 4 },

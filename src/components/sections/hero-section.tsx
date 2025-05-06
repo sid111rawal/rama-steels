@@ -21,11 +21,11 @@ export default function HeroSection() {
       <ParticlesComponent 
         containerId="hero-particles" 
         particleColor={siteConfig.heroParticleColor} 
-        particleDensity={isMobile ? 30 : 60} // Adjusted density for potentially better performance/look
+        particleDensity={isMobile ? 30 : 60}
       />
       
-      {/* Overlay for readability over particles - further reduced opacity for better particle visibility */}
-      <div className="absolute inset-0 bg-background/30 dark:bg-background/40 z-[1]"></div>
+      {/* Overlay for readability over particles - reduced opacity and added pointer-events-none */}
+      <div className="absolute inset-0 bg-background/10 dark:bg-background/15 z-[1] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> {/* Content must be above overlay */}
         <div className="max-w-3xl mx-auto">
