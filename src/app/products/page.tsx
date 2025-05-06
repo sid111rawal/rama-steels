@@ -1,4 +1,3 @@
-
 'use client';
 
 import Header from '@/components/layout/header';
@@ -12,10 +11,10 @@ import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
-import type { Product } from '@/lib/data';
+import type { Product, ProductCategory } from '@/lib/data'; // Ensure ProductCategory is imported
 
 // New component to hold the logic that uses useSearchParams
-function ProductsContent() {
+function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message: string) => void }) {
   const searchParams = useSearchParams();
   const categoryFilter = searchParams.get('category');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -33,8 +32,10 @@ function ProductsContent() {
   };
 
   useEffect(() => {
+    let currentCategoryName = '';
     if (categoryFilter) {
       const decodedCategory = decodeURIComponent(categoryFilter);
+      currentCategoryName = decodedCategory;
       const newFilteredProducts = productsData.filter(
         (product) => product.category.toLowerCase() === decodedCategory.toLowerCase()
       );
@@ -42,13 +43,17 @@ function ProductsContent() {
       setPageTitle(decodedCategory);
       setPageDescription(`Explore our high-quality ${decodedCategory.toLowerCase()}.`);
     } else {
-      setFilteredProducts([]); 
-      setPageTitle('Product Categories'); 
-      setPageDescription('Explore our range of products by category.'); 
+      setFilteredProducts([]);
+      setPageTitle('Product Categories');
+      setPageDescription('Explore our range of products by category.');
     }
+    // Update WhatsApp message based on the category
+    const baseMessage = `Hi ${siteConfig.name}. I have a question about your products`;
+    setWhatsAppMessage(currentCategoryName ? `${baseMessage} in the ${currentCategoryName} category.` : `${baseMessage}.`);
+
     setLoadedImages({});
     setLoadedCategoryImages({});
-  }, [categoryFilter]);
+  }, [categoryFilter, setWhatsAppMessage]);
 
   return (
     <>
@@ -69,7 +74,7 @@ function ProductsContent() {
       {!categoryFilter ? (
         // Display Categories
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mainCategoriesData.map((category, index) => (
+          {mainCategoriesData.map((category: ProductCategory, index: number) => (
             <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
               <Link href={category.path} className="block">
                 <CardHeader className="p-0 relative">
@@ -145,9 +150,7 @@ function ProductsContent() {
 }
 
 export default function ProductsPage() {
-  const searchParams = useSearchParams();
-  const categoryFilter = searchParams.get('category');
-
+  const [whatsAppMessage, setWhatsAppMessage] = useState(`Hi ${siteConfig.name}. I have a question about your products.`);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -155,15 +158,14 @@ export default function ProductsPage() {
       <main role="main" className="flex-grow">
         <section id="products-or-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            {/* The page title and description are handled within ProductsContent */}
-            <Suspense fallback={<div>Loading...</div>}>
-              <ProductsContent />
+            <Suspense fallback={<div className="text-center py-10 text-lg">Loading products...</div>}>
+              <ProductsContent setWhatsAppMessage={setWhatsAppMessage} />
             </Suspense>
           </div>
         </section>
       </main>
       <Footer />
-      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about your products ${categoryFilter ? `in the ${decodeURIComponent(categoryFilter)} category` : ''}.`} />
+      <WhatsAppChat message={whatsAppMessage} />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-
 import type {Metadata} from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
@@ -19,6 +18,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url), // Added metadataBase
   title: `${siteConfig.name} - Premium Steel Products`,
   description: siteConfig.description,
   keywords: siteConfig.keywords,
