@@ -69,7 +69,7 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
               "random": true,
               "anim": {
                 "enable": true,
-                "speed": 2, // Halved speed
+                "speed": 2, 
                 "size_min": 0.3,
                 "sync": false
               }
@@ -78,35 +78,35 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
               "enable": true,
               "distance": 130, 
               "color": particleColor, 
-              "opacity": 0.4, // Increased opacity for better visibility
+              "opacity": 0.4,
               "width": 1
             },
             "move": {
               "enable": true,
-              "speed": 1, // Halved speed
+              "speed": 1, 
               "direction": "none", 
               "random": true,
               "straight": false,
               "out_mode": "out", 
               "bounce": false,
-              "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } 
+              "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } // Enabled attract mode
             }
           },
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "bubble" }, 
+              "onhover": { "enable": true, "mode": "bubble" }, // Kept bubble for hover interaction
               "onclick": { "enable": true, "mode": "push" },
               "resize": true
             },
             "modes": {
               "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
               "bubble": { 
-                "distance": 150,
-                "size": 10, 
-                "duration": 1,
+                "distance": 150, // Increased distance for bubble effect
+                "size": 10, // Increased size for bubble effect
+                "duration": 1, // Shortened duration for quicker bubble effect
                 "opacity": 0.8,
-                "speed": 2 // Halved speed
+                "speed": 2 
               },
               "repulse": {
                 "distance": 100, 
@@ -153,4 +153,3 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
 };
 
 export default memo(ParticlesComponent);
-
