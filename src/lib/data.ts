@@ -9,14 +9,14 @@ import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmettalic.pn
 import firstpageGauge from '../images/gauge/firstpagegauge.png';
 import firstpagePolishMedia from '../images/polish-media/firstpagepolishmedia.jpg';
 
-// Ferrous Product Images - Assuming actual filenames are lowercase
-import highCarbonSteelBallImg from '../images/ferrous/highcarbonsteelball.png';
-import stainlessSteelBallImg from '../images/ferrous/stainlesssteelball.png';
-import chromeSteelBallImg from '../images/ferrous/chromesteelball.png';
-import lowCarbonSteelBallImg from '../images/ferrous/lowcarbonsteelball.png';
-import bearingSteelBallImg from '../images/ferrous/bearingsteelball.png';
-import alloySteelBallImg from '../images/ferrous/alloysteelball.png'; // Changed to lowercase
-import toolSteelBallImg from '../images/ferrous/toolsteelball.png';
+// New Ferrous Product Images
+import en31Img from '../images/ferrous/en-31.png';
+import aisi1010Img from '../images/ferrous/aisi-1010.png';
+import oneHundredCR6Img from '../images/ferrous/100cr6.png';
+import ss300SeriesImg from '../images/ferrous/ss-300 series.png';
+import en9Img from '../images/ferrous/en-9.png';
+import ss400SeriesImg from '../images/ferrous/ss-400 series.png';
+import aisi52100Img from '../images/ferrous/aisi-52100.png';
 
 
 export interface Product {
@@ -30,7 +30,7 @@ export interface Product {
 }
 
 export interface ProductCategory {
-  id: string;
+  id:string;
   name: string;
   description: string;
   imageSrc: StaticImageData;
@@ -40,68 +40,68 @@ export interface ProductCategory {
 
 // Updated product data to use imported static images
 export const productsData: Product[] = [
-  // Ferrous Balls Category
+  // Ferrous Balls Category - Updated with new products
   {
     id: 'sb-001',
-    name: 'High Carbon Steel Ball',
-    description: 'Precision-engineered for durability and high performance in demanding applications.',
-    imageSrc: highCarbonSteelBallImg,
-    imageHint: 'high carbon steel ball',
-    price: '$15.99/kg',
+    name: 'EN-31',
+    description: 'High-quality EN-31 ferrous ball for demanding industrial applications.',
+    imageSrc: en31Img,
+    imageHint: 'EN-31 steel ball',
+    price: '$19.99/kg',
     category: 'Ferrous Balls',
   },
   {
     id: 'sb-002',
-    name: 'Stainless Steel Ball',
-    description: 'Corrosion-resistant, ideal for food processing, medical, and chemical industries.',
-    imageSrc: stainlessSteelBallImg,
-    imageHint: 'stainless steel ball',
-    price: '$25.50/kg',
+    name: 'AISI-1010',
+    description: 'Precision AISI-1010 ferrous ball, suitable for various applications.',
+    imageSrc: aisi1010Img,
+    imageHint: 'AISI-1010 steel ball',
+    price: '$15.50/kg',
     category: 'Ferrous Balls',
   },
   {
     id: 'sb-003',
-    name: 'Chrome Steel Ball',
-    description: 'Known for their hardness and wear resistance, suitable for bearings and automotive parts.',
-    imageSrc: chromeSteelBallImg,
-    imageHint: 'chrome steel ball',
-    price: '$18.75/kg',
+    name: '100CR6',
+    description: 'Durable 100CR6 ferrous ball, known for its hardness and wear resistance.',
+    imageSrc: oneHundredCR6Img,
+    imageHint: '100CR6 steel ball',
+    price: '$22.75/kg',
     category: 'Ferrous Balls',
   },
   {
     id: 'sb-004',
-    name: 'Low Carbon Steel Ball',
-    description: 'Cost-effective solution for applications requiring moderate strength and wear resistance.',
-    imageSrc: lowCarbonSteelBallImg,
-    imageHint: 'low carbon steel ball',
-    price: '$12.50/kg',
-    category: 'Ferrous Balls',
-  },
-  {
-    id: 'sb-005',
-    name: 'Bearing Steel Ball',
-    description: 'High-quality steel balls specifically designed for various bearing applications.',
-    imageSrc: bearingSteelBallImg,
-    imageHint: 'bearing steel ball',
-    price: '$22.00/kg',
-    category: 'Ferrous Balls',
-  },
-  {
-    id: 'sb-006',
-    name: 'Alloy Steel Ball',
-    description: 'Enhanced mechanical properties through alloying elements, for specialized uses.',
-    imageSrc: alloySteelBallImg,
-    imageHint: 'alloy steel ball',
+    name: 'SS-300 SERIES',
+    description: 'Corrosion-resistant SS-300 series ferrous ball for specialized environments.',
+    imageSrc: ss300SeriesImg,
+    imageHint: 'SS-300 series steel ball',
     price: '$28.00/kg',
     category: 'Ferrous Balls',
   },
   {
+    id: 'sb-005',
+    name: 'EN-9',
+    description: 'Versatile EN-9 ferrous ball offering good strength and toughness.',
+    imageSrc: en9Img,
+    imageHint: 'EN-9 steel ball',
+    price: '$17.25/kg',
+    category: 'Ferrous Balls',
+  },
+  {
+    id: 'sb-006',
+    name: 'SS-400 SERIES',
+    description: 'SS-400 series ferrous ball with excellent magnetic properties and hardness.',
+    imageSrc: ss400SeriesImg,
+    imageHint: 'SS-400 series steel ball',
+    price: '$25.00/kg',
+    category: 'Ferrous Balls',
+  },
+  {
     id: 'sb-007',
-    name: 'Tool Steel Ball',
-    description: 'Exceptional hardness and abrasion resistance, suitable for tools and dies.',
-    imageSrc: toolSteelBallImg,
-    imageHint: 'tool steel ball',
-    price: '$35.00/kg',
+    name: 'AISI-52100',
+    description: 'High-carbon AISI-52100 bearing quality ferrous ball for precision bearings.',
+    imageSrc: aisi52100Img,
+    imageHint: 'AISI-52100 steel ball',
+    price: '$30.50/kg',
     category: 'Ferrous Balls',
   },
   
@@ -182,7 +182,7 @@ export const mainCategoriesData: ProductCategory[] = [
     id: 'cat-non-metallic',
     name: 'Non-Metallic Balls',
     description: 'Includes ceramic, glass, and plastic balls for specialized uses.',
-    imageSrc: firstpageNonMetallic, // Corrected variable name
+    imageSrc: firstpageNonMetallic, 
     imageHint: 'non-metallic balls',
     path: '/products?category=Non-Metallic+Balls',
   },
