@@ -1,3 +1,4 @@
+'use client'; // Required for useState
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -11,12 +12,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import React, { useState } from 'react'; // Import useState
 
 export default function Home() {
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+
+  const handleImageLoad = (categoryId: string) => {
+    setLoadedImages(prev => ({ ...prev, [categoryId]: true }));
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main role="main" className="flex-grow">
+      <main role="main" className="flex-grow fade-in-element"> {/* Added fade-in-element to main */}
         <HeroSection />
         <section id="featured-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,9 +46,10 @@ export default function Home() {
                         alt={category.name}
                         width={400}
                         height={250}
-                        className="object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105"
+                        className={`object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
                         placeholder="blur"
                         data-ai-hint={category.imageHint}
+                        onLoad={() => handleImageLoad(category.id)}
                       />
                     </CardHeader>
                     <CardContent className="p-6 flex-grow">
@@ -67,3 +76,4 @@ export default function Home() {
     </div>
   );
 }
+
