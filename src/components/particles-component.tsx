@@ -58,7 +58,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
               "random": true, 
               "anim": { 
                 "enable": true, 
-                "speed": 1.5, // Increased speed
+                "speed": 0.75, // Halved from 1.5
                 "opacity_min": 0.05, 
                 "sync": false 
               }
@@ -67,9 +67,9 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
               "value": 3,
               "random": true,
               "anim": { 
-                "enable": true, // Enabled size animation
-                "speed": 10,     // Speed of size animation
-                "size_min": 0.3, // Minimum size
+                "enable": true, 
+                "speed": 5,     // Halved from 10
+                "size_min": 0.3, 
                 "sync": false 
               }
             },
@@ -82,8 +82,8 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
             },
             "move": {
               "enable": true,
-              "speed": 6, // Increased speed
-              "direction": "top", // Added general upward drift
+              "speed": 3, // Halved from 6
+              "direction": "top", 
               "random": true, 
               "straight": false,
               "out_mode": "out",
@@ -94,7 +94,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "repulse" }, // Changed to repulse
+              "onhover": { "enable": true, "mode": "repulse" }, 
               "onclick": { "enable": true, "mode": "push" },  
               "resize": true
             },
@@ -105,10 +105,10 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
                 "size": 40,      
                 "duration": 2,    
                 "opacity": 0.8, 
-                "speed": 3
+                "speed": 1.5 // Halved from 3
               },
               "repulse": { 
-                "distance": 150,  // Adjusted distance for repulse
+                "distance": 150,  
                 "duration": 0.4 
               },
               "push": { "particles_nb": 4 },
