@@ -21,7 +21,6 @@ interface Product {
   description: string;
   imageSrc: string | StaticImageData; // Updated to accept StaticImageData
   imageHint: string;
-  price?: string; 
   category: string;
 }
 
@@ -50,7 +49,7 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
                     alt={product.name}
                     width={400}
                     height={300}
-                    className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105"
+                    className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105 object-cover"
                     sizes="100vw"
                     placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"} // Add blur for static images
                     data-ai-hint={product.imageHint}
@@ -61,8 +60,7 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
                   <CardTitle className="text-lg font-semibold mb-2 h-14 line-clamp-2">{product.name}</CardTitle>
                   <p className="text-sm text-muted-foreground line-clamp-3 h-[3.75rem]">{product.description}</p>
                 </CardContent>
-                <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row justify-between items-center">
-                  {product.price && <p className="text-primary font-semibold text-lg mb-2 sm:mb-0">{product.price}</p>}
+                <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row justify-end items-center">
                   <Button variant="outline" size="sm" asChild>
                      <Link href={`/products/${product.id}`}>View Details</Link>
                   </Button>

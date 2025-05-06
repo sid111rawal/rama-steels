@@ -1,4 +1,5 @@
 
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { productsData } from '@/lib/data'; 
@@ -71,7 +72,7 @@ export default function ProductDetailPage({ params }: { params: { productId: str
             <div className="bg-background p-6 sm:p-8 rounded-lg shadow-xl">
               <Badge variant="default" className="mb-3">{product.category}</Badge>
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{product.name}</h1>
-              {product.price && <p className="text-2xl text-primary font-semibold mb-6">{product.price}</p>}
+              
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">{product.description}</p>
               
               <div className="space-y-4 mb-8">
@@ -107,14 +108,6 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                     </p>
                   </AccordionContent>
                 </AccordionItem>
-                 <AccordionItem value="item-3">
-                  <AccordionTrigger className="text-lg font-medium">Shipping & Delivery</AccordionTrigger>
-                  <AccordionContent>
-                    <p className="text-muted-foreground">
-                      Standard shipping takes 5-7 business days. Expedited options available. Contact us for bulk order shipping quotes. (Example content)
-                    </p>
-                  </AccordionContent>
-                </AccordionItem>
               </Accordion>
             </div>
           </div>
@@ -138,7 +131,6 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                        <div className="p-4 flex-grow flex flex-col">
                           <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{rp.name}</h3>
                           <p className="text-sm text-muted-foreground line-clamp-2 flex-grow mb-2">{rp.description}</p>
-                          {rp.price && <p className="text-primary font-medium">{rp.price}</p>}
                        </div>
                     </div>
                   </Link>

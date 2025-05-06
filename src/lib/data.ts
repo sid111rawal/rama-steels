@@ -66,7 +66,6 @@ export interface Product {
   description: string;
   imageSrc: StaticImageData | string; // Allow both string URLs and static image data
   imageHint: string;
-  price?: string;
   category: string;
 }
 
@@ -88,7 +87,6 @@ export const productsData: Product[] = [
     description: 'High-quality EN-31 ferrous ball for demanding industrial applications. Known for its high hardness and excellent wear resistance.',
     imageSrc: en31Img,
     imageHint: 'EN-31 steel ball',
-    price: '$19.99/kg',
     category: 'Ferrous Balls',
   },
   {
@@ -97,7 +95,6 @@ export const productsData: Product[] = [
     description: 'Precision AISI-1010 low-carbon steel ball, suitable for various general-purpose applications. Offers good formability.',
     imageSrc: aisi1010Img,
     imageHint: 'AISI-1010 steel ball',
-    price: '$15.50/kg',
     category: 'Ferrous Balls',
   },
   {
@@ -106,7 +103,6 @@ export const productsData: Product[] = [
     description: 'Durable 100CR6 bearing steel ball, known for its high hardness, wear resistance, and good fatigue strength. Equivalent to AISI 52100.',
     imageSrc: oneHundredCR6Img,
     imageHint: '100CR6 steel ball',
-    price: '$22.75/kg',
     category: 'Ferrous Balls',
   },
   {
@@ -115,7 +111,6 @@ export const productsData: Product[] = [
     description: 'Corrosion-resistant SS-300 series austenitic stainless steel balls (e.g., 304, 316). Ideal for food processing and medical applications.',
     imageSrc: ss300SeriesImg,
     imageHint: 'SS-300 series steel ball',
-    price: '$28.00/kg',
     category: 'Ferrous Balls',
   },
   {
@@ -124,7 +119,6 @@ export const productsData: Product[] = [
     description: 'Versatile EN-9 medium carbon steel ball offering good strength and toughness. Suitable for automotive and engineering parts.',
     imageSrc: en9Img,
     imageHint: 'EN-9 steel ball',
-    price: '$17.25/kg',
     category: 'Ferrous Balls',
   },
   {
@@ -133,7 +127,6 @@ export const productsData: Product[] = [
     description: 'SS-400 series martensitic stainless steel balls (e.g., 420, 440C) with excellent magnetic properties and high hardness after heat treatment.',
     imageSrc: ss400SeriesImg,
     imageHint: 'SS-400 series steel ball',
-    price: '$25.00/kg',
     category: 'Ferrous Balls',
   },
   {
@@ -142,7 +135,6 @@ export const productsData: Product[] = [
     description: 'High-carbon, chromium-containing low alloy steel AISI-52100 bearing quality ferrous ball for precision bearings and demanding applications.',
     imageSrc: aisi52100Img,
     imageHint: 'AISI-52100 steel ball',
-    price: '$30.50/kg',
     category: 'Ferrous Balls',
   },
   // Gauges Category
@@ -152,7 +144,6 @@ export const productsData: Product[] = [
     description: 'Precision Type Og Gauge for accurate measurements in various industrial settings. High durability and reliability.',
     imageSrc: typeOgGaugeImg,
     imageHint: 'type og gauge',
-    price: '$49.99',
     category: 'Gauges',
   },
   {
@@ -161,7 +152,6 @@ export const productsData: Product[] = [
     description: 'Tailor-made gauges designed to meet specific customer requirements. High precision and quality for unique applications.',
     imageSrc: customMadeGaugesImg,
     imageHint: 'custom gauges',
-    price: 'Contact for Quote',
     category: 'Gauges',
   },
   {
@@ -170,7 +160,6 @@ export const productsData: Product[] = [
     description: 'High-quality plug gauges for verifying hole diameters and tolerances. Essential for quality control processes.',
     imageSrc: plugGaugesImg,
     imageHint: 'plug gauges set',
-    price: '$75.00/set',
     category: 'Gauges',
   },
   {
@@ -179,7 +168,6 @@ export const productsData: Product[] = [
     description: 'General-purpose industrial gauge for various measurement tasks. Robust construction for long-lasting performance.',
     imageSrc: gaugeImg,
     imageHint: 'industrial gauge',
-    price: '$35.00',
     category: 'Gauges',
   },
   // Non-Ferrous Balls Category

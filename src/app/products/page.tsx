@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Header from '@/components/layout/header';
@@ -84,8 +85,7 @@ export default function ProductsPage() {
                       <CardTitle className="text-lg font-semibold mb-2 h-14 line-clamp-2">{product.name}</CardTitle>
                       <p className="text-sm text-muted-foreground line-clamp-3 h-[3.75rem]">{product.description}</p>
                     </CardContent>
-                    <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row justify-between items-center">
-                      {product.price && <p className="text-primary font-semibold text-lg mb-2 sm:mb-0">{product.price}</p>}
+                    <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row justify-end items-center">
                       <Button variant="default" size="sm" asChild className="transition-transform hover:scale-105">
                          <Link href={`/products/${product.id}`}>View Details</Link>
                       </Button>
