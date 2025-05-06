@@ -5,7 +5,7 @@ import type { StaticImageData } from 'next/image';
 // Using lowercase folder names as per user's latest request.
 import firstpageFerrous from '../images/ferrous/firstpageferrous.png';
 import firstpageNonFerrous from '../images/non-ferrous/firstpagenonferrous.png';
-import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmettalic.png'; // Corrected path
+import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmettalic.png'; // Corrected folder name
 import firstpageGauge from '../images/gauge/firstpagegauge.png';
 import firstpagePolishMedia from '../images/polish-media/firstpagepolishmedia.jpg';
 
@@ -41,6 +41,23 @@ import titaniumImg from '../images/non-ferrous/titanium.png';
 import tungstenImg from '../images/non-ferrous/tungsten.png';
 import phosphorousBronzeImg from '../images/non-ferrous/phosphorous bzonze.png'; // Note: filename "bzonze"
 import aluminaImg from '../images/non-ferrous/alumina.png';
+
+// Non-Metallic Product Images
+import plasticImg from '../images/non-mettalic/plastic.png';
+import rubyImg from '../images/non-mettalic/ruby.png';
+import glassImg from '../images/non-mettalic/glass.png';
+import ceramicNonMetallicImg from '../images/non-mettalic/ceramic.png'; // Corrected folder name
+import siliconNitrideImg from '../images/non-mettalic/silicon nitride.png';
+
+// Polish Media & Abrasives Product Images
+import ssStraightPolishPinImg from '../images/polish-media/ss straight polish pin magnetic or non-magnetic.jpg';
+import ssCutWireShortImg from '../images/polish-media/ss cut wire short.jpg';
+import zincRoundShotsImg from '../images/polish-media/zinc round shots.jpg';
+import ssCrossPinImg from '../images/polish-media/ss cross pin magnetic or non-magnetic.jpg';
+import ssMagneticPicImg from '../images/polish-media/ss magnetic pic.jpg';
+import multPinImg from '../images/polish-media/mult pin.jpg';
+import zincCutWireShotsImg from '../images/polish-media/zinc cut wize shots.png'; // Corrected "wize" in import name
+import ssRoundCutWireShortImg from '../images/polish-media/ss round cut wire short.jpg';
 
 
 export interface Product {
@@ -281,7 +298,7 @@ export const productsData: Product[] = [
   {
     id: 'nfb-015',
     name: 'Phosphorous Bronze',
-    description: 'Phosphorous Bronze non-ferrous ball, known for its strength, toughness, and good wear resistance. (Note: original filename had "bzonze").',
+    description: 'Phosphorous Bronze non-ferrous ball, known for its strength, toughness, and good wear resistance.',
     imageSrc: phosphorousBronzeImg,
     imageHint: 'phosphorous bronze ball',
     category: 'Non-Ferrous Balls',
@@ -292,7 +309,113 @@ export const productsData: Product[] = [
     description: 'Hard and wear-resistant Alumina (Aluminum Oxide) non-ferrous ceramic ball, used in various demanding applications.',
     imageSrc: aluminaImg,
     imageHint: 'alumina ceramic ball',
-    category: 'Non-Ferrous Balls', // Note: Alumina is a ceramic, but for simplicity, it's kept here as per image location. Could be 'Non-Metallic Balls'.
+    category: 'Non-Ferrous Balls',
+  },
+  // Non-Metallic Balls Category
+  {
+    id: 'nmb-001',
+    name: 'Plastic',
+    description: 'Versatile plastic balls, lightweight and resistant to chemicals. Suitable for various low-friction applications.',
+    imageSrc: plasticImg,
+    imageHint: 'plastic balls',
+    category: 'Non-Metallic Balls',
+  },
+  {
+    id: 'nmb-002',
+    name: 'Ruby',
+    description: 'High-precision ruby balls, known for extreme hardness, wear resistance, and dimensional stability.',
+    imageSrc: rubyImg,
+    imageHint: 'ruby balls',
+    category: 'Non-Metallic Balls',
+  },
+  {
+    id: 'nmb-003',
+    name: 'Glass',
+    description: 'Corrosion-resistant glass balls, ideal for check valves, flow meters, and decorative purposes.',
+    imageSrc: glassImg,
+    imageHint: 'glass balls',
+    category: 'Non-Metallic Balls',
+  },
+  {
+    id: 'nmb-004',
+    name: 'Ceramic',
+    description: 'Durable ceramic balls offering excellent wear resistance, high-temperature stability, and electrical insulation.',
+    imageSrc: ceramicNonMetallicImg, // Using the renamed import
+    imageHint: 'ceramic balls',
+    category: 'Non-Metallic Balls',
+  },
+  {
+    id: 'nmb-005',
+    name: 'Silicon Nitride',
+    description: 'High-performance silicon nitride balls with exceptional hardness, strength, and thermal shock resistance.',
+    imageSrc: siliconNitrideImg,
+    imageHint: 'silicon nitride balls',
+    category: 'Non-Metallic Balls',
+  },
+  // Polish Media & Abrasives Category
+  {
+    id: 'pma-001',
+    name: 'SS Straight Polish Pin Magnetic or Non-Magnetic',
+    description: 'Stainless steel straight polish pins, available in magnetic and non-magnetic variants for various finishing applications.',
+    imageSrc: ssStraightPolishPinImg,
+    imageHint: 'stainless steel polish pins',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-002',
+    name: 'SS Cut Wire Short',
+    description: 'Short cut stainless steel wire shots, effective for deburring, cleaning, and surface finishing.',
+    imageSrc: ssCutWireShortImg,
+    imageHint: 'stainless steel cut wire',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-003',
+    name: 'Zinc Round Shots',
+    description: 'Round zinc shots for gentle cleaning and finishing of delicate parts without excessive abrasion.',
+    imageSrc: zincRoundShotsImg,
+    imageHint: 'zinc round shots',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-004',
+    name: 'SS Cross Pin Magnetic or Non-Magnetic',
+    description: 'Stainless steel cross pins, available as magnetic or non-magnetic, for effective polishing and deburring.',
+    imageSrc: ssCrossPinImg,
+    imageHint: 'stainless steel cross pins',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-005',
+    name: 'SS Magnetic Pic',
+    description: 'Magnetic stainless steel picks/pins for precision finishing and material handling in magnetic tumbling processes.',
+    imageSrc: ssMagneticPicImg,
+    imageHint: 'magnetic steel pins',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-006',
+    name: 'Mult Pin',
+    description: 'Multi-faceted pins for comprehensive surface treatment and polishing in various industrial applications.',
+    imageSrc: multPinImg,
+    imageHint: 'multi-faceted pins',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-007',
+    name: 'Zinc Cut Wire Shots',
+    description: 'Cut zinc wire shots for surface preparation and finishing, offering a softer alternative to steel media.',
+    imageSrc: zincCutWireShotsImg, // Used corrected import name
+    imageHint: 'zinc cut wire shots',
+    category: 'Polish Media & Abrasives',
+  },
+  {
+    id: 'pma-008',
+    name: 'SS Round Cut Wire Short',
+    description: 'Short, round cut stainless steel wire for effective deburring and surface conditioning of metal parts.',
+    imageSrc: ssRoundCutWireShortImg,
+    imageHint: 'round cut stainless steel wire',
+    category: 'Polish Media & Abrasives',
   },
 ];
 
