@@ -1,5 +1,4 @@
 
-'use client'; // Added for useState
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -10,7 +9,7 @@ import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'luci
 import WhatsAppChat from '@/components/whatsapp-chat';
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
-import React, { useState } from 'react'; // Import useState
+// Removed React import as useState is no longer used
 
 // Re-using the blogPosts data from the blog page for simplicity.
 // In a real app, this would likely come from a CMS or database.
@@ -81,7 +80,7 @@ const blogPosts = [
     id: 'bp003',
     title: 'Innovations in Steel Manufacturing: Trends to Watch in 2024',
     slug: 'steel-manufacturing-trends-2024',
-    excerpt: 'Explore the latest advancements in steel production, from sustainable practices to AI-driven quality control. How SteelBalls Co. is embracing the future.',
+    excerpt: 'Explore the latest advancements in steel production, from sustainable practices to AI-driven quality control. How Rama & Sons is embracing the future.',
     content: `
       <p class="mb-4 text-lg leading-relaxed">The steel industry is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability. As we look towards 2024, several key trends are shaping the future of steel manufacturing. ${siteConfig.name} is at the forefront, adopting innovative practices to enhance quality, efficiency, and environmental responsibility.</p>
       <h2 class="text-2xl font-semibold my-4">Key Trends in Steel Manufacturing</h2>
@@ -145,11 +144,7 @@ export async function generateStaticParams() {
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find(p => p.slug === params.slug);
-  const [loadedImage, setLoadedImage] = useState(false);
-
-  const handleImageLoad = () => {
-    setLoadedImage(true);
-  };
+  // Removed useState for loadedImage and handleImageLoad function
 
   if (!post) {
     // TODO: Create a proper 404 page
@@ -201,10 +196,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 alt={post.title}
                 width={800}
                 height={400}
-                className={`w-full h-auto object-cover rounded-lg shadow-md transition-opacity duration-500 ease-in-out ${loadedImage ? 'img-loaded' : 'img-loading'}`}
+                className="w-full h-auto object-cover rounded-lg shadow-md img-loaded" // Assuming img-loaded class makes it visible directly
                 priority // Prioritize loading the main blog image
                 data-ai-hint={post.imageHint}
-                onLoad={handleImageLoad}
+                // Removed onLoad handler
               />
             </figure>
 

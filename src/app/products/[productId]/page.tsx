@@ -1,5 +1,5 @@
 
-'use client'; // Added 'use client' for useState and useEffect
+// Removed 'use client' directive
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -17,25 +17,19 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+// Removed React, useState, useEffect imports
 
-// Removed generateStaticParams as dynamic pages with client components
-// often fetch data client-side or rely on route parameters directly.
-// If SSG is still desired, this needs re-evaluation.
+// If SSG is desired, generateStaticParams can be uncommented and implemented
+// export async function generateStaticParams() {
+//   return productsData.map((product) => ({
+//     productId: product.id,
+//   }));
+// }
 
 export default function ProductDetailPage({ params }: { params: { productId: string } }) {
   const product = productsData.find(p => p.id === params.productId);
-  const [loadedImage, setLoadedImage] = useState(false);
-  const [loadedRelatedImages, setLoadedRelatedImages] = useState<Record<string, boolean>>({});
-
-  const handleImageLoad = () => {
-    setLoadedImage(true);
-  };
-
-  const handleRelatedImageLoad = (productId: string) => {
-    setLoadedRelatedImages(prev => ({ ...prev, [productId]: true }));
-  };
-
+  // Removed useState for loadedImage and loadedRelatedImages
+  // Removed handleImageLoad and handleRelatedImageLoad functions
 
   if (!product) {
     return (
@@ -53,7 +47,6 @@ export default function ProductDetailPage({ params }: { params: { productId: str
   }
 
   const relatedProducts = productsData.filter(p => p.id !== product.id && p.category === product.category).slice(0, 3);
-
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -74,10 +67,10 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                 alt={product.name}
                 width={600}
                 height={450}
-                className={`w-full h-auto object-contain rounded-md transition-opacity duration-500 ease-in-out ${loadedImage ? 'img-loaded' : 'img-loading'}`}
+                className="w-full h-auto object-contain rounded-md img-loaded" // Assuming img-loaded makes it visible
                 placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                 data-ai-hint={product.imageHint}
-                onLoad={handleImageLoad}
+                // Removed onLoad handler
                 priority // Prioritize loading main product image
               />
             </div>
@@ -136,10 +129,10 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                         alt={rp.name}
                         width={400}
                         height={300}
-                        className={`w-full h-48 object-cover transition-opacity duration-500 ease-in-out group-hover:opacity-90 ${loadedRelatedImages[rp.id] ? 'img-loaded' : 'img-loading'}`}
+                        className="w-full h-48 object-cover img-loaded group-hover:opacity-90" // Assuming img-loaded makes it visible
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
                         data-ai-hint={rp.imageHint}
-                        onLoad={() => handleRelatedImageLoad(rp.id)}
+                        // Removed onLoad handler
                        />
                        <div className="p-4 flex-grow flex flex-col">
                           <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{rp.name}</h3>

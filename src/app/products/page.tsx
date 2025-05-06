@@ -3,28 +3,33 @@
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { productsData } from '@/lib/data';
+import { productsData, mainCategoriesData } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import type { Product } from '@/lib/data';
+import type { Product, ProductCategory } from '@/lib/data';
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const categoryFilter = searchParams.get('category');
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(productsData);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [pageTitle, setPageTitle] = useState('Our Products');
   const [pageDescription, setPageDescription] = useState('Browse our comprehensive range of high-quality industrial products.');
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [loadedCategoryImages, setLoadedCategoryImages] = useState<Record<string, boolean>>({});
 
-  const handleImageLoad = (productId: string) => {
-    setLoadedImages(prev => ({ ...prev, [productId]: true }));
+  const handleImageLoad = (id: string) => {
+    setLoadedImages(prev => ({ ...prev, [id]: true }));
+  };
+
+  const handleCategoryImageLoad = (id: string) => {
+    setLoadedCategoryImages(prev => ({ ...prev, [id]: true }));
   };
 
   useEffect(() => {
@@ -37,18 +42,19 @@ export default function ProductsPage() {
       setPageTitle(decodedCategory);
       setPageDescription(`Explore our high-quality ${decodedCategory.toLowerCase()}.`);
     } else {
-      setFilteredProducts(productsData);
-      setPageTitle('Our Products');
-      setPageDescription('Browse our comprehensive range of high-quality industrial products.');
+      setFilteredProducts([]); // Clear products if no category is selected
+      setPageTitle('Product Categories');
+      setPageDescription('Explore our range of products by category.');
     }
     setLoadedImages({}); // Reset loaded images when filter changes
+    setLoadedCategoryImages({});
   }, [categoryFilter]);
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main role="main" className="flex-grow">
-        <section id="all-products" className="py-16 sm:py-20 bg-background fade-in-element">
+        <section id="products-or-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
@@ -57,18 +63,46 @@ export default function ProductsPage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 {pageDescription}
               </p>
-              {categoryFilter ? (
+              {categoryFilter && (
                 <Button variant="outline" asChild className="mt-6">
-                  <Link href="/products">View All Products</Link>
+                  <Link href="/products">View All Categories</Link>
                 </Button>
-              ) : (
-                <Badge variant="outline" className="mt-4 text-base bg-green-100 text-green-700 border-green-300 dark:bg-green-800 dark:text-green-200 dark:border-green-600">
-                  All Products In Stock
-                </Badge>
               )}
             </div>
 
-            {filteredProducts.length > 0 ? (
+            {!categoryFilter ? (
+              // Display Categories
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {mainCategoriesData.map((category, index) => (
+                  <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
+                    <Link href={category.path} className="block">
+                      <CardHeader className="p-0 relative">
+                        <Image
+                          src={category.imageSrc}
+                          alt={category.name}
+                          width={400}
+                          height={250}
+                          className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedCategoryImages[category.id] ? 'img-loaded' : 'img-loading'}`}
+                          placeholder="blur"
+                          data-ai-hint={category.imageHint}
+                          onLoad={() => handleCategoryImageLoad(category.id)}
+                        />
+                      </CardHeader>
+                      <CardContent className="p-6 flex-grow">
+                        <CardTitle className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">{category.name}</CardTitle>
+                        <CardDescription className="text-muted-foreground line-clamp-3 mb-4">{category.description}</CardDescription>
+                      </CardContent>
+                    </Link>
+                    <CardFooter className="p-6 pt-0">
+                      <Button variant="outline" asChild className="w-full sm:w-auto">
+                        <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '').replace(' Metal', '')}</Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            ) : filteredProducts.length > 0 ? (
+              // Display Products for a selected category
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
                 {filteredProducts.map((product, index) => (
                   <Card key={product.id} className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
@@ -84,8 +118,6 @@ export default function ProductsPage() {
                         data-ai-hint={product.imageHint}
                         onLoad={() => handleImageLoad(product.id)}
                       />
-
-                      {!categoryFilter && <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>}
                     </CardHeader>
                     <CardContent className="p-4 flex-grow">
                       <CardTitle className="text-lg font-semibold mb-2 h-14 line-clamp-2">{product.name}</CardTitle>
@@ -100,12 +132,13 @@ export default function ProductsPage() {
                 ))}
               </div>
             ) : (
+              // No products found in the selected category
               <div className="text-center py-10">
                 <p className="text-xl text-muted-foreground mb-4">
                   No products found in this category.
                 </p>
                 <Button asChild>
-                  <Link href="/products">View All Products</Link>
+                  <Link href="/products">View All Categories</Link>
                 </Button>
               </div>
             )}

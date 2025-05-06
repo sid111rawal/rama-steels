@@ -31,7 +31,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {mainCategoriesData.map((category, index) => (
                 <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
-                  <Link href={category.path} className="block">
+                  <Link href={category.path} className="block"> {/* category.path already links to /products?category=... */}
                     <CardHeader className="p-0 relative">
                       <Image
                         src={category.imageSrc}
@@ -50,7 +50,8 @@ export default function Home() {
                   </Link>
                   <CardFooter className="p-6 pt-0">
                     <Button variant="outline" asChild className="w-full sm:w-auto">
-                      <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '')}</Link>
+                       {/* category.path already links to /products?category=... */}
+                      <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '').replace(' Metal','')}</Link>
                     </Button>
                   </CardFooter>
                 </Card>
