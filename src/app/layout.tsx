@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
@@ -22,6 +23,9 @@ export const metadata: Metadata = {
   title: `${siteConfig.name} - Premium Steel Products`,
   description: siteConfig.description,
   keywords: siteConfig.keywords,
+  icons: {
+    icon: siteConfig.ogImage.src, // Use the existing logo as the favicon
+  },
   openGraph: {
     title: `${siteConfig.name} - Premium Steel Products`,
     description: siteConfig.description,
