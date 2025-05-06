@@ -30,8 +30,8 @@ export default function HeroSection() {
     >
       <ParticlesComponent
         containerId="hero-particles"
-        particleColor={particleColor} // Use the state variable here
-        particleDensity={isMobile ? 45 : 75} // Reduced density from 3x request
+        particleColor={particleColor} 
+        particleDensity={isMobile ? Math.floor(45 * 1.5) : Math.floor(75 * 1.5)} // Increased particle density by 1.5x
       />
 
       {/* Overlay for readability over particles - reduced opacity further */}
@@ -58,3 +58,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
