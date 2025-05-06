@@ -1,25 +1,23 @@
 'use client';
 
 import React, { useEffect, memo } from 'react';
-import type { siteConfig } from '@/config/site'; // Ensure this type import is correct or adjust as needed
 
 interface ParticlesProps {
-  particleColor?: string; // typeof siteConfig.heroParticleColor; // More specific type if possible
+  particleColor?: string; 
   particleDensity?: number;
   containerId?: string;
 }
 
 const ParticlesComponent: React.FC<ParticlesProps> = ({ 
-  particleColor = '#00BCD4', // Default color, will be overridden by prop
+  particleColor = '#FFFFFF', // Default color, will be overridden by prop. Set to white for better visibility with overlay.
   particleDensity = 80,
-  containerId = 'particles-js-hero' // Unique ID for this instance
+  containerId = 'particles-js-hero' 
 }) => {
   useEffect(() => {
     let isMounted = true;
     const initParticles = async () => {
       if (typeof window === 'undefined' || !isMounted) return;
 
-      // Dynamically import particles.js
       // @ts-ignore
       const particlesModule = await import('particles.js');
       // @ts-ignore
@@ -39,7 +37,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
 
       let particleCount = particleDensity;
       if (window.innerWidth < 768) {
-        particleCount = Math.max(20, Math.floor(particleDensity / 1.5)); 
+        particleCount = Math.max(20, Math.floor(particleDensity / 2)); 
       }
 
       try {
@@ -56,12 +54,12 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
               "polygon": { "nb_sides": 5 }
             },
             "opacity": {
-              "value": 0.6, // Base opacity
-              "random": true, // Particles will have random starting opacities
+              "value": 0.6, 
+              "random": true, 
               "anim": { 
-                "enable": true, // Enable opacity animation
-                "speed": 0.5, 
-                "opacity_min": 0.1, 
+                "enable": true, 
+                "speed": 1, // Increased speed
+                "opacity_min": 0.05, // Lower min opacity for more twinkle
                 "sync": false 
               }
             },
@@ -73,15 +71,15 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
             "line_linked": {
               "enable": true,
               "distance": 150,
-              "color": particleColor, // Use the passed particleColor for lines
+              "color": particleColor, 
               "opacity": 0.4,
               "width": 1
             },
             "move": {
               "enable": true,
-              "speed": 4, // Slightly reduced speed for a calmer effect
+              "speed": 5, // Increased speed
               "direction": "none",
-              "random": false,
+              "random": true, // Enabled random movement
               "straight": false,
               "out_mode": "out",
               "bounce": false,
@@ -91,21 +89,21 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "repulse" }, // Repulse on hover
-              "onclick": { "enable": true, "mode": "bubble" },  // Bubble on click
+              "onhover": { "enable": true, "mode": "grab" }, // Changed back to grab
+              "onclick": { "enable": true, "mode": "push" },  // Changed back to push
               "resize": true
             },
             "modes": {
-              "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
-              "bubble": { // Parameters for bubble effect
-                "distance": 250, // How far the bubble effect extends
-                "size": 20,       // Max size of bubbled particles
-                "duration": 2,    // How long the bubble effect lasts
-                "opacity": 0.8,   // Opacity during bubble
+              "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, // Increased distance for grab
+              "bubble": { 
+                "distance": 250, 
+                "size": 20,      
+                "duration": 2,    
+                "opacity": 0.8,   
                 "speed": 3
               },
-              "repulse": { // Parameters for repulse effect
-                "distance": 100,  // How far particles are repulsed
+              "repulse": { 
+                "distance": 100,  
                 "duration": 0.4 
               },
               "push": { "particles_nb": 4 },
