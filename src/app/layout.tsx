@@ -3,6 +3,7 @@ import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from "@/components/ui/toaster"
+import { siteConfig } from '@/config/site';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -17,15 +18,14 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'SteelBalls Co. - Premium Steel Products',
-  description: 'Excellence in industrial steel products with over 20 years of experience.',
-  keywords: "Steel Balls, Polish Media, Industrial Steel, SteelBalls Co.",
+  title: `${siteConfig.name} - Premium Steel Products`,
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
   openGraph: {
-    title: 'SteelBalls Co. - Premium Steel Products',
-    description: 'Excellence in industrial steel products with over 20 years of experience.',
-    // TODO: Update with actual logo URL once available
-    images: [{ url: 'https://picsum.photos/seed/logo/1200/630', dataAiHint: 'company logo' }], 
-    url: 'https://www.steelballsco.com', // Replace with actual URL
+    title: `${siteConfig.name} - Premium Steel Products`,
+    description: siteConfig.description,
+    images: [{ url: siteConfig.ogImage, dataAiHint: 'company logo' }], 
+    url: siteConfig.url,
   },
 };
 

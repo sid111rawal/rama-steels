@@ -1,6 +1,6 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { productsData } from '@/lib/data'; // Changed import
+import { productsData } from '@/lib/data'; 
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { siteConfig } from '@/config/site';
 
 
 export async function generateStaticParams() {
@@ -25,7 +26,6 @@ export default function ProductDetailPage({ params }: { params: { productId: str
   const product = productsData.find(p => p.id === params.productId);
 
   if (!product) {
-    // TODO: Create a proper 404 page
     return (
       <div className="flex flex-col min-h-screen">
         <Header />
@@ -40,7 +40,6 @@ export default function ProductDetailPage({ params }: { params: { productId: str
     );
   }
 
-  // Dummy related products (excluding the current one)
   const relatedProducts = productsData.filter(p => p.id !== product.id && p.category === product.category).slice(0, 3);
 
 
@@ -141,7 +140,7 @@ export default function ProductDetailPage({ params }: { params: { productId: str
         </div>
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="+1234567890" message={`Hi SteelBalls Co. I have a question about ${product.name}.`} />
+      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name}.`} />
     </div>
   );
 }

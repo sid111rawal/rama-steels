@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Users, Zap, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import WhatsAppChat from '@/components/whatsapp-chat';
+import { siteConfig } from '@/config/site';
 
 const teamMembers = [
   { name: "John Doe", role: "CEO & Founder", imageSrc: "https://picsum.photos/seed/team1/300/300", imageHint: "man portrait" },
@@ -19,7 +20,7 @@ export default function AboutPage() {
       <main role="main" className="flex-grow">
         <section id="about-hero" className="py-20 bg-secondary text-center">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">About SteelBalls Co.</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">About {siteConfig.name}</h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
               With over 20 years of experience in steel manufacturing, we combine innovation with quality to deliver the best products in the industry.
             </p>
@@ -77,8 +78,8 @@ export default function AboutPage() {
                     <Image 
                       src={member.imageSrc} 
                       alt={member.name} 
-                      layout="fill" 
-                      objectFit="cover"
+                      fill
+                      style={{objectFit: 'cover'}}
                       className="transition-transform duration-300 group-hover:scale-105"
                       data-ai-hint={member.imageHint}
                     />
@@ -114,7 +115,7 @@ export default function AboutPage() {
         </section>
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="+1234567890" message="Hi SteelBalls Co. I'd like to know more about your company." />
+      <WhatsAppChat message={`Hi ${siteConfig.name}. I'd like to know more about your company.`} />
     </div>
   );
 }

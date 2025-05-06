@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle } from 'lucide-react';
 import WhatsAppChat from '@/components/whatsapp-chat';
+import { siteConfig } from '@/config/site';
 
 interface BlogPost {
   id: string;
@@ -75,9 +76,9 @@ export default function BlogPage() {
       <main role="main" className="flex-grow">
         <section id="blog-hero" className="py-20 bg-secondary text-center">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">SteelBalls Co. Blog</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">{siteConfig.name} Blog</h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Latest insights, technical guides, and industry news from the experts at SteelBalls Co.
+              Latest insights, technical guides, and industry news from the experts at {siteConfig.name}.
             </p>
           </div>
         </section>
@@ -126,7 +127,7 @@ export default function BlogPage() {
         </section>
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="+1234567890" message="Hi SteelBalls Co. I have a question about your blog." />
+      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about your blog.`} />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
+import { siteConfig } from '@/config/site';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -44,9 +45,8 @@ export default function Header() {
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2 group">
-            {/* Placeholder Logo */}
-            <Image src="https://picsum.photos/seed/logo/100/100" alt="SteelBalls Co. Logo" width={40} height={40} className="rounded-full group-hover:opacity-80 transition-opacity" data-ai-hint="company logo" />
-            <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">SteelBalls Co.</span>
+            <Image src={siteConfig.ogImage} alt={`${siteConfig.name} Logo`} width={40} height={40} className="rounded-full group-hover:opacity-80 transition-opacity" data-ai-hint="company logo" />
+            <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">{siteConfig.name}</span>
           </Link>
           
           <div className="hidden md:flex items-center space-x-2">

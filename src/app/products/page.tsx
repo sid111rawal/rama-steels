@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import WhatsAppChat from '@/components/whatsapp-chat';
+import { siteConfig } from '@/config/site';
 
 export default function ProductsPage() {
   return (
@@ -59,7 +60,7 @@ export default function ProductsPage() {
         </section>
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="+1234567890" message="Hi SteelBalls Co. I have a question about your products." />
+      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about your products.`} />
     </div>
   );
 }

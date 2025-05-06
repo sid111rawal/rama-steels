@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'lucide-react';
 import WhatsAppChat from '@/components/whatsapp-chat';
 import { Separator } from '@/components/ui/separator';
+import { siteConfig } from '@/config/site';
 
 // Re-using the blogPosts data from the blog page for simplicity.
 // In a real app, this would likely come from a CMS or database.
@@ -26,12 +27,12 @@ const blogPosts = [
       </figure>
       <h2 class="text-2xl font-semibold my-4">Measuring Hardness</h2>
       <p class="mb-4 leading-relaxed">The most common methods for measuring steel ball hardness include Rockwell (HRC), Brinell (HB), and Vickers (HV) tests. Each method uses an indenter of a specific shape and material, applying a known force. The size or depth of the resulting indentation determines the hardness value. For steel balls, Rockwell C is often preferred due to its suitability for harder materials.</p>
-      <h2 class="text-2xl font-semibold my-4">Industry Standards and SteelBalls Co.</h2>
-      <p class="mb-4 leading-relaxed">At SteelBalls Co., we adhere to stringent international standards such as ISO 3290 and ASTM F2215. Our manufacturing processes are designed to achieve consistent hardness levels tailored to specific application requirements. For example, our high-carbon chrome steel balls typically achieve a hardness of 60-67 HRC, ensuring optimal performance in demanding conditions.</p>
+      <h2 class="text-2xl font-semibold my-4">Industry Standards and ${siteConfig.name}</h2>
+      <p class="mb-4 leading-relaxed">At ${siteConfig.name}, we adhere to stringent international standards such as ISO 3290 and ASTM F2215. Our manufacturing processes are designed to achieve consistent hardness levels tailored to specific application requirements. For example, our high-carbon chrome steel balls typically achieve a hardness of 60-67 HRC, ensuring optimal performance in demanding conditions.</p>
       <blockquote class="border-l-4 border-primary pl-4 italic my-6 py-2 text-muted-foreground">
         "The right hardness ensures not just longevity, but also the efficiency and reliability of the entire system the steel ball is part of."
       </blockquote>
-      <p class="leading-relaxed">Choosing steel balls with the appropriate hardness is crucial for maximizing performance and minimizing downtime. Contact SteelBalls Co. today to discuss your specific requirements and find the perfect solution for your application.</p>
+      <p class="leading-relaxed">Choosing steel balls with the appropriate hardness is crucial for maximizing performance and minimizing downtime. Contact ${siteConfig.name} today to discuss your specific requirements and find the perfect solution for your application.</p>
     `,
     date: 'October 26, 2023',
     author: 'Dr. Metallurgy Expert',
@@ -65,7 +66,7 @@ const blogPosts = [
           <li><strong>Part geometry:</strong> Media shape and size should prevent lodging in part crevices.</li>
           <li><strong>Process time and cost:</strong> Aggressiveness of media affects cycle times.</li>
       </ol>
-      <p class="leading-relaxed">At SteelBalls Co., we offer a wide range of polishing media and can assist you in selecting the perfect type for your application. Our experts can help optimize your finishing processes for efficiency and quality.</p>
+      <p class="leading-relaxed">At ${siteConfig.name}, we offer a wide range of polishing media and can assist you in selecting the perfect type for your application. Our experts can help optimize your finishing processes for efficiency and quality.</p>
     `,
     date: 'November 05, 2023',
     author: 'Finishing Pro',
@@ -79,7 +80,7 @@ const blogPosts = [
     slug: 'steel-manufacturing-trends-2024',
     excerpt: 'Explore the latest advancements in steel production, from sustainable practices to AI-driven quality control. How SteelBalls Co. is embracing the future.',
     content: `
-      <p class="mb-4 text-lg leading-relaxed">The steel industry is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability. As we look towards 2024, several key trends are shaping the future of steel manufacturing. SteelBalls Co. is at the forefront, adopting innovative practices to enhance quality, efficiency, and environmental responsibility.</p>
+      <p class="mb-4 text-lg leading-relaxed">The steel industry is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability. As we look towards 2024, several key trends are shaping the future of steel manufacturing. ${siteConfig.name} is at the forefront, adopting innovative practices to enhance quality, efficiency, and environmental responsibility.</p>
       <h2 class="text-2xl font-semibold my-4">Key Trends in Steel Manufacturing</h2>
       <ul class="list-disc list-inside mb-4 space-y-2 pl-4">
         <li><strong>Sustainable Steelmaking:</strong> Increased focus on reducing carbon emissions through hydrogen-based steel production, carbon capture technologies, and greater use of recycled materials.</li>
@@ -91,9 +92,9 @@ const blogPosts = [
         <img src="https://picsum.photos/seed/future-steel/800/400" alt="Futuristic steel manufacturing plant" class="rounded-lg shadow-md mx-auto" data-ai-hint="modern factory" />
         <figcaption class="text-sm text-center text-muted-foreground mt-2">AI and robotics are revolutionizing steel production.</figcaption>
       </figure>
-      <h2 class="text-2xl font-semibold my-4">SteelBalls Co.'s Commitment to Innovation</h2>
-      <p class="mb-4 leading-relaxed">At SteelBalls Co., we are actively investing in research and development to incorporate these trends into our operations. This includes optimizing our energy consumption, exploring greener raw materials, and implementing advanced analytics for quality assurance. Our goal is to provide our customers with not only the highest quality steel products but also a partnership that values sustainability and technological excellence.</p>
-      <p class="leading-relaxed">The future of steel is bright and dynamic. Stay tuned to our blog for more updates on how SteelBalls Co. is contributing to this exciting evolution.</p>
+      <h2 class="text-2xl font-semibold my-4">${siteConfig.name}'s Commitment to Innovation</h2>
+      <p class="mb-4 leading-relaxed">At ${siteConfig.name}, we are actively investing in research and development to incorporate these trends into our operations. This includes optimizing our energy consumption, exploring greener raw materials, and implementing advanced analytics for quality assurance. Our goal is to provide our customers with not only the highest quality steel products but also a partnership that values sustainability and technological excellence.</p>
+      <p class="leading-relaxed">The future of steel is bright and dynamic. Stay tuned to our blog for more updates on how ${siteConfig.name} is contributing to this exciting evolution.</p>
     `,
     date: 'November 15, 2023',
     author: 'Industry Analyst',
@@ -122,8 +123,8 @@ const blogPosts = [
         <li><strong>Medical Devices:</strong> Biocompatibility and sterilizability are key advantages for stainless steel in medical instruments and implants.</li>
       </ul>
       <h2 class="text-2xl font-semibold my-4">Types of Stainless Steel Balls</h2>
-      <p class="mb-4 leading-relaxed">Different grades of stainless steel (e.g., 304, 316, 440C) offer varying levels of corrosion resistance and mechanical properties. For instance, 316 stainless steel provides superior resistance to chlorides and is often used in marine or chemical processing applications, while 440C offers higher hardness for bearing applications. SteelBalls Co. provides a range of stainless steel balls to meet diverse needs.</p>
-      <p class="leading-relaxed">Choosing stainless steel balls can significantly enhance the longevity and reliability of your equipment, especially in corrosive conditions. Consult with our experts at SteelBalls Co. to determine the best stainless steel grade for your specific requirements.</p>
+      <p class="mb-4 leading-relaxed">Different grades of stainless steel (e.g., 304, 316, 440C) offer varying levels of corrosion resistance and mechanical properties. For instance, 316 stainless steel provides superior resistance to chlorides and is often used in marine or chemical processing applications, while 440C offers higher hardness for bearing applications. ${siteConfig.name} provides a range of stainless steel balls to meet diverse needs.</p>
+      <p class="leading-relaxed">Choosing stainless steel balls can significantly enhance the longevity and reliability of your equipment, especially in corrosive conditions. Consult with our experts at ${siteConfig.name} to determine the best stainless steel grade for your specific requirements.</p>
     `,
     date: 'November 28, 2023',
     author: 'Materials Scientist',
@@ -219,19 +220,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="+1234567890" message={`Hi SteelBalls Co. I have a question about the blog post: ${post.title}`} />
+      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about the blog post: ${post.title}`} />
     </div>
   );
 }
-
-// Add some basic styling for prose content if not already handled globally
-// This can be added to globals.css or a specific component style
-/*
-.prose h2 { @apply text-2xl font-semibold mt-8 mb-4; }
-.prose p { @apply mb-4 leading-relaxed; }
-.prose ul, .prose ol { @apply list-inside mb-4 pl-4 space-y-1; }
-.prose blockquote { @apply border-l-4 border-primary pl-4 italic my-6 py-2 text-muted-foreground; }
-.prose figure { @apply my-6; }
-.prose figcaption { @apply text-sm text-center text-muted-foreground mt-2; }
-.prose img { @apply rounded-lg shadow-md mx-auto; }
-*/

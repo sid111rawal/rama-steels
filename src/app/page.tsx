@@ -1,12 +1,12 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import HeroSection from '@/components/sections/hero-section';
-// import ProductsSection from '@/components/sections/products-section'; // ProductsSection is not used directly anymore
 import WhatsAppChat from '@/components/whatsapp-chat';
 import ProductCarousel from '@/components/product-carousel';
 import { productsData } from '@/lib/data';
 import TestimonialsSection from '@/components/sections/testimonials-section';
 import InquirySection from '@/components/sections/inquiry-section';
+import { siteConfig } from '@/config/site';
 
 export default function Home() {
   return (
@@ -14,7 +14,6 @@ export default function Home() {
       <Header />
       <main role="main" className="flex-grow">
         <HeroSection />
-        {/* Use ProductCarousel for the product preview */}
         <section id="products-preview" className="py-16 sm:py-20 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
@@ -32,7 +31,7 @@ export default function Home() {
         <InquirySection />
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="+1234567890" message="Hi SteelBalls Co. I have a question" />
+      <WhatsAppChat />
     </div>
   );
 }

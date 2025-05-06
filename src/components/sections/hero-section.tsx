@@ -1,21 +1,34 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/image'; // Keep for potential future static background fallback
+import ParticlesComponent from '@/components/particles-component';
+import useParallax from '@/hooks/use-parallax';
+import { siteConfig } from "@/config/site";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function HeroSection() {
-  return (
-    <section id="home" className="relative bg-gradient-to-br from-background to-secondary py-24 sm:py-32 md:py-40 flex items-center justify-center text-center overflow-hidden">
-      {/* Background Image - subtle steel texture or abstract industrial */}
-      <Image 
-        src="https://picsum.photos/seed/hero-bg/1920/1080" 
-        alt="Industrial background"
-        quality={80}
-        className="absolute inset-0 z-0 opacity-10 dark:opacity-5"
-        fill
-      />
-      <div className="absolute inset-0 bg-background/30 dark:bg-background/50 z-0"></div> {/* Overlay for readability */}
+  const parallaxRef = useParallax<HTMLElement>({ factor: 25 }); // Adjust factor as needed
+  const isMobile = useIsMobile();
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  return (
+    <section 
+      id="home" 
+      ref={parallaxRef}
+      className="relative bg-gradient-to-br from-background to-secondary py-24 sm:py-32 md:py-40 flex items-center justify-center text-center overflow-hidden"
+    >
+      {/* Particles Background - ensure it's behind the overlay and content */}
+      <ParticlesComponent 
+        containerId="hero-particles" 
+        particleColor={siteConfig.heroParticleColor} 
+        particleDensity={isMobile ? 40 : 80} 
+      />
+      
+      {/* Overlay for readability over particles */}
+      <div className="absolute inset-0 bg-background/60 dark:bg-background/70 z-[1]"></div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> {/* Content must be above overlay */}
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
             Premium Steel Balls &amp; Polish Media
@@ -28,7 +41,7 @@ export default function HeroSection() {
               <Link href="/products" aria-label="Explore Products">Explore Products</Link>
             </Button>
             <Button size="lg" variant="outline" asChild className="transition-transform hover:scale-105">
-              <Link href="#inquiry" aria-label="Request a Quote">Request a Quote</Link>
+              <Link href="/#inquiry" aria-label="Request a Quote">Request a Quote</Link>
             </Button>
           </div>
         </div>

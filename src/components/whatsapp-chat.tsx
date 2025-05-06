@@ -2,14 +2,13 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { MessageCircle } from 'lucide-react'; // Using MessageCircle as a generic chat icon, can be replaced with a WhatsApp specific SVG if preferred.
+import { siteConfig } from '@/config/site';
 
 interface WhatsAppChatProps {
-  phoneNumber: string; // E.g., +1234567890
-  message?: string; // Pre-filled message
+  message?: string; // Pre-filled message, overrides default if provided
 }
 
-export default function WhatsAppChat({ phoneNumber, message }: WhatsAppChatProps) {
+export default function WhatsAppChat({ message }: WhatsAppChatProps) {
   const [isVisible, setIsVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,7 +25,9 @@ export default function WhatsAppChat({ phoneNumber, message }: WhatsAppChatProps
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
   
-  const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, '')}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
+  const phoneNumber = siteConfig.contactInfo.phone;
+  const chatMessage = message || siteConfig.whatsAppDefaultMessage;
+  const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, '')}${chatMessage ? `?text=${encodeURIComponent(chatMessage)}` : ''}`;
 
   return (
     <>
