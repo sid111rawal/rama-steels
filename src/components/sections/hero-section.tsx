@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -15,11 +14,12 @@ export default function HeroSection() {
   const parallaxRef = useParallax<HTMLElement>({ factor: 25 });
   const isMobile = useIsMobile();
   const { theme } = useTheme();
-  const [particleColor, setParticleColor] = useState('#FFFFFF'); // Default light theme particle color
+  const [particleColor, setParticleColor] = useState('#A0AEC0'); // Default for light theme
 
   useEffect(() => {
     // Update particle color based on theme
-    setParticleColor(theme === 'dark' ? '#A0A0A0' : '#4A4A4A'); // Darker for light, lighter for dark
+    // For light theme, use a medium-light gray. For dark theme, use a light gray.
+    setParticleColor(theme === 'dark' ? '#E5E7EB' : '#A0AEC0'); 
   }, [theme]);
 
   return (
@@ -31,11 +31,11 @@ export default function HeroSection() {
       <ParticlesComponent
         containerId="hero-particles"
         particleColor={particleColor}
-        particleDensity={isMobile ? 30 : 60} // Adjusted density
+        particleDensity={isMobile ? 30 : 60} 
       />
 
-      {/* Overlay for readability over particles */}
-      <div className="absolute inset-0 bg-background/50 dark:bg-background/60 z-[1] pointer-events-none"></div>
+      {/* Overlay for readability over particles - reduced opacity */}
+      <div className="absolute inset-0 bg-background/20 dark:bg-background/30 z-[1] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> {/* Content must be above overlay */}
         <div className="max-w-3xl mx-auto">
@@ -58,3 +58,4 @@ export default function HeroSection() {
     </section>
   );
 }
+

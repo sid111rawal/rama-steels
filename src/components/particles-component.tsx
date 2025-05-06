@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { useEffect, memo } from 'react';
-import type { IParticlesProps } from 'particles.js';
+import type { IParticlesParams } from 'particles.js'; // Ensure IParticlesParams is correctly typed or imported
 
 interface ParticlesComponentProps {
   particleColor?: string;
@@ -11,8 +10,8 @@ interface ParticlesComponentProps {
 }
 
 const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
-  particleColor = '#FFFFFF', // Default to white for better visibility
-  particleDensity = 60, // Reduced density for a cleaner look
+  particleColor = '#A0AEC0', // Default to a medium-light gray, will be overridden by HeroSection
+  particleDensity = 60,
   containerId = 'particles-js-hero'
 }) => {
   useEffect(() => {
@@ -20,10 +19,10 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
     const initParticles = async () => {
       if (typeof window === 'undefined' || !isMounted) return;
 
-      // @ts-ignore
+      // @ts-ignore next line
       const particlesModule = await import('particles.js');
-      // @ts-ignore
-      const particlesJSFn = window.particlesJS as (tag_id: string, params: IParticlesProps) => void;
+      // @ts-ignore next line
+      const particlesJSFn = window.particlesJS as (tag_id: string, params: IParticlesParams) => void;
 
 
       if (!document.getElementById(containerId) && isMounted) {
@@ -37,80 +36,80 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
       }
 
 
-      let particleCount = particleDensity;
+      let currentParticleCount = particleDensity;
       if (window.innerWidth < 768) {
-        particleCount = Math.max(20, Math.floor(particleDensity / 1.5)); // Further reduce for mobile
+        currentParticleCount = Math.max(20, Math.floor(particleDensity / 2)); 
       }
 
       try {
         particlesJSFn(containerId, {
           "particles": {
             "number": {
-              "value": particleCount,
+              "value": currentParticleCount,
               "density": { "enable": true, "value_area": 800 }
             },
-            "color": { "value": particleColor }, // Use prop for color
+            "color": { "value": particleColor }, 
             "shape": {
-              "type": "circle", // Keep circle for a clean look
+              "type": "circle", 
               "stroke": { "width": 0, "color": "#000000" },
               "polygon": { "nb_sides": 5 }
             },
             "opacity": {
-              "value": 0.7, // Increased opacity
+              "value": 0.7, 
               "random": true,
               "anim": {
                 "enable": true,
-                "speed": 0.5, // Slower, more subtle animation
+                "speed": 0.5, 
                 "opacity_min": 0.1,
                 "sync": false
               }
             },
             "size": {
-              "value": 3.5, // Slightly larger particles
+              "value": 3.5, 
               "random": true,
               "anim": {
                 "enable": true,
-                "speed": 4, // Slower size animation
+                "speed": 2, // Halved speed
                 "size_min": 0.3,
                 "sync": false
               }
             },
             "line_linked": {
               "enable": true,
-              "distance": 130, // Slightly shorter link distance
-              "color": particleColor, // Use prop for color
-              "opacity": 0.3, // Slightly reduced line opacity
+              "distance": 130, 
+              "color": particleColor, 
+              "opacity": 0.4, // Increased opacity for better visibility
               "width": 1
             },
             "move": {
               "enable": true,
-              "speed": 2, // Slower movement speed
-              "direction": "none", // Random movement
+              "speed": 1, // Halved speed
+              "direction": "none", 
               "random": true,
               "straight": false,
-              "out_mode": "out", // Particles move out of canvas
+              "out_mode": "out", 
               "bounce": false,
-              "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } // Enable attract for more dynamic movement
+              "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } 
             }
           },
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "bubble" }, // Changed to bubble for a more engaging effect
+              "onhover": { "enable": true, "mode": "bubble" }, 
               "onclick": { "enable": true, "mode": "push" },
               "resize": true
             },
             "modes": {
               "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
-              "bubble": { // Configure bubble mode
+              "bubble": { 
                 "distance": 150,
-                "size": 10, // Smaller bubble size for a subtle effect
+                "size": 10, 
                 "duration": 1,
                 "opacity": 0.8,
-                "speed": 2
+                "speed": 2 // Halved speed
               },
               "repulse": {
-                "distance": 100, // Shorter repulse distance
+                "distance": 100, 
                 "duration": 0.4
               },
               "push": { "particles_nb": 4 },
@@ -118,13 +117,13 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
             }
           },
           "retina_detect": true
-        } as IParticlesProps);
+        } as IParticlesParams);
       } catch (e) {
         console.error("Particles.js failed to load for container:", containerId, e);
       }
     };
 
-    // Add a small delay to ensure the DOM element is ready
+    
     const timer = setTimeout(() => {
        if (isMounted) initParticles();
     }, 100);
@@ -133,19 +132,17 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
     return () => {
       isMounted = false;
       clearTimeout(timer);
-      // @ts-ignore
+      // @ts-ignore next line
       if (window.pJSDom && Array.isArray(window.pJSDom)) {
-      // @ts-ignore
+      // @ts-ignore next line
         const pJSInstance = window.pJSDom.find(p => p && p.pJS && p.pJS.canvas && p.pJS.canvas.el && p.pJS.canvas.el.parentElement?.id === containerId);
         if (pJSInstance) {
-            // Proper way to destroy particles.js instance if available, otherwise fallback to removing canvas
-            // This depends on the version and structure of particles.js, a direct destroy method might not exist.
-            // For now, we'll stick to removing the canvas as a general cleanup.
+            
             const canvasEl = pJSInstance.pJS.canvas.el;
             if (canvasEl && canvasEl.parentElement) {
               canvasEl.parentElement.removeChild(canvasEl);
             }
-             // @ts-ignore
+             // @ts-ignore next line
             window.pJSDom = window.pJSDom.filter(p => p !== pJSInstance);
         }
       }
@@ -156,3 +153,4 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
 };
 
 export default memo(ParticlesComponent);
+
