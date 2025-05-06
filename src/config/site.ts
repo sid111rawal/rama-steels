@@ -22,7 +22,8 @@ export const siteConfig = {
   },
   whatsAppDefaultMessage: "Hi Rama & Sons. I have a question",
   heroParticleColor: {
-    light: "#A0AEC0", // Slate 400 - A medium gray for light mode
+    light: "#64748B", // Slate 500 - A darker gray for light mode for better visibility
     dark: "#F9FAFB" // Gray 50 - A very light gray for dark mode
   },
 };
+
