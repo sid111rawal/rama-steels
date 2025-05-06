@@ -2,12 +2,12 @@
 import type { StaticImageData } from 'next/image';
 
 // Ensure these paths correctly match your file structure in src/images/
-// Using lowercase folder names as per last error resolutions, but adjusting based on specific errors.
-import firstpageFerrous from '../images/ferrous/firstpageferrous.png'; // Adjusted path based on error
-import firstpageNonFerrous from '../images/non-ferrous/FirstPageNonFerrous.png';
-import firstpageNonMetallic from '../images/non-metallic/FirstPageNonMetallic.png';
-import firstpageGauge from '../images/GAUGE/FirstPageGauge.png'; // Corrected path to use uppercase GAUGE
-import firstpagePolishMedia from '../images/polish-media-and-abrasive/FirstPagePolishMedia.jpg';
+// Using lowercase folder names as per user's latest request.
+import firstpageFerrous from '../images/ferrous/firstpageferrous.png';
+import firstpageNonFerrous from '../images/non-ferrous/firstpagenonferrous.png';
+import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmettalic.png'; // Corrected path to match user-provided path with typo
+import firstpageGauge from '../images/gauge/firstpagegauge.png';
+import firstpagePolishMedia from '../images/polish-media/firstpagepolishmedia.jpg';
 
 
 export interface Product {
