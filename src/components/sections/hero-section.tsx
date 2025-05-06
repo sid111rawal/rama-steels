@@ -1,16 +1,15 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import Image from 'next/image'; // Keep for potential future static background fallback
+import Image from 'next/image'; 
 import ParticlesComponent from '@/components/particles-component';
 import useParallax from '@/hooks/use-parallax';
 import { siteConfig } from "@/config/site";
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function HeroSection() {
-  const parallaxRef = useParallax<HTMLElement>({ factor: 25 }); // Adjust factor as needed
+  const parallaxRef = useParallax<HTMLElement>({ factor: 25 }); 
   const isMobile = useIsMobile();
 
   return (
@@ -19,15 +18,14 @@ export default function HeroSection() {
       ref={parallaxRef}
       className="relative bg-gradient-to-br from-background to-secondary py-24 sm:py-32 md:py-40 flex items-center justify-center text-center overflow-hidden"
     >
-      {/* Particles Background - ensure it's behind the overlay and content */}
       <ParticlesComponent 
         containerId="hero-particles" 
         particleColor={siteConfig.heroParticleColor} 
-        particleDensity={isMobile ? 40 : 80} 
+        particleDensity={isMobile ? 30 : 60} // Adjusted density for potentially better performance/look
       />
       
-      {/* Overlay for readability over particles - Reduced opacity */}
-      <div className="absolute inset-0 bg-background/20 dark:bg-background/30 z-[1]"></div>
+      {/* Overlay for readability over particles - further reduced opacity for better particle visibility */}
+      <div className="absolute inset-0 bg-background/30 dark:bg-background/40 z-[1]"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> {/* Content must be above overlay */}
         <div className="max-w-3xl mx-auto">
@@ -50,4 +48,3 @@ export default function HeroSection() {
     </section>
   );
 }
-

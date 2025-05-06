@@ -1,16 +1,16 @@
-
 'use client';
 
 import React, { useEffect, memo } from 'react';
+import type { siteConfig } from '@/config/site'; // Ensure this type import is correct or adjust as needed
 
 interface ParticlesProps {
-  particleColor?: string;
+  particleColor?: string; // typeof siteConfig.heroParticleColor; // More specific type if possible
   particleDensity?: number;
   containerId?: string;
 }
 
 const ParticlesComponent: React.FC<ParticlesProps> = ({ 
-  particleColor = '#00BCD4', 
+  particleColor = '#00BCD4', // Default color, will be overridden by prop
   particleDensity = 80,
   containerId = 'particles-js-hero' // Unique ID for this instance
 }) => {
@@ -20,7 +20,8 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
       if (typeof window === 'undefined' || !isMounted) return;
 
       // Dynamically import particles.js
-      await import('particles.js');
+      // @ts-ignore
+      const particlesModule = await import('particles.js');
       // @ts-ignore
       const particlesJSFn = window.particlesJS;
 
@@ -38,7 +39,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
 
       let particleCount = particleDensity;
       if (window.innerWidth < 768) {
-        particleCount = Math.max(20, Math.floor(particleDensity / 2)); // Ensure at least some particles on mobile
+        particleCount = Math.max(20, Math.floor(particleDensity / 1.5)); 
       }
 
       try {
@@ -55,9 +56,14 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
               "polygon": { "nb_sides": 5 }
             },
             "opacity": {
-              "value": 0.5,
-              "random": false,
-              "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false }
+              "value": 0.6, // Base opacity
+              "random": true, // Particles will have random starting opacities
+              "anim": { 
+                "enable": true, // Enable opacity animation
+                "speed": 0.5, 
+                "opacity_min": 0.1, 
+                "sync": false 
+              }
             },
             "size": {
               "value": 3,
@@ -67,13 +73,13 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
             "line_linked": {
               "enable": true,
               "distance": 150,
-              "color": particleColor,
+              "color": particleColor, // Use the passed particleColor for lines
               "opacity": 0.4,
               "width": 1
             },
             "move": {
               "enable": true,
-              "speed": 6,
+              "speed": 4, // Slightly reduced speed for a calmer effect
               "direction": "none",
               "random": false,
               "straight": false,
@@ -85,14 +91,23 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "grab" },
-              "onclick": { "enable": true, "mode": "push" },
+              "onhover": { "enable": true, "mode": "repulse" }, // Repulse on hover
+              "onclick": { "enable": true, "mode": "bubble" },  // Bubble on click
               "resize": true
             },
             "modes": {
               "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
-              "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
-              "repulse": { "distance": 200, "duration": 0.4 },
+              "bubble": { // Parameters for bubble effect
+                "distance": 250, // How far the bubble effect extends
+                "size": 20,       // Max size of bubbled particles
+                "duration": 2,    // How long the bubble effect lasts
+                "opacity": 0.8,   // Opacity during bubble
+                "speed": 3
+              },
+              "repulse": { // Parameters for repulse effect
+                "distance": 100,  // How far particles are repulsed
+                "duration": 0.4 
+              },
               "push": { "particles_nb": 4 },
               "remove": { "particles_nb": 2 }
             }
@@ -104,7 +119,6 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
       }
     };
 
-    // Delay initialization slightly to ensure DOM is ready
     const timer = setTimeout(() => {
        if (isMounted) initParticles();
     }, 100);
@@ -113,9 +127,6 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
     return () => {
       isMounted = false;
       clearTimeout(timer);
-      // Clean up particles.js instance
-      // particles.js doesn't have a built-in destroy method for a specific ID in v2.
-      // The typical cleanup is to remove the canvas it creates.
       const pJSContainer = document.getElementById(containerId);
       if (pJSContainer) {
         const canvasEl = pJSContainer.querySelector('.particles-js-canvas-el');
@@ -123,10 +134,10 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
           pJSContainer.removeChild(canvasEl);
         }
       }
-       // @ts-ignore
-      if (window.pJSDom && window.pJSDom.length > 0) {
-         // @ts-ignore
-        window.pJSDom = window.pJSDom.filter(p => p.pJS.canvas.el.parentElement?.id !== containerId);
+      // @ts-ignore
+      if (window.pJSDom && Array.isArray(window.pJSDom)) {
+        // @ts-ignore
+        window.pJSDom = window.pJSDom.filter(p => p && p.pJS && p.pJS.canvas && p.pJS.canvas.el && p.pJS.canvas.el.parentElement?.id !== containerId);
       }
     };
   }, [particleColor, particleDensity, containerId]);
