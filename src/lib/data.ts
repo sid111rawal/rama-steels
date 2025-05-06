@@ -24,6 +24,24 @@ import customMadeGaugesImg from '../images/gauge/custom made gauges.png';
 import plugGaugesImg from '../images/gauge/plug-gauges.png';
 import gaugeImg from '../images/gauge/gauge.png';
 
+// Non-Ferrous Product Images
+import brassImg from '../images/non-ferrous/brass.png';
+import inconelImg from '../images/non-ferrous/inconel.png';
+import copperImg from '../images/non-ferrous/copper.png';
+import alloy20Img from '../images/non-ferrous/alloy-20.png';
+import aluminiumImg from '../images/non-ferrous/aluminium.png';
+import rockbitToolSteelImg from '../images/non-ferrous/rockbit tool steel.png';
+import kMonelImg from '../images/non-ferrous/k-monel.png';
+import f55Img from '../images/non-ferrous/f55.png';
+import hastelloyImg from '../images/non-ferrous/hastelloy.png';
+import leadImg from '../images/non-ferrous/lead.png';
+import superDuplexImg from '../images/non-ferrous/super-duplex.png';
+import stelliteImg from '../images/non-ferrous/stellite.png';
+import titaniumImg from '../images/non-ferrous/titanium.png';
+import tungstenImg from '../images/non-ferrous/tungsten.png';
+import phosphorousBronzeImg from '../images/non-ferrous/phosphorous bzonze.png'; // Note: filename "bzonze"
+import aluminaImg from '../images/non-ferrous/alumina.png';
+
 
 export interface Product {
   id: string;
@@ -76,7 +94,7 @@ export const productsData: Product[] = [
   },
   {
     id: 'fb-004',
-    name: 'SS-300 SERIES',
+    name: 'SS-300 Series',
     description: 'Corrosion-resistant SS-300 series austenitic stainless steel balls (e.g., 304, 316). Ideal for food processing and medical applications.',
     imageSrc: ss300SeriesImg,
     imageHint: 'SS-300 series steel ball',
@@ -94,7 +112,7 @@ export const productsData: Product[] = [
   },
   {
     id: 'fb-006',
-    name: 'SS-400 SERIES',
+    name: 'SS-400 Series',
     description: 'SS-400 series martensitic stainless steel balls (e.g., 420, 440C) with excellent magnetic properties and high hardness after heat treatment.',
     imageSrc: ss400SeriesImg,
     imageHint: 'SS-400 series steel ball',
@@ -146,6 +164,135 @@ export const productsData: Product[] = [
     imageHint: 'industrial gauge',
     price: '$35.00',
     category: 'Gauges',
+  },
+  // Non-Ferrous Balls Category
+  {
+    id: 'nfb-001',
+    name: 'Brass',
+    description: 'High-quality Brass non-ferrous ball, offering good corrosion resistance and electrical conductivity.',
+    imageSrc: brassImg,
+    imageHint: 'brass ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-002',
+    name: 'Inconel',
+    description: 'Durable Inconel non-ferrous ball, known for its resistance to high temperatures and corrosion.',
+    imageSrc: inconelImg,
+    imageHint: 'inconel ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-003',
+    name: 'Copper',
+    description: 'Pure Copper non-ferrous ball, excellent for electrical conductivity and thermal transfer applications.',
+    imageSrc: copperImg,
+    imageHint: 'copper ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-004',
+    name: 'Alloy-20',
+    description: 'Alloy-20 non-ferrous ball, offering superior resistance to sulfuric acid and other corrosive environments.',
+    imageSrc: alloy20Img,
+    imageHint: 'alloy-20 ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-005',
+    name: 'Aluminium',
+    description: 'Lightweight Aluminium non-ferrous ball, ideal for applications requiring low density and good corrosion resistance.',
+    imageSrc: aluminiumImg,
+    imageHint: 'aluminium ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-006',
+    name: 'Rockbit Tool Steel',
+    description: 'Hard-wearing Rockbit Tool Steel non-ferrous ball, designed for high-impact and abrasive conditions.',
+    imageSrc: rockbitToolSteelImg,
+    imageHint: 'rockbit tool steel ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-007',
+    name: 'K-Monel',
+    description: 'K-Monel non-ferrous ball, a precipitation-hardenable nickel-copper alloy with excellent corrosion resistance and high strength.',
+    imageSrc: kMonelImg,
+    imageHint: 'k-monel ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-008',
+    name: 'F55',
+    description: 'F55 (Super Duplex) non-ferrous ball, providing excellent resistance to pitting and crevice corrosion.',
+    imageSrc: f55Img,
+    imageHint: 'f55 super duplex ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-009',
+    name: 'Hastelloy',
+    description: 'Hastelloy non-ferrous ball, known for outstanding resistance to a wide range of corrosive media.',
+    imageSrc: hastelloyImg,
+    imageHint: 'hastelloy ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-010',
+    name: 'Lead',
+    description: 'Dense Lead non-ferrous ball, often used for radiation shielding and weighting applications.',
+    imageSrc: leadImg,
+    imageHint: 'lead ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-011',
+    name: 'Super Duplex',
+    description: 'High-strength Super Duplex non-ferrous ball, offering excellent corrosion resistance in harsh environments.',
+    imageSrc: superDuplexImg,
+    imageHint: 'super duplex ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-012',
+    name: 'Stellite',
+    description: 'Wear-resistant Stellite non-ferrous ball, a cobalt-chromium alloy ideal for high-wear applications.',
+    imageSrc: stelliteImg,
+    imageHint: 'stellite ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-013',
+    name: 'Titanium',
+    description: 'Lightweight and strong Titanium non-ferrous ball, offering excellent corrosion resistance and biocompatibility.',
+    imageSrc: titaniumImg,
+    imageHint: 'titanium ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-014',
+    name: 'Tungsten',
+    description: 'High-density Tungsten non-ferrous ball, suitable for applications requiring high mass in a small volume.',
+    imageSrc: tungstenImg,
+    imageHint: 'tungsten ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-015',
+    name: 'Phosphorous Bronze',
+    description: 'Phosphorous Bronze non-ferrous ball, known for its strength, toughness, and good wear resistance. (Note: original filename had "bzonze").',
+    imageSrc: phosphorousBronzeImg,
+    imageHint: 'phosphorous bronze ball',
+    category: 'Non-Ferrous Balls',
+  },
+  {
+    id: 'nfb-016',
+    name: 'Alumina',
+    description: 'Hard and wear-resistant Alumina (Aluminum Oxide) non-ferrous ceramic ball, used in various demanding applications.',
+    imageSrc: aluminaImg,
+    imageHint: 'alumina ceramic ball',
+    category: 'Non-Ferrous Balls', // Note: Alumina is a ceramic, but for simplicity, it's kept here as per image location. Could be 'Non-Metallic Balls'.
   },
 ];
 
