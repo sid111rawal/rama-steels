@@ -12,7 +12,7 @@ export const siteConfig = {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
     email: "ramasons2001@gmail.com",
-    formSubmitEmail: "sidrawal1200@gmail.com", // Updated form submit email
+    formSubmitEmail: "ramasons2001@gmail.com", // Updated form submit email
     formSubmitRedirectUrl: "/", // Default redirect, can be changed to a thank you page
   },
   socialLinks: {
