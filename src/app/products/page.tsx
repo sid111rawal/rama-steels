@@ -1,3 +1,4 @@
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { productsData } from '@/lib/data';
@@ -37,8 +38,10 @@ export default function ProductsPage() {
                       alt={product.name}
                       width={400}
                       height={300}
-                      className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105"
+                      className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105 object-cover"
                       sizes="100vw"
+                      placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"} // Add blur for static images
+                      data-ai-hint={product.imageHint}
                     />
                    
                     <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>

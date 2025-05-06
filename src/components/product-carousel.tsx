@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image'; // Import StaticImageData
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Carousel,
@@ -13,19 +13,17 @@ import {
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import Link from 'next/link'; // Changed from 'next/navigation'
+import Link from 'next/link';
 
 interface Product {
   id: string;
   name: string;
   description: string;
-  imageSrc: string;
+  imageSrc: string | StaticImageData; // Updated to accept StaticImageData
   imageHint: string;
   price?: string; 
   category: string;
 }
-
-// Removed: import { productsData } from '@/lib/data'; (products are passed as props)
 
 interface ProductCarouselProps {
   products: Product[];
@@ -54,6 +52,8 @@ export default function ProductCarousel({ products, previewMode = false }: Produ
                     height={300}
                     className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105"
                     sizes="100vw"
+                    placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"} // Add blur for static images
+                    data-ai-hint={product.imageHint}
                   />
                    <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>
                 </CardHeader>

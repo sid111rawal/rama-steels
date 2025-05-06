@@ -1,12 +1,16 @@
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import HeroSection from '@/components/sections/hero-section';
 import WhatsAppChat from '@/components/whatsapp-chat';
-import ProductCarousel from '@/components/product-carousel';
-import { productsData } from '@/lib/data';
 import TestimonialsSection from '@/components/sections/testimonials-section';
 import InquirySection from '@/components/sections/inquiry-section';
 import { siteConfig } from '@/config/site';
+import { mainCategoriesData } from '@/lib/data'; // Import main categories
+import Image from 'next/image';
+import Link from 'next/link';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
@@ -14,17 +18,44 @@ export default function Home() {
       <Header />
       <main role="main" className="flex-grow">
         <HeroSection />
-        <section id="products-preview" className="py-16 sm:py-20 bg-background">
+        <section id="featured-categories" className="py-16 sm:py-20 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-                Featured Products
+                Featured Product Categories
               </h2>
               <p className="mt-3 text-lg text-muted-foreground">
-                Discover our range of high-quality steel products.
+                Explore our main categories of high-quality industrial products.
               </p>
             </div>
-            <ProductCarousel products={productsData} previewMode={true} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {mainCategoriesData.map((category) => (
+                <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
+                  <Link href={category.path} className="block">
+                    <CardHeader className="p-0 relative">
+                      <Image
+                        src={category.imageSrc}
+                        alt={category.name}
+                        width={400} // Adjust as needed
+                        height={250} // Adjust as needed
+                        className="object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105"
+                        placeholder="blur" // Optional: add blur placeholder
+                        data-ai-hint={category.imageHint}
+                      />
+                    </CardHeader>
+                    <CardContent className="p-6 flex-grow">
+                      <CardTitle className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">{category.name}</CardTitle>
+                      <CardDescription className="text-muted-foreground line-clamp-3 mb-4">{category.description}</CardDescription>
+                    </CardContent>
+                  </Link>
+                  <div className="p-6 pt-0">
+                    <Button variant="outline" asChild className="w-full sm:w-auto">
+                      <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '')}</Link>
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
         <TestimonialsSection />

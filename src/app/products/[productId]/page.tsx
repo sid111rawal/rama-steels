@@ -1,3 +1,4 @@
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { productsData } from '@/lib/data'; 
@@ -63,6 +64,7 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                 width={600}
                 height={450}
                 className="w-full h-auto object-contain rounded-md"
+                placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                 data-ai-hint={product.imageHint}
               />
             </div>
@@ -124,7 +126,15 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                 {relatedProducts.map(rp => (
                   <Link key={rp.id} href={`/products/${rp.id}`} className="block group">
                     <div className="bg-background rounded-lg shadow-lg overflow-hidden h-full flex flex-col hover:shadow-xl transition-shadow duration-300">
-                       <Image src={rp.imageSrc} alt={rp.name} width={400} height={300} className="w-full h-48 object-cover group-hover:opacity-90 transition-opacity" data-ai-hint={rp.imageHint} />
+                       <Image 
+                        src={rp.imageSrc} 
+                        alt={rp.name} 
+                        width={400} 
+                        height={300} 
+                        className="w-full h-48 object-cover group-hover:opacity-90 transition-opacity" 
+                        placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
+                        data-ai-hint={rp.imageHint} 
+                       />
                        <div className="p-4 flex-grow flex flex-col">
                           <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{rp.name}</h3>
                           <p className="text-sm text-muted-foreground line-clamp-2 flex-grow mb-2">{rp.description}</p>
