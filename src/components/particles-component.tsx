@@ -20,7 +20,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
 
       // Dynamically import particles.js
       const particlesModule = await import('particles.js');
-      const particlesJS = particlesModule.default || particlesModule;
+      const particlesJSFn = particlesModule.default;
 
 
       if (!document.getElementById(containerId) && isMounted) {
@@ -28,8 +28,8 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
         return;
       }
       
-      if (!particlesJS || typeof particlesJS !== 'function') {
-        console.error('Particles.js library is not loaded correctly or particlesJS is not a function.');
+      if (!particlesJSFn || typeof particlesJSFn !== 'function') {
+        console.error('Particles.js library is not loaded correctly or particlesJSFn is not a function.');
         return;
       }
 
@@ -40,7 +40,7 @@ const ParticlesComponent: React.FC<ParticlesProps> = ({
       }
 
       try {
-        particlesJS(containerId, {
+        particlesJSFn(containerId, {
           "particles": {
             "number": {
               "value": particleCount,
