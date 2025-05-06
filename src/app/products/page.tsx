@@ -1,6 +1,6 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { productsData } from '@/components/product-carousel'; // Re-use products data
+import { productsData } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,9 +36,10 @@ export default function ProductsPage() {
                       alt={product.name}
                       width={400}
                       height={300}
-                      className="object-cover w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105"
-                      data-ai-hint={product.imageHint}
+                      className="fill w-full h-48 sm:h-56 transition-transform duration-300 hover:scale-105"
+                      sizes="100vw"
                     />
+                   
                     <Badge variant="secondary" className="absolute top-2 right-2">{product.category}</Badge>
                   </CardHeader>
                   <CardContent className="p-4 flex-grow">

@@ -9,11 +9,9 @@ export default function HeroSection() {
       <Image 
         src="https://picsum.photos/seed/hero-bg/1920/1080" 
         alt="Industrial background"
-        layout="fill"
-        objectFit="cover"
         quality={80}
         className="absolute inset-0 z-0 opacity-10 dark:opacity-5"
-        data-ai-hint="industrial background"
+        fill
       />
       <div className="absolute inset-0 bg-background/30 dark:bg-background/50 z-0"></div> {/* Overlay for readability */}
 

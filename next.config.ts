@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '2mb', // Or your preferred limit
     },
   },
+  allowedDevOrigins: [
+    'http://9000-idx-studio-1746512565750.cluster-ubrd2huk7jh6otbgyei4h62ope.cloudworkstations.dev',
+    'http://9000-idx-studio-1746512565750.cluster-ubrd2huk7jh6otbgyei4h62ope.cloudworkstations.dev',
+  ],
 };
 
 export default nextConfig;

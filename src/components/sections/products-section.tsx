@@ -1,15 +1,17 @@
-import ProductCarousel, { productsData } from '@/components/product-carousel';
+import ProductCarousel from '@/components/product-carousel';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import type { Product } from '@/lib/data'; // Import Product type
 
 interface ProductsSectionProps {
   id: string;
   title: string;
+  products: Product[]; // Expect products as a prop
   previewMode?: boolean;
 }
 
-export default function ProductsSection({ id, title, previewMode = false }: ProductsSectionProps) {
+export default function ProductsSection({ id, title, products, previewMode = false }: ProductsSectionProps) {
   return (
     <section id={id} className="py-16 sm:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +28,7 @@ export default function ProductsSection({ id, title, previewMode = false }: Prod
              </Button>
           )}
         </div>
-        <ProductCarousel products={productsData} previewMode={previewMode} />
+        <ProductCarousel products={products} previewMode={previewMode} />
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { productsData } from '@/components/product-carousel';
+import { productsData } from '@/lib/data'; // Changed import
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
