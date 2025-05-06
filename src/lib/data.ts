@@ -1,13 +1,12 @@
 
 import type { StaticImageData } from 'next/image';
 
-// Import local images statically
 // Ensure these paths correctly match your file structure in src/images/
 // Using lowercase folder names as per last error resolutions, but adjusting based on specific errors.
-import firstpageFerrous from '../images/FERROUS/FirstPageFerrous.png'; // Adjusted path based on error
+import firstpageFerrous from '../images/ferrous/firstpageferrous.png'; // Adjusted path based on error
 import firstpageNonFerrous from '../images/non-ferrous/FirstPageNonFerrous.png';
 import firstpageNonMetallic from '../images/non-metallic/FirstPageNonMetallic.png';
-import firstpageGauge from '../images/gauge/FirstPageGauge.png';
+import firstpageGauge from '../images/GAUGE/FirstPageGauge.png'; // Corrected path to use uppercase GAUGE
 import firstpagePolishMedia from '../images/polish-media-and-abrasive/FirstPagePolishMedia.jpg';
 
 
@@ -121,7 +120,7 @@ export const mainCategoriesData: ProductCategory[] = [
     description: 'High-strength steel balls for various industrial applications.',
     imageSrc: firstpageFerrous,
     imageHint: 'ferrous balls',
-    path: '/products/ferrous', // Example path
+    path: '/products?category=ferrous',
   },
   {
     id: 'cat-non-ferrous',
@@ -129,7 +128,7 @@ export const mainCategoriesData: ProductCategory[] = [
     description: 'Balls made from materials like brass, copper, and aluminum.',
     imageSrc: firstpageNonFerrous,
     imageHint: 'non-ferrous balls',
-    path: '/products/non-ferrous',
+    path: '/products?category=non-ferrous',
   },
   {
     id: 'cat-non-metallic',
@@ -137,7 +136,7 @@ export const mainCategoriesData: ProductCategory[] = [
     description: 'Includes ceramic, glass, and plastic balls for specialized uses.',
     imageSrc: firstpageNonMetallic,
     imageHint: 'non-metallic balls',
-    path: '/products/non-metallic',
+    path: '/products?category=non-metallic',
   },
   {
     id: 'cat-gauges',
@@ -145,7 +144,7 @@ export const mainCategoriesData: ProductCategory[] = [
     description: 'High-accuracy gauges for measurement and quality control.',
     imageSrc: firstpageGauge,
     imageHint: 'precision gauges',
-    path: '/products/gauges',
+    path: '/products?category=gauges',
   },
   {
     id: 'cat-polish-media',
@@ -153,7 +152,6 @@ export const mainCategoriesData: ProductCategory[] = [
     description: 'Effective media for surface finishing, deburring, and polishing.',
     imageSrc: firstpagePolishMedia,
     imageHint: 'polishing media',
-    path: '/products/polish-media',
+    path: '/products?category=polish-media',
   },
 ];
-
