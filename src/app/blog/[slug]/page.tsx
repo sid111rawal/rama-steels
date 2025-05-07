@@ -1,3 +1,5 @@
+'use client'; // Added to make this a Client Component
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -8,8 +10,7 @@ import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'luci
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import type { SuspenseProps } from 'react'; // Importing SuspenseProps for type checking if needed
-import React from 'react'; // Import React for Suspense
+import React, { Suspense } from 'react'; // Import React for Suspense
 
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
@@ -69,7 +70,7 @@ const blogPosts = [
           <li><strong>Material of the workpiece:</strong> Harder materials require more aggressive media.</li>
           <li><strong>Desired finish:</strong> From rough deburring to a mirror shine.</li>
           <li><strong>Part geometry:</strong> Media shape and size should prevent lodging in part crevices.</li>
-          <li><strong>Process time and cost:</strong> Aggressiveness of media affects cycle times.</li>
+          <li><strong>Process time and cost:</strong> Aggressiveness of media affects cycle times.</li >
       </ol>
       <p class="leading-relaxed">At ${siteConfig.name}, we offer a wide range of polishing media and can assist you in selecting the perfect type for your application. Our experts can help optimize your finishing processes for efficiency and quality.</p>
     `,
@@ -83,7 +84,7 @@ const blogPosts = [
     id: 'bp003',
     title: 'Innovations in Steel Manufacturing: Trends to Watch in 2024',
     slug: 'steel-manufacturing-trends-2024',
-    excerpt: 'Explore the latest advancements in steel production, from sustainable practices to AI-driven quality control. How Rama & Sons is embracing the future.',
+    excerpt: 'Explore the latest advancements in steel production, from sustainable practices to AI-driven quality control. How Rama &amp; Sons is embracing the future.',
     content: `
       <p class="mb-4 text-lg leading-relaxed">The steel industry is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability. As we look towards 2024, several key trends are shaping the future of steel manufacturing. ${siteConfig.name} is at the forefront, adopting innovative practices to enhance quality, efficiency, and environmental responsibility.</p>
       <h2 class="text-2xl font-semibold my-4">Key Trends in Steel Manufacturing</h2>
@@ -91,7 +92,7 @@ const blogPosts = [
         <li><strong>Sustainable Steelmaking:</strong> Increased focus on reducing carbon emissions through hydrogen-based steel production, carbon capture technologies, and greater use of recycled materials.</li>
         <li><strong>Digitalization and AI:</strong> AI-powered predictive maintenance, automated quality control systems, and smart factory solutions are optimizing production processes and reducing waste.</li>
         <li><strong>Advanced High-Strength Steels (AHSS):</strong> Development of new steel grades with superior strength-to-weight ratios, crucial for automotive and construction industries aiming for lighter and safer products.</li>
-        <li><strong>Circular Economy:</strong> Enhanced efforts in recycling and reusing steel products to minimize environmental impact and conserve natural resources.</li>
+        <li><strong>Circular Economy:</strong> Enhanced efforts in recycling and reusing steel products to minimize environmental impact and conserve natural resources.</li >
       </ul>
       <figure class="my-6">
         <img src="https://picsum.photos/seed/future-steel/800/400" alt="Futuristic steel manufacturing plant" class="rounded-lg shadow-md mx-auto" data-ai-hint="modern factory" />
@@ -125,7 +126,7 @@ const blogPosts = [
         <li><strong>Chemical Industry:</strong> Stainless steel balls can withstand exposure to a wide range of corrosive chemicals, making them ideal for pumps, valves, and mixing equipment.</li>
         <li><strong>Food Processing:</strong> Their non-reactive and easy-to-clean surface ensures hygiene and prevents contamination, crucial for food-grade applications.</li>
         <li><strong>Marine Applications:</strong> Resistance to saltwater corrosion makes them suitable for components used in marine environments.</li>
-        <li><strong>Medical Devices:</strong> Biocompatibility and sterilizability are key advantages for stainless steel in medical instruments and implants.</li>
+        <li><strong>Medical Devices:</strong> Biocompatibility and sterilizability are key advantages for stainless steel in medical instruments and implants.</li >
       </ul>
       <h2 class="text-2xl font-semibold my-4">Types of Stainless Steel Balls</h2>
       <p class="mb-4 leading-relaxed">Different grades of stainless steel (e.g., 304, 316, 440C) offer varying levels of corrosion resistance and mechanical properties. For instance, 316 stainless steel provides superior resistance to chlorides and is often used in marine or chemical processing applications, while 440C offers higher hardness for bearing applications. ${siteConfig.name} provides a range of stainless steel balls to meet diverse needs.</p>
@@ -139,11 +140,11 @@ const blogPosts = [
   },
 ];
 
-export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
-}
+// export async function generateStaticParams() {
+//   return blogPosts.map((post) => ({
+//     slug: post.slug,
+//   }));
+// }
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find(p => p.slug === params.slug);
@@ -225,9 +226,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
       </main>
       <Footer />
-      <React.Suspense fallback={null}>
+      <Suspense fallback={null}>
         <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about the blog post: ${post.title}`} />
-      </React.Suspense>
+      </Suspense>
     </div>
   );
 }

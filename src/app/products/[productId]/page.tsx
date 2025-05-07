@@ -1,3 +1,5 @@
+'use client'; // Added to make this a Client Component
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { productsData } from '@/lib/data';
@@ -14,7 +16,8 @@ import {
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import type { SuspenseProps } from 'react'; // Importing SuspenseProps for type checking if needed
+import React, { Suspense } from 'react'; // Import React for Suspense
+
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
@@ -128,7 +131,7 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                         className="w-full h-48 object-cover img-loaded group-hover:opacity-90"
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
                         data-ai-hint={rp.imageHint}
-                        // No priority for related products
+                        loading="lazy"
                        />
                        <div className="p-4 flex-grow flex flex-col">
                           <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{rp.name}</h3>
@@ -144,9 +147,9 @@ export default function ProductDetailPage({ params }: { params: { productId: str
         </div>
       </main>
       <Footer />
-      <React.Suspense fallback={null}>
+      <Suspense fallback={null}>
         <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name}.`} />
-      </React.Suspense>
+      </Suspense>
     </div>
   );
 }
