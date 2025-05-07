@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,7 +17,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-// Removed Checkbox import as it's no longer used
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { siteConfig } from '@/config/site';
 
@@ -37,7 +37,6 @@ const inquiryFormSchema = z.object({
   }).max(500, {
     message: 'Message must not exceed 500 characters.'
   }),
-  // Removed subscribe field from schema
 });
 
 export type InquiryFormValues = z.infer<typeof inquiryFormSchema>;
@@ -52,7 +51,6 @@ export default function InquiryForm() {
       phone: '',
       productInterest: '',
       message: '',
-      // Removed subscribe from defaultValues
     },
   });
 
@@ -71,7 +69,8 @@ export default function InquiryForm() {
           >
             <input type="hidden" name="_subject" value={`New Inquiry from ${siteConfig.name} Website`} />
             <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value={`${siteConfig.url}${siteConfig.contactInfo.formSubmitRedirectUrl}`} />
+            {/* Use the absolute redirect URL directly from siteConfig */}
+            <input type="hidden" name="_next" value={siteConfig.contactInfo.formSubmitRedirectUrl} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
@@ -79,7 +78,7 @@ export default function InquiryForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Your Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Your Name" {...field} />
                     </FormControl>
@@ -162,7 +161,6 @@ export default function InquiryForm() {
                 </FormItem>
               )}
             />
-            {/* Removed Subscribe to newsletter FormField */}
             <Button type="submit" size="lg" className="w-full md:w-auto transition-transform hover:scale-105" disabled={form.formState.isSubmitting || !form.formState.isValid}>
               {form.formState.isSubmitting ? "Submitting..." : "Send Inquiry"}
             </Button>

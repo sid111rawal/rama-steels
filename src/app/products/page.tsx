@@ -1,3 +1,4 @@
+
 'use client';
 
 import Header from '@/components/layout/header';
@@ -11,12 +12,13 @@ import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
-import type { Product, ProductCategory } from '@/lib/data'; // Ensure ProductCategory is imported
+import type { Product, ProductCategory } from '@/lib/data';
 
-// New component to hold the logic that uses useSearchParams
 function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message: string) => void }) {
   const searchParams = useSearchParams();
   const categoryFilter = searchParams.get('category');
+  const searchQuery = searchParams.get('search'); // Read search query
+
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
   const [loadedCategoryImages, setLoadedCategoryImages] = useState<Record<string, boolean>>({});
@@ -32,50 +34,90 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
   };
 
   useEffect(() => {
-    let currentCategoryName = '';
+    let productsToDisplay: Product[] = [...productsData]; // Start with all products
+    let title = 'Our Products';
+    let description = 'Browse our comprehensive range of high-quality industrial products.';
+    let isCategoryListView = false; // Flag to determine if we should show categories list
+    let currentCategoryNameForMessage = '';
+    let currentSearchTermForMessage = '';
+
+    if (searchQuery) {
+      const decodedSearch = decodeURIComponent(searchQuery).toLowerCase();
+      currentSearchTermForMessage = decodeURIComponent(searchQuery);
+      productsToDisplay = productsToDisplay.filter(
+        (product) =>
+          product.name.toLowerCase().includes(decodedSearch) ||
+          product.description.toLowerCase().includes(decodedSearch)
+      );
+      title = `Search Results for "${currentSearchTermForMessage}"`;
+      description = `Found ${productsToDisplay.length} product(s) matching your search.`;
+    }
+
     if (categoryFilter) {
       const decodedCategory = decodeURIComponent(categoryFilter);
-      currentCategoryName = decodedCategory;
-      const newFilteredProducts = productsData.filter(
+      currentCategoryNameForMessage = decodedCategory;
+      // If searchQuery is also present, productsToDisplay is already filtered by search.
+      // Otherwise, filter all products by category.
+      productsToDisplay = productsToDisplay.filter(
         (product) => product.category.toLowerCase() === decodedCategory.toLowerCase()
       );
-      setFilteredProducts(newFilteredProducts);
-      setPageTitle(decodedCategory);
-      setPageDescription(`Explore our high-quality ${decodedCategory.toLowerCase()}.`);
-    } else {
-      setFilteredProducts([]);
-      setPageTitle('Product Categories');
-      setPageDescription('Explore our range of products by category.');
+      
+      if (searchQuery) {
+        title = `Search Results for "${currentSearchTermForMessage}" in ${decodedCategory}`;
+        description = `Found ${productsToDisplay.length} product(s) matching your search in ${decodedCategory}.`;
+      } else {
+        title = decodedCategory;
+        description = `Explore our high-quality ${decodedCategory.toLowerCase()}.`;
+      }
     }
-    // Update WhatsApp message based on the category
+    
+    if (!searchQuery && !categoryFilter) {
+      isCategoryListView = true;
+      title = 'Product Categories';
+      description = 'Explore our range of products by category.';
+    }
+
+    setFilteredProducts(isCategoryListView ? [] : productsToDisplay);
+    setPageTitle(title);
+    setPageDescription(description);
+
     const baseMessage = `Hi ${siteConfig.name}. I have a question about your products`;
-    setWhatsAppMessage(currentCategoryName ? `${baseMessage} in the ${currentCategoryName} category.` : `${baseMessage}.`);
+    let contextMessage = ".";
+    if (currentSearchTermForMessage && currentCategoryNameForMessage) {
+      contextMessage = ` matching "${currentSearchTermForMessage}" in the ${currentCategoryNameForMessage} category.`;
+    } else if (currentSearchTermForMessage) {
+      contextMessage = ` matching "${currentSearchTermForMessage}".`;
+    } else if (currentCategoryNameForMessage) {
+      contextMessage = ` in the ${currentCategoryNameForMessage} category.`;
+    }
+    setWhatsAppMessage(`${baseMessage}${contextMessage}`);
 
     setLoadedImages({});
     setLoadedCategoryImages({});
-  }, [categoryFilter, setWhatsAppMessage]);
+  }, [categoryFilter, searchQuery, setWhatsAppMessage]);
+
+  const showCategoriesView = !searchQuery && !categoryFilter;
 
   return (
     <>
-       <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
-            {pageTitle}
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
-            {pageDescription}
-          </p>
-          {categoryFilter && (
-            <Button variant="outline" asChild className="mt-6">
-              <Link href="/products">View All Categories</Link>
-            </Button>
-          )}
-        </div>
+      <div className="text-center mb-12">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+          {pageTitle}
+        </h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          {pageDescription}
+        </p>
+        {(categoryFilter || searchQuery) && (
+          <Button variant="outline" asChild className="mt-6">
+            <Link href="/products">View All Categories</Link>
+          </Button>
+        )}
+      </div>
 
-      {!categoryFilter ? (
-        // Display Categories
+      {showCategoriesView ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {mainCategoriesData.map((category: ProductCategory, index: number) => (
-            <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
+            <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
               <Link href={category.path} className="block">
                 <CardHeader className="p-0 relative">
                   <Image
@@ -96,14 +138,13 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
               </Link>
               <CardFooter className="p-6 pt-0">
                 <Button variant="outline" asChild className="w-full sm:w-auto">
-                  <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '').replace(' Metal', '')}</Link>
+                  <Link href={category.path}>Explore {category.name.replace(' Balls', '').replace(' Media & Abrasives', '').replace(' Metal', '')}</Link>
                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
       ) : filteredProducts.length > 0 ? (
-        // Display Products for a selected category
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
           {filteredProducts.map((product, index) => (
             <Card key={product.id} className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
@@ -126,19 +167,18 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                   <p className="text-sm text-muted-foreground line-clamp-3 h-[3.75rem]">{product.description}</p>
                 </CardContent>
               </Link>
-               <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row justify-end items-center">
-                  <Button variant="default" size="sm" asChild className="transition-transform hover:scale-105">
-                     <Link href={`/products/${product.id}`}>View Details</Link>
-                  </Button>
-                </CardFooter>
+              <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row justify-end items-center">
+                <Button variant="default" size="sm" asChild className="transition-transform hover:scale-105">
+                  <Link href={`/products/${product.id}`}>View Details</Link>
+                </Button>
+              </CardFooter>
             </Card>
           ))}
         </div>
       ) : (
-        // No products found in the selected category
         <div className="text-center py-10">
           <p className="text-xl text-muted-foreground mb-4">
-            No products found in this category.
+            No products found {searchQuery ? `for "${searchQuery}"` : ''} {categoryFilter ? `in ${categoryFilter}` : ''}.
           </p>
           <Button asChild>
             <Link href="/products">View All Categories</Link>

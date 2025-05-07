@@ -6,14 +6,14 @@ export const siteConfig = {
   name: "Rama & Sons",
   description: "Excellence in industrial steel products with over 20 years of experience.",
   keywords: "Steel Balls, Polish Media, Industrial Steel, Rama & Sons",
-  url: "https://www.ramasons.com", // Replace with actual URL
+  url: "https://www.ramasons.com", // Replace with actual URL, or use deployed URL if preferred
   ogImage: appLogo as StaticImageData,
   contactInfo: {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
     email: "ramasons2001@gmail.com",
-    formSubmitEmail: "ramasons2001@gmail.com", // Updated form submit email
-    formSubmitRedirectUrl: "/", // Default redirect, can be changed to a thank you page
+    formSubmitEmail: "sidrawal1200@gmail.com", // User provided email for form submission
+    formSubmitRedirectUrl: "https://ramason.netlify.app/", // User provided absolute redirect URL
   },
   socialLinks: {
     facebook: "#",
