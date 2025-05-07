@@ -1,4 +1,4 @@
-'use client'; // Added to make this a Client Component
+'use client';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -10,7 +10,7 @@ import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'luci
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import React, { Suspense } from 'react'; // Import React for Suspense
+import React, { Suspense, use } from 'react'; // Import use from React
 
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
@@ -140,17 +140,16 @@ const blogPosts = [
   },
 ];
 
-// export async function generateStaticParams() {
-//   return blogPosts.map((post) => ({
-//     slug: post.slug,
-//   }));
-// }
+interface BlogPostPageParams {
+  slug: string;
+}
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find(p => p.slug === params.slug);
+export default function BlogPostPage({ params }: { params: BlogPostPageParams /* Next.js might pass this as Promise<BlogPostPageParams> */ }) {
+  // Assuming Next.js passes `params` as a promise when the warning appears.
+  const resolvedParams = use(params as unknown as Promise<BlogPostPageParams>);
+  const post = blogPosts.find(p => p.slug === resolvedParams.slug);
 
   if (!post) {
-    // TODO: Create a proper 404 page
     return (
       <div className="flex flex-col min-h-screen">
         <Header />

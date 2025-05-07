@@ -1,4 +1,4 @@
-'use client'; // Added to make this a Client Component
+'use client';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -16,20 +16,20 @@ import {
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import React, { Suspense } from 'react'; // Import React for Suspense
-
+import React, { Suspense, use } from 'react'; // Import use from React
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
-// If SSG is desired, generateStaticParams can be uncommented and implemented
-// export async function generateStaticParams() {
-//   return productsData.map((product) => ({
-//     productId: product.id,
-//   }));
-// }
+interface ProductPageParams {
+  productId: string;
+}
 
-export default function ProductDetailPage({ params }: { params: { productId: string } }) {
-  const product = productsData.find(p => p.id === params.productId);
+export default function ProductDetailPage({ params }: { params: ProductPageParams /* Next.js might pass this as Promise<ProductPageParams> */ }) {
+  // Assuming Next.js passes `params` as a promise when the warning appears.
+  // The type assertion (as unknown as Promise<ProductPageParams>) aligns with this.
+  const resolvedParams = use(params as unknown as Promise<ProductPageParams>);
+
+  const product = productsData.find(p => p.id === resolvedParams.productId);
 
   if (!product) {
     return (
@@ -121,7 +121,7 @@ export default function ProductDetailPage({ params }: { params: { productId: str
               <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8 text-center">Related Products</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedProducts.map((rp, index) => (
-                  <Link key={rp.id} href={`/products/${rp.id}`} className="block group fade-in-element" style={{ animationDelay: `${index * 100 + 300}ms`}}>
+                  <Link key={rp.id} href={`/products/${rp.id}`} className="block group fade-in-element" style={{ animationDelay: `${index * 100 + 300}ms` }}>
                     <div className="bg-background rounded-lg shadow-lg overflow-hidden h-full flex flex-col hover:shadow-xl transition-shadow duration-300">
                        <Image
                         src={rp.imageSrc}
