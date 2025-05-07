@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { useEffect, memo } from 'react';
-import type { IParticlesParams } from 'particles.js'; // Ensure IParticlesParams is correctly typed or imported
+import type { IParticlesParams } from 'particles.js'; 
 
 interface ParticlesComponentProps {
   particleColor?: string;
@@ -11,8 +10,8 @@ interface ParticlesComponentProps {
 }
 
 const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
-  particleColor = '#A0AEC0', // Default to a medium-light gray, will be overridden by HeroSection
-  particleDensity = 60,
+  particleColor = '#A0AEC0', 
+  particleDensity = 50, // Reduced default particle density
   containerId = 'particles-js-hero'
 }) => {
   useEffect(() => {
@@ -39,7 +38,7 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
 
       let currentParticleCount = particleDensity;
       if (window.innerWidth < 768) {
-        currentParticleCount = Math.max(20, Math.floor(particleDensity / 2)); 
+        currentParticleCount = Math.max(20, Math.floor(particleDensity / 1.5)); // Adjusted mobile density
       }
 
       try {
@@ -56,64 +55,64 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
               "polygon": { "nb_sides": 5 }
             },
             "opacity": {
-              "value": 0.7, 
+              "value": 0.6, // Slightly increased base opacity as animation is off
               "random": true,
               "anim": {
-                "enable": true,
+                "enable": false, // Disabled opacity animation
                 "speed": 0.5, 
                 "opacity_min": 0.1,
                 "sync": false
               }
             },
             "size": {
-              "value": 3.5, 
+              "value": 2.5, // Slightly reduced size
               "random": true,
               "anim": {
-                "enable": true,
-                "speed": 3, // Increased speed from 2 to 3 (1.5x)
+                "enable": false, // Disabled size animation
+                "speed": 2, 
                 "size_min": 0.3,
                 "sync": false
               }
             },
             "line_linked": {
               "enable": true,
-              "distance": 130, 
+              "distance": 120, // Slightly reduced distance
               "color": particleColor, 
-              "opacity": 0.4,
+              "opacity": 0.3, // Slightly reduced opacity
               "width": 1
             },
             "move": {
               "enable": true,
-              "speed": 2.25, // Increased speed from 1.5 to 2.25 (1.5x)
+              "speed": 1.5, // Reduced speed
               "direction": "none", 
               "random": true,
               "straight": false,
               "out_mode": "out", 
               "bounce": false,
-              "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } 
+              "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } // Disabled attract
             }
           },
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "bubble" }, 
+              "onhover": { "enable": true, "mode": "grab" }, // Changed to grab
               "onclick": { "enable": true, "mode": "push" },
               "resize": true
             },
             "modes": {
-              "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+              "grab": { "distance": 100, "line_linked": { "opacity": 0.7 } }, // Adjusted grab
               "bubble": { 
                 "distance": 150, 
-                "size": 10, 
-                "duration": 1, 
+                "size": 8, 
+                "duration": 0.5, 
                 "opacity": 0.8,
-                "speed": 2 
+                "speed": 1.5 
               },
               "repulse": {
-                "distance": 100, 
+                "distance": 80, 
                 "duration": 0.4
               },
-              "push": { "particles_nb": 4 },
+              "push": { "particles_nb": 3 }, // Reduced particles on push
               "remove": { "particles_nb": 2 }
             }
           },
