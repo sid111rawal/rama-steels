@@ -99,10 +99,11 @@ export default function Header() {
     <>
       {navLinks.map((link) => (
         isMobile ? (
-          <SheetClose asChild key={link.href} onClick={() => setSheetOpen(false)}>
+          <SheetClose asChild key={link.href} >
             <Button
               variant="ghost"
               asChild
+              onClick={() => setSheetOpen(false)} // Close sheet on link click
               className={`w-full justify-start text-lg py-3 ${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
             >
               <Link href={link.href}>{link.label}</Link>
