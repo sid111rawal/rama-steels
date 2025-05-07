@@ -70,7 +70,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out">
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 group">
+          <Link href="/" className="flex items-center space-x-3 group mr-4"> {/* Added mr-4 for more spacing */}
             <Image
               src={siteConfig.ogImage}
               alt={`${siteConfig.name} Logo`}
@@ -84,7 +84,7 @@ export default function Header() {
             <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300">{siteConfig.name}</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-2">
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2"> {/* Adjusted space-x for different screen sizes */}
             <NavLinksContent /> 
             <form onSubmit={handleSearchSubmit} className="flex items-center relative ml-2">
               <Input
@@ -93,7 +93,7 @@ export default function Header() {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="h-9 pl-3 pr-8 w-40 lg:w-56 rounded-md border focus:border-primary"
+                className="h-9 pl-3 pr-8 w-32 lg:w-48 rounded-md border focus:border-primary" /* Adjusted width */
                 aria-label="Search products"
               />
               <Button type="submit" variant="ghost" size="icon" className="absolute right-0 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit search">
