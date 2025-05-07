@@ -1,4 +1,3 @@
-
 import type {Metadata} from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';

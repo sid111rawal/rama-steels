@@ -1,6 +1,3 @@
-
-// Removed 'use client' directive
-
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { productsData } from '@/lib/data';
@@ -9,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ArrowLeft, ShoppingCart, HelpCircle } from 'lucide-react';
-import WhatsAppChat from '@/components/whatsapp-chat';
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +13,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
-// Removed React, useState, useEffect imports
+import dynamic from 'next/dynamic';
+import type { SuspenseProps } from 'react'; // Importing SuspenseProps for type checking if needed
+
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 // If SSG is desired, generateStaticParams can be uncommented and implemented
 // export async function generateStaticParams() {
@@ -28,8 +27,6 @@ import { siteConfig } from '@/config/site';
 
 export default function ProductDetailPage({ params }: { params: { productId: string } }) {
   const product = productsData.find(p => p.id === params.productId);
-  // Removed useState for loadedImage and loadedRelatedImages
-  // Removed handleImageLoad and handleRelatedImageLoad functions
 
   if (!product) {
     return (
@@ -67,11 +64,10 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                 alt={product.name}
                 width={600}
                 height={450}
-                className="w-full h-auto object-contain rounded-md img-loaded" // Assuming img-loaded makes it visible
+                className="w-full h-auto object-contain rounded-md img-loaded"
                 placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                 data-ai-hint={product.imageHint}
-                // Removed onLoad handler
-                priority // Prioritize loading main product image
+                priority // Main product image, likely LCP
               />
             </div>
             <div className="bg-background p-6 sm:p-8 rounded-lg shadow-xl fade-in-element" style={{animationDelay: '100ms'}}>
@@ -129,10 +125,10 @@ export default function ProductDetailPage({ params }: { params: { productId: str
                         alt={rp.name}
                         width={400}
                         height={300}
-                        className="w-full h-48 object-cover img-loaded group-hover:opacity-90" // Assuming img-loaded makes it visible
+                        className="w-full h-48 object-cover img-loaded group-hover:opacity-90"
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
                         data-ai-hint={rp.imageHint}
-                        // Removed onLoad handler
+                        // No priority for related products
                        />
                        <div className="p-4 flex-grow flex flex-col">
                           <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{rp.name}</h3>
@@ -148,7 +144,9 @@ export default function ProductDetailPage({ params }: { params: { productId: str
         </div>
       </main>
       <Footer />
-      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name}.`} />
+      <React.Suspense fallback={null}>
+        <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name}.`} />
+      </React.Suspense>
     </div>
   );
 }

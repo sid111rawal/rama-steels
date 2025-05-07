@@ -1,36 +1,15 @@
-
-'use client'; // Added for useState
+'use client'; 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import Image from 'next/image';
 import { Users, Zap, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
-import React, { useState } from 'react'; // Import useState
+import React, { Suspense } from 'react'; // Import Suspense
+import dynamic from 'next/dynamic';
 
-// Team members data is no longer needed
-// const teamMembers = [
-//   { name: "John Doe", role: "CEO & Founder", imageSrc: "https://picsum.photos/seed/team1/300/300", imageHint: "man portrait" },
-//   { name: "Jane Smith", role: "Head of Engineering", imageSrc: "https://picsum.photos/seed/team2/300/300", imageHint: "woman portrait" },
-//   { name: "Robert Brown", role: "Sales Director", imageSrc: "https://picsum.photos/seed/team3/300/300", imageHint: "man smiling" },
-//   { name: "Emily White", role: "Operations Manager", imageSrc: "https://picsum.photos/seed/team4/300/300", imageHint: "woman professional" },
-// ];
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 export default function AboutPage() {
-  // State for loaded team images and video placeholder is no longer needed
-  // const [loadedTeamImages, setLoadedTeamImages] = useState<Record<string, boolean>>({});
-  // const [loadedVideoPlaceholder, setLoadedVideoPlaceholder] = useState(false);
-
-  // Handlers for team images and video placeholder are no longer needed
-  // const handleTeamImageLoad = (name: string) => {
-  //   setLoadedTeamImages(prev => ({ ...prev, [name]: true }));
-  // };
-
-  // const handleVideoPlaceholderLoad = () => {
-  //   setLoadedVideoPlaceholder(true);
-  // };
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -68,62 +47,11 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-
-        {/* Removed "Meet Our Team" section */}
-        {/* 
-        <section id="team" className="py-16 sm:py-20 bg-secondary fade-in-element">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-foreground mb-12">Meet Our Team</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {teamMembers.map((member, index) => (
-                <Card key={member.name} className="text-center overflow-hidden group fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
-                  <div className="relative h-64 w-full">
-                    <Image
-                      src={member.imageSrc}
-                      alt={member.name}
-                      fill
-                      style={{objectFit: 'cover'}}
-                      className={`transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedTeamImages[member.name] ? 'img-loaded' : 'img-loading'}`}
-                      data-ai-hint={member.imageHint}
-                      onLoad={() => handleTeamImageLoad(member.name)}
-                    />
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold text-foreground">{member.name}</h3>
-                    <p className="text-primary">{member.role}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-        */}
-
-        {/* Removed "Our Story in Motion" section */}
-        {/*
-        <section id="company-video" className="py-16 sm:py-20 bg-background fade-in-element">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-foreground mb-12">Our Story in Motion</h2>
-            <div className="aspect-w-16 aspect-h-9 max-w-4xl mx-auto bg-muted rounded-lg shadow-xl overflow-hidden">
-              <div className="flex items-center justify-center h-full">
-                 <Image
-                    src="https://picsum.photos/seed/video-placeholder/800/450"
-                    alt="Company video placeholder"
-                    width={800}
-                    height={450}
-                    className={`object-cover transition-opacity duration-500 ease-in-out ${loadedVideoPlaceholder ? 'img-loaded' : 'img-loading'}`}
-                    data-ai-hint="factory machinery"
-                    onLoad={handleVideoPlaceholderLoad}
-                  />
-              </div>
-            </div>
-             <p className="text-center mt-4 text-muted-foreground">Watch our company video to learn more about our manufacturing process and commitment to excellence.</p>
-          </div>
-        </section>
-        */}
       </main>
       <Footer />
-      <WhatsAppChat message={`Hi ${siteConfig.name}. I'd like to know more about your company.`} />
+      <Suspense fallback={null}>
+        <WhatsAppChat message={`Hi ${siteConfig.name}. I'd like to know more about your company.`} />
+      </Suspense>
     </div>
   );
 }

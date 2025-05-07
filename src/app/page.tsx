@@ -1,18 +1,27 @@
-'use client'; // Required for useState
+'use client'; 
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import HeroSection from '@/components/sections/hero-section';
-import WhatsAppChat from '@/components/whatsapp-chat';
-import TestimonialsSection from '@/components/sections/testimonials-section';
-import InquirySection from '@/components/sections/inquiry-section';
 import { siteConfig } from '@/config/site';
-import { mainCategoriesData } from '@/lib/data'; // Import main categories
+import { mainCategoriesData } from '@/lib/data'; 
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import React, { useState } from 'react'; // Import useState
+import React, { useState, Suspense } from 'react'; 
+import dynamic from 'next/dynamic';
+
+const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section'), {
+  loading: () => <div className="text-center py-10">Loading testimonials...</div>,
+  ssr: false,
+});
+const InquirySection = dynamic(() => import('@/components/sections/inquiry-section'), {
+  loading: () => <div className="text-center py-10">Loading inquiry form...</div>,
+  ssr: false,
+});
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
+
 
 export default function Home() {
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
@@ -24,7 +33,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main role="main" className="flex-grow fade-in-element"> {/* Added fade-in-element to main */}
+      <main role="main" className="flex-grow fade-in-element">
         <HeroSection />
         <section id="featured-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,7 +48,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {mainCategoriesData.map((category, index) => (
                 <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
-                  <Link href={category.path} className="block"> {/* category.path already links to /products?category=... */}
+                  <Link href={category.path} className="block">
                     <CardHeader className="p-0 relative">
                       <Image
                         src={category.imageSrc}
@@ -47,9 +56,10 @@ export default function Home() {
                         width={400}
                         height={250}
                         className={`object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
-                        placeholder="blur"
+                        placeholder="blur" // StaticImageData benefits from blur
                         data-ai-hint={category.imageHint}
                         onLoad={() => handleImageLoad(category.id)}
+                        // No priority for below-the-fold images
                       />
                     </CardHeader>
                     <CardContent className="p-6 flex-grow">
@@ -59,7 +69,6 @@ export default function Home() {
                   </Link>
                   <CardFooter className="p-6 pt-0">
                     <Button variant="outline" asChild className="w-full sm:w-auto">
-                       {/* category.path already links to /products?category=... */}
                       <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '').replace(' Metal','')}</Link>
                     </Button>
                   </CardFooter>
@@ -68,12 +77,15 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <TestimonialsSection />
-        <InquirySection />
+        <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+          <TestimonialsSection />
+          <InquirySection />
+        </Suspense>
       </main>
       <Footer />
-      <WhatsAppChat />
+      <Suspense fallback={null}>
+        <WhatsAppChat />
+      </Suspense>
     </div>
   );
 }
-

@@ -7,11 +7,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense } from 'react'; // Added React for Suspense
 import type { Product, ProductCategory } from '@/lib/data';
+import dynamic from 'next/dynamic';
+
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message: string) => void }) {
   const searchParams = useSearchParams();
@@ -123,7 +125,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                     width={400}
                     height={250}
                     className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedCategoryImages[category.id] ? 'img-loaded' : 'img-loading'}`}
-                    placeholder="blur"
+                    placeholder="blur" // StaticImageData benefits from blur
                     data-ai-hint={category.imageHint}
                     onLoad={() => handleCategoryImageLoad(category.id)}
                   />
@@ -157,6 +159,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                     placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                     data-ai-hint={product.imageHint}
                     onLoad={() => handleImageLoad(product.id)}
+                    // No priority for listing images
                   />
                 </CardHeader>
                 <CardContent className="p-4 flex-grow">
@@ -202,7 +205,9 @@ export default function ProductsPage() {
         </section>
       </main>
       <Footer />
-      <WhatsAppChat message={whatsAppMessage} />
+      <Suspense fallback={null}>
+        <WhatsAppChat message={whatsAppMessage} />
+      </Suspense>
     </div>
   );
 }

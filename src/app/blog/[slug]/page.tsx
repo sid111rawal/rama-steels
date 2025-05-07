@@ -1,4 +1,3 @@
-
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -6,10 +5,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'lucide-react';
-import WhatsAppChat from '@/components/whatsapp-chat';
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
-// Removed React import as useState is no longer used
+import dynamic from 'next/dynamic';
+import type { SuspenseProps } from 'react'; // Importing SuspenseProps for type checking if needed
+import React from 'react'; // Import React for Suspense
+
+
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 // Re-using the blogPosts data from the blog page for simplicity.
 // In a real app, this would likely come from a CMS or database.
@@ -144,7 +147,6 @@ export async function generateStaticParams() {
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find(p => p.slug === params.slug);
-  // Removed useState for loadedImage and handleImageLoad function
 
   if (!post) {
     // TODO: Create a proper 404 page
@@ -196,10 +198,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 alt={post.title}
                 width={800}
                 height={400}
-                className="w-full h-auto object-cover rounded-lg shadow-md img-loaded" // Assuming img-loaded class makes it visible directly
-                priority // Prioritize loading the main blog image
+                className="w-full h-auto object-cover rounded-lg shadow-md img-loaded"
+                priority // Main blog image, likely LCP
                 data-ai-hint={post.imageHint}
-                // Removed onLoad handler
               />
             </figure>
 
@@ -224,7 +225,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
       </main>
       <Footer />
-      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about the blog post: ${post.title}`} />
+      <React.Suspense fallback={null}>
+        <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about the blog post: ${post.title}`} />
+      </React.Suspense>
     </div>
   );
 }

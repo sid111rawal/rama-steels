@@ -1,5 +1,5 @@
+'use client'; 
 
-'use client'; // Added for useState and useEffect
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -8,9 +8,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle } from 'lucide-react';
-import WhatsAppChat from '@/components/whatsapp-chat';
 import { siteConfig } from '@/config/site';
-import React, { useState } from 'react'; // Import useState
+import React, { useState, Suspense } from 'react'; // Import React for Suspense
+import dynamic from 'next/dynamic';
+
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 interface BlogPost {
   id: string;
@@ -107,6 +109,7 @@ export default function BlogPage() {
                         className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[post.id] ? 'img-loaded' : 'img-loading'}`}
                         data-ai-hint={post.imageHint}
                         onLoad={() => handleImageLoad(post.id)}
+                        // No priority for listing images
                       />
                        <Badge variant="default" className="absolute top-3 left-3">{post.category}</Badge>
                     </CardHeader>
@@ -137,7 +140,9 @@ export default function BlogPage() {
         </section>
       </main>
       <Footer />
-      <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about your blog.`} />
+      <Suspense fallback={null}>
+        <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about your blog.`} />
+      </Suspense>
     </div>
   );
 }

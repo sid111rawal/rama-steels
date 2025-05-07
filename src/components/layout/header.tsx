@@ -1,15 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation'; // Added useRouter
+import { usePathname, useRouter } from 'next/navigation'; 
 import { DarkModeToggle } from '@/components/dark-mode-toggle';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet'; // Added SheetClose
-import { Menu, Search as SearchIcon } from 'lucide-react'; // Added SearchIcon
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet'; 
+import { Menu, Search as SearchIcon } from 'lucide-react'; 
 import Image from 'next/image';
 import { siteConfig } from '@/config/site';
-import React, { useState } from 'react'; // Added useState
-import { Input } from '@/components/ui/input'; // Added Input
+import React, { useState } from 'react'; 
+import { Input } from '@/components/ui/input'; 
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -34,8 +34,8 @@ export default function Header() {
     event?.preventDefault();
     if (searchTerm.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
-      setSearchTerm(''); // Clear after search
-      setSheetOpen(false); // Close sheet if open
+      setSearchTerm(''); 
+      setSheetOpen(false); 
     }
   };
 
@@ -54,7 +54,7 @@ export default function Header() {
           </SheetClose>
         ) : (
           <Button
-            key={link.href} // Key here for desktop
+            key={link.href} 
             variant="ghost"
             asChild
             className={`${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
@@ -79,12 +79,13 @@ export default function Header() {
               className="rounded-full group-hover:opacity-80 transition-opacity duration-300"
               data-ai-hint="company logo"
               placeholder="blur"
+              priority // Logo is critical for LCP
             />
             <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300">{siteConfig.name}</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-2">
-            <NavLinksContent /> {/* isMobile is false by default */}
+            <NavLinksContent /> 
             <form onSubmit={handleSearchSubmit} className="flex items-center relative ml-2">
               <Input
                 type="search"
@@ -120,7 +121,7 @@ export default function Header() {
                     type="search"
                     name="product-search-mobile"
                     placeholder="Search products..."
-                    value={searchTerm} // Using the same state, will clear on global submit
+                    value={searchTerm} 
                     onChange={handleSearchChange}
                     className="h-10 pl-3 pr-10 w-full rounded-md border focus:border-primary"
                     aria-label="Search products"
