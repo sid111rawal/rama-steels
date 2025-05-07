@@ -1,4 +1,3 @@
-
 'use client';
 
 import Header from '@/components/layout/header';
@@ -17,7 +16,7 @@ import type { Product, ProductCategory } from '@/lib/data';
 function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message: string) => void }) {
   const searchParams = useSearchParams();
   const categoryFilter = searchParams.get('category');
-  const searchQuery = searchParams.get('search'); // Read search query
+  const searchQuery = searchParams.get('search');
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
@@ -34,10 +33,10 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
   };
 
   useEffect(() => {
-    let productsToDisplay: Product[] = [...productsData]; // Start with all products
+    let productsToDisplay: Product[] = [...productsData];
     let title = 'Our Products';
     let description = 'Browse our comprehensive range of high-quality industrial products.';
-    let isCategoryListView = false; // Flag to determine if we should show categories list
+    let isCategoryListView = false;
     let currentCategoryNameForMessage = '';
     let currentSearchTermForMessage = '';
 
@@ -47,7 +46,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
       productsToDisplay = productsToDisplay.filter(
         (product) =>
           product.name.toLowerCase().includes(decodedSearch) ||
-          product.description.toLowerCase().includes(decodedSearch)
+          (product.altName && product.altName.toLowerCase().includes(decodedSearch))
       );
       title = `Search Results for "${currentSearchTermForMessage}"`;
       description = `Found ${productsToDisplay.length} product(s) matching your search.`;
@@ -56,8 +55,6 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
     if (categoryFilter) {
       const decodedCategory = decodeURIComponent(categoryFilter);
       currentCategoryNameForMessage = decodedCategory;
-      // If searchQuery is also present, productsToDisplay is already filtered by search.
-      // Otherwise, filter all products by category.
       productsToDisplay = productsToDisplay.filter(
         (product) => product.category.toLowerCase() === decodedCategory.toLowerCase()
       );
