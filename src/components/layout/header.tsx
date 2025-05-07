@@ -1,15 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation'; 
+import { usePathname, useRouter } from 'next/navigation';
 import { DarkModeToggle } from '@/components/dark-mode-toggle';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet'; 
-import { Menu, Search as SearchIcon } from 'lucide-react'; 
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Menu, Search as SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import { siteConfig } from '@/config/site';
-import React, { useState } from 'react'; 
-import { Input } from '@/components/ui/input'; 
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -34,8 +34,8 @@ export default function Header() {
     event?.preventDefault();
     if (searchTerm.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
-      setSearchTerm(''); 
-      setSheetOpen(false); 
+      setSearchTerm('');
+      setSheetOpen(false);
     }
   };
 
@@ -54,7 +54,7 @@ export default function Header() {
           </SheetClose>
         ) : (
           <Button
-            key={link.href} 
+            key={link.href}
             variant="ghost"
             asChild
             className={`${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
@@ -70,7 +70,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out">
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 group mr-4"> {/* Added mr-4 for more spacing */}
+          <Link href="/" className="flex items-center space-x-3 group mr-6"> {/* Increased mr-4 to mr-6 */}
             <Image
               src={siteConfig.ogImage}
               alt={`${siteConfig.name} Logo`}
@@ -84,8 +84,8 @@ export default function Header() {
             <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300">{siteConfig.name}</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2"> {/* Adjusted space-x for different screen sizes */}
-            <NavLinksContent /> 
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            <NavLinksContent />
             <form onSubmit={handleSearchSubmit} className="flex items-center relative ml-2">
               <Input
                 type="search"
@@ -93,7 +93,7 @@ export default function Header() {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="h-9 pl-3 pr-8 w-32 lg:w-48 rounded-md border focus:border-primary" /* Adjusted width */
+                className="h-9 pl-3 pr-8 w-32 lg:w-48 rounded-md border focus:border-primary"
                 aria-label="Search products"
               />
               <Button type="submit" variant="ghost" size="icon" className="absolute right-0 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit search">
@@ -115,13 +115,13 @@ export default function Header() {
               <SheetContent side="right" className="w-full max-w-xs p-6 flex flex-col">
                 <SheetTitle className="sr-only">Main Menu</SheetTitle>
                 <SheetDescription className="sr-only">Navigation links for the site.</SheetDescription>
-                
+
                 <form onSubmit={handleSearchSubmit} className="relative mt-6 mb-3">
                   <Input
                     type="search"
                     name="product-search-mobile"
                     placeholder="Search products..."
-                    value={searchTerm} 
+                    value={searchTerm}
                     onChange={handleSearchChange}
                     className="h-10 pl-3 pr-10 w-full rounded-md border focus:border-primary"
                     aria-label="Search products"
@@ -130,7 +130,7 @@ export default function Header() {
                     <SearchIcon className="h-5 w-5" />
                   </Button>
                 </form>
-                
+
                 <nav className="flex flex-col space-y-3">
                   <NavLinksContent isMobile={true} />
                 </nav>
