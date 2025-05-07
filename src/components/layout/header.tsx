@@ -35,7 +35,7 @@ export default function Header() {
     if (searchTerm.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
       setSearchTerm('');
-      setSheetOpen(false);
+      setSheetOpen(false); // Close sheet on mobile search
     }
   };
 
@@ -70,30 +70,33 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out">
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3 group mr-8"> {/* Increased mr-6 to mr-8 */}
+          <Link href="/" className="flex items-center space-x-3 group mr-6"> {/* Adjusted mr-8 to mr-6 for a bit more space for nav items */}
             <Image
               src={siteConfig.ogImage}
               alt={`${siteConfig.name} Logo`}
-              width={75} // Increased size
-              height={75} // Increased size
+              width={75} 
+              height={75}
               className="rounded-full group-hover:opacity-80 transition-opacity duration-300"
               data-ai-hint="company logo"
               placeholder="blur"
               priority // Logo is critical for LCP
             />
-            <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">{siteConfig.name}</span>
+            <span className="text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300">{siteConfig.name}</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center"> {/* Added flex-grow and justify-center for nav links */}
             <NavLinksContent />
-            <form onSubmit={handleSearchSubmit} className="flex items-center relative ml-2">
+          </div>
+          
+          <div className="hidden md:flex items-center space-x-2"> {/* Group search and dark mode toggle */}
+            <form onSubmit={handleSearchSubmit} className="flex items-center relative">
               <Input
                 type="search"
                 name="product-search-desktop"
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="h-9 pl-3 pr-8 w-28 lg:w-40 rounded-md border focus:border-primary" // Adjusted width
+                className="h-9 pl-3 pr-8 w-28 lg:w-36 rounded-md border focus:border-primary" // Slightly reduced width
                 aria-label="Search products"
               />
               <Button type="submit" variant="ghost" size="icon" className="absolute right-0 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit search">
@@ -102,6 +105,7 @@ export default function Header() {
             </form>
             <DarkModeToggle />
           </div>
+
 
           <div className="md:hidden flex items-center">
             <DarkModeToggle />
