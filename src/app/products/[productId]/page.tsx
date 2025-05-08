@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import React, { Suspense, use } from 'react'; // Import use from React
+import React, { Suspense, use } from 'react'; 
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
@@ -24,11 +24,8 @@ interface ProductPageParams {
   productId: string;
 }
 
-export default function ProductDetailPage({ params }: { params: ProductPageParams /* Next.js might pass this as Promise<ProductPageParams> */ }) {
-  // Assuming Next.js passes `params` as a promise when the warning appears.
-  // The type assertion (as unknown as Promise<ProductPageParams>) aligns with this.
+export default function ProductDetailPage({ params }: { params: ProductPageParams }) {
   const resolvedParams = use(params as unknown as Promise<ProductPageParams>);
-
   const product = productsData.find(p => p.id === resolvedParams.productId);
 
   if (!product) {
@@ -132,7 +129,7 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
                         className="w-full h-48 object-cover img-loaded group-hover:opacity-90"
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
                         data-ai-hint={rp.imageHint}
-                        loading="lazy"
+                        loading="lazy" // Related products are below the fold
                        />
                        <div className="p-4 flex-grow flex flex-col">
                           <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{rp.name}</h3>
@@ -156,4 +153,3 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
     </div>
   );
 }
-

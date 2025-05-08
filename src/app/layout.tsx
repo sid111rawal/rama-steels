@@ -23,13 +23,20 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: siteConfig.keywords,
   icons: {
-    icon: '/favicon.ico', // Use the favicon.ico file as the favicon
+    icon: '/favicon.ico', 
   },
   openGraph: {
     title: `${siteConfig.name} - Premium Steel Products`,
     description: siteConfig.description,
-    images: [{ url: siteConfig.ogImage.src, dataAiHint: 'company logo' }],
+    images: [{ url: siteConfig.ogImage.src, width: 1200, height: 630, alt: `${siteConfig.name} Logo`, 'data-ai-hint': 'company logo' }], // Added width, height, alt
     url: siteConfig.url,
+    type: 'website', // Added OG type
+  },
+  twitter: { // Added Twitter specific metadata
+    card: 'summary_large_image',
+    title: `${siteConfig.name} - Premium Steel Products`,
+    description: siteConfig.description,
+    images: [{ url: siteConfig.ogImage.src, alt: `${siteConfig.name} Logo`, 'data-ai-hint': 'company logo' }],
   },
 };
 
@@ -43,11 +50,10 @@ export default function RootLayout({
       <body className={`${roboto.variable} ${montserrat.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          defaultTheme="light"
+          defaultTheme="system" // Ensure this is 'system' for auto dark/light
+          enableSystem // Enable system theme detection
           disableTransitionOnChange
         >
-          {/* Removed the div with transition-opacity class for custom animations */}
           {children}
           <Toaster />
         </ThemeProvider>

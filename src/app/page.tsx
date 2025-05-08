@@ -1,4 +1,3 @@
-
 'use client'; 
 
 import Header from '@/components/layout/header';
@@ -10,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import React, { useState, Suspense } from 'react'; 
+import React, { useState, Suspense, useEffect } from 'react'; 
 import dynamic from 'next/dynamic';
 
 const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section'), {
@@ -26,10 +25,19 @@ const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: 
 
 export default function Home() {
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    setPageLoaded(true);
+  }, []);
 
   const handleImageLoad = (categoryId: string) => {
     setLoadedImages(prev => ({ ...prev, [categoryId]: true }));
   };
+
+  if (!pageLoaded) {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>; // Or a more sophisticated loader
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -60,7 +68,7 @@ export default function Home() {
                         placeholder="blur" 
                         data-ai-hint={category.imageHint}
                         onLoad={() => handleImageLoad(category.id)}
-                        // No priority for below-the-fold images
+                        // No priority for below-the-fold images, lazy loading is default
                       />
                     </CardHeader>
                     <CardContent className="p-6 flex-grow">
