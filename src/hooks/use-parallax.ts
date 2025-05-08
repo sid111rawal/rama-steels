@@ -19,7 +19,7 @@ function useParallax<T extends HTMLElement>(
     if (!element) return;
 
     const observerOptions = {
-      root: null,
+      root: null, // observing intersections with the viewport
       threshold,
       rootMargin,
     };
@@ -37,8 +37,9 @@ function useParallax<T extends HTMLElement>(
           // And move back as it goes out of view from the top
           const move = (1 - entry.intersectionRatio) * factor;
           element.style.transform = `translateY(${move}px)`;
-        } else if (entry.boundingClientRect.top > entry.rootBounds!.bottom) {
+        } else if (entry.rootBounds && entry.boundingClientRect.top > entry.rootBounds.bottom) {
             // Element is below the viewport, reset to max translation
+            // Added null check for entry.rootBounds
             element.style.transform = `translateY(${factor}px)`;
         }
       });
