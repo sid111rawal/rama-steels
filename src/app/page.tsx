@@ -1,3 +1,4 @@
+
 'use client'; 
 
 import Header from '@/components/layout/header';
@@ -55,8 +56,8 @@ export default function Home() {
                         alt={category.name}
                         width={400}
                         height={250}
-                        className={`object-cover w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
-                        placeholder="blur" // StaticImageData benefits from blur
+                        className={`object-contain w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
+                        placeholder="blur" 
                         data-ai-hint={category.imageHint}
                         onLoad={() => handleImageLoad(category.id)}
                         // No priority for below-the-fold images

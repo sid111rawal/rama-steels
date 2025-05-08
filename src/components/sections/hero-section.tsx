@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -13,11 +14,9 @@ export default function HeroSection() {
   const parallaxRef = useParallax<HTMLElement>({ factor: 25 });
   const isMobile = useIsMobile();
   const { theme } = useTheme();
-  // Initialize with light theme color, useEffect will update it for dark theme
   const [particleColor, setParticleColor] = useState(siteConfig.heroParticleColor.light);
 
   useEffect(() => {
-    // Update particle color based on theme
     setParticleColor(theme === 'dark' ? siteConfig.heroParticleColor.dark : siteConfig.heroParticleColor.light);
   }, [theme]);
 
@@ -30,13 +29,12 @@ export default function HeroSection() {
       <ParticlesComponent
         containerId="hero-particles"
         particleColor={particleColor} 
-        particleDensity={isMobile ? 30 : 50} // Reduced particle density significantly
+        particleDensity={isMobile ? 90 : 150} // Increased particle density by 3x
       />
 
-      {/* Overlay for readability over particles - reduced opacity further */}
       <div className="absolute inset-0 bg-background/10 dark:bg-background/15 z-[1] pointer-events-none"></div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> {/* Content must be above overlay */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-[2]"> 
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
             Premium Steel Balls &amp; Polish Media
