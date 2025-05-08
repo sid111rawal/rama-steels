@@ -13,7 +13,7 @@ export const siteConfig = {
     phone: "+91-63976-82296",
     email: "ramasons2001@gmail.com",
     formSubmitEmail: "sidrawal1200@gmail.com", 
-    formSubmitRedirectUrl: "https://ramason.netlify.app/", 
+    formSubmitRedirectUrl: "https://ramason.in/", 
   },
   socialLinks: {
     facebook: "#",
