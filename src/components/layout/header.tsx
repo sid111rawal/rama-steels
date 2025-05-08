@@ -18,7 +18,7 @@ const navLinks = [
   { href: '/products', label: 'Products' },
   { href: '/#testimonials', label: 'Testimonials', isHashLink: true },
   { href: '/#inquiry', label: 'Inquiry', isHashLink: true },
-  { href: '/about', label: 'About' },
+  { href: '/about', label: 'About Us' },
   { href: '/blog', label: 'Blog' },
 ];
 
@@ -103,7 +103,7 @@ export default function Header() {
             <Button
               variant="ghost"
               asChild
-              onClick={() => setSheetOpen(false)} // Close sheet on link click
+              onClick={() => setSheetOpen(false)} 
               className={`w-full justify-start text-lg py-3 ${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
             >
               <Link href={link.href}>{link.label}</Link>
@@ -123,28 +123,25 @@ export default function Header() {
     </>
   );
 
-  const renderSuggestions = (isVisible: boolean, setVisibility: (visible: boolean) => void) => {
-    if (!isVisible || searchTerm.trim() === '') return null;
+  const renderSuggestions = (isVisible: boolean) => {
+    if (!isVisible || searchTerm.trim() === '' || suggestions.length === 0) return null;
 
     return (
       <div className="absolute top-full left-0 right-0 z-[60] mt-1 bg-background border border-border rounded-md shadow-lg max-h-80 overflow-y-auto">
-        {suggestions.length > 0 ? (
-          <ul>
-            {suggestions.map(product => (
-              <li key={product.id}>
-                <button
-                  type="button"
-                  onClick={() => handleSuggestionClick(product.id)}
-                  className="w-full text-left p-3 hover:bg-accent transition-colors text-sm"
-                >
-                  {product.name}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="p-3 text-sm text-muted-foreground">No products found for "{searchTerm}"</p>
-        )}
+        <ul>
+          {suggestions.map(product => (
+            <li key={product.id}>
+              <button
+                type="button"
+                onClick={() => handleSuggestionClick(product.id)}
+                className="w-full text-left p-3 hover:bg-accent transition-colors text-sm"
+                aria-label={`View product: ${product.name}`}
+              >
+                {product.name}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     );
   };
@@ -154,14 +151,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out">
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-2 sm:mr-6">
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-2 sm:mr-6" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
-              src={siteConfig.ogImage}
-              alt={`${siteConfig.name} Logo`}
-              width={55} 
-              height={55}
+              src={siteConfig.ogImage.src} // Using src from the object
+              alt={`${siteConfig.name} - Steel Ball and Polish Media Manufacturer Logo`}
+              width={siteConfig.ogImage.width || 55} // Use configured width or default
+              height={siteConfig.ogImage.height || 55} // Use configured height or default
               className="rounded-full group-hover:opacity-80 transition-opacity duration-300"
-              data-ai-hint="company logo"
               placeholder="blur"
               priority 
             />
@@ -182,18 +178,18 @@ export default function Header() {
                 onChange={handleSearchChange}
                 onFocus={() => searchTerm.trim() && setIsDesktopSuggestionsVisible(true)}
                 className="h-9 pl-3 pr-8 w-36 lg:w-48 rounded-md border focus:border-primary"
-                aria-label="Search products"
+                aria-label="Search products by name or type"
                 autoComplete="off"
               />
               {searchTerm && (
-                <Button type="button" variant="ghost" size="icon" onClick={clearSearch} className="absolute right-6 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Clear search">
+                <Button type="button" variant="ghost" size="icon" onClick={clearSearch} className="absolute right-6 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Clear search input">
                   <ClearIcon className="h-4 w-4" />
                 </Button>
               )}
-              <Button type="submit" variant="ghost" size="icon" className="absolute right-0 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit search">
+              <Button type="submit" variant="ghost" size="icon" className="absolute right-0 top-1/2 h-9 w-9 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit product search">
                 <SearchIcon className="h-4 w-4" />
               </Button>
-              {renderSuggestions(isDesktopSuggestionsVisible, setIsDesktopSuggestionsVisible)}
+              {renderSuggestions(isDesktopSuggestionsVisible)}
             </form>
             <DarkModeToggle />
           </div>
@@ -203,7 +199,7 @@ export default function Header() {
             <DarkModeToggle />
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="ml-2">
+                <Button variant="ghost" size="icon" className="ml-2" aria-label="Open main menu">
                   <Menu className="h-6 w-6" />
                   <span className="sr-only">Open menu</span>
                 </Button>
@@ -211,7 +207,7 @@ export default function Header() {
               <SheetContent side="right" className="w-full max-w-xs p-6 flex flex-col">
                 <SheetHeader className="mb-4">
                     <SheetTitle className="text-2xl font-semibold text-primary">{siteConfig.name}</SheetTitle>
-                    <SheetDescription className="sr-only">Main menu and search</SheetDescription>
+                    <SheetDescription className="sr-only">Main menu and product search</SheetDescription>
                 </SheetHeader>
 
                 <div ref={mobileSearchContainerRef}>
@@ -224,23 +220,23 @@ export default function Header() {
                       onChange={handleSearchChange}
                       onFocus={() => searchTerm.trim() && setIsMobileSuggestionsVisible(true)}
                       className="h-10 pl-3 pr-10 w-full rounded-md border focus:border-primary"
-                      aria-label="Search products"
+                      aria-label="Search products by name or type"
                       autoComplete="off"
                     />
                      {searchTerm && (
-                        <Button type="button" variant="ghost" size="icon" onClick={clearSearch} className="absolute right-8 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Clear search">
+                        <Button type="button" variant="ghost" size="icon" onClick={clearSearch} className="absolute right-8 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Clear search input">
                           <ClearIcon className="h-5 w-5" />
                         </Button>
                       )}
-                    <Button type="submit" variant="ghost" size="icon" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit search">
+                    <Button type="submit" variant="ghost" size="icon" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit product search">
                       <SearchIcon className="h-5 w-5" />
                     </Button>
-                     {renderSuggestions(isMobileSuggestionsVisible, setIsMobileSuggestionsVisible)}
+                     {renderSuggestions(isMobileSuggestionsVisible)}
                   </form>
                 </div>
                 
 
-                <nav className="flex flex-col space-y-3 mt-4">
+                <nav className="flex flex-col space-y-3 mt-4" aria-label="Mobile navigation">
                   <NavLinksContent isMobile={true} />
                 </nav>
               </SheetContent>

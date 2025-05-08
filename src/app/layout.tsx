@@ -4,11 +4,12 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from '@/config/site';
+import Script from 'next/script';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-montserrat',
-  weight: ['400', '600'],
+  weight: ['400', '600', '700'], // Added 700 for bolder titles
 });
 
 const roboto = Roboto({
@@ -18,26 +19,68 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url), // Added metadataBase
-  title: `${siteConfig.name} - Premium Steel Products`,
-  description: siteConfig.description,
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
   keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: '/favicon.ico', 
   },
   openGraph: {
-    title: `${siteConfig.name} - Premium Steel Products`,
-    description: siteConfig.description,
-    images: [{ url: siteConfig.ogImage.src, width: 1200, height: 630, alt: `${siteConfig.name} Logo`, 'data-ai-hint': 'company logo' }], // Added width, height, alt
+    title: {
+      default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
+    images: [{ 
+      url: siteConfig.ogImage.src, 
+      width: siteConfig.ogImage.width, 
+      height: siteConfig.ogImage.height, 
+      alt: `${siteConfig.name} Logo` 
+    }],
     url: siteConfig.url,
-    type: 'website', // Added OG type
+    siteName: siteConfig.name,
+    locale: 'en_IN',
+    type: 'website',
   },
-  twitter: { // Added Twitter specific metadata
+  twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.name} - Premium Steel Products`,
-    description: siteConfig.description,
-    images: [{ url: siteConfig.ogImage.src, alt: `${siteConfig.name} Logo`, 'data-ai-hint': 'company logo' }],
+    title: {
+      default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
+    images: [{ 
+      url: siteConfig.ogImage.src, 
+      alt: `${siteConfig.name} Logo` 
+    }],
+    // siteId: '@YourTwitterHandle', // Add your Twitter handle if available
+    // creatorId: '@YourTwitterHandle',
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    // google: 'your-google-site-verification-code', // Add your Google verification code
+    // yandex: 'your-yandex-verification-code',
+  }
 };
 
 export default function RootLayout({
@@ -45,13 +88,72 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteConfig.url,
+    "logo": `${siteConfig.url}${siteConfig.ogImage.src}`, // Assuming ogImage is relative to public
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": siteConfig.contactInfo.phone,
+      "contactType": "Customer Service",
+      "email": siteConfig.contactInfo.email,
+      "areaServed": "IN", // India
+      "availableLanguage": "en"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": siteConfig.contactInfo.address.split(',')[0], // Assuming address is "Street, City, Country"
+      "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim(),
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      siteConfig.socialLinks.facebook,
+      siteConfig.socialLinks.twitter,
+      siteConfig.socialLinks.linkedin
+    ].filter(Boolean) // Filter out any empty links
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": siteConfig.url,
+    "name": siteConfig.name,
+    "description": siteConfig.description,
+    "publisher": {
+      "@type": "Organization",
+      "name": siteConfig.name,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteConfig.url}${siteConfig.ogImage.src}`
+      }
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${siteConfig.url}/products?search={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
       <body className={`${roboto.variable} ${montserrat.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system" // Ensure this is 'system' for auto dark/light
-          enableSystem // Enable system theme detection
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
           {children}

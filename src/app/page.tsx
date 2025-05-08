@@ -11,6 +11,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Button } from '@/components/ui/button';
 import React, { useState, Suspense, useEffect } from 'react'; 
 import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
 
 const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section'), {
   loading: () => <div className="text-center py-10">Loading testimonials...</div>,
@@ -21,6 +22,16 @@ const InquirySection = dynamic(() => import('@/components/sections/inquiry-secti
   ssr: false,
 });
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
+
+// It's generally better to handle metadata in Server Components or using generateMetadata for dynamic pages.
+// For a static client page, this approach is less common with App Router, but if needed:
+// export const metadata: Metadata = { 
+//   title: `Home - ${siteConfig.name} | Steel Balls & Polish Media`,
+//   description: `Welcome to ${siteConfig.name}, India's leading manufacturer of high-quality steel balls, polish media, and abrasives. Explore our products and services.`,
+//   alternates: {
+//     canonical: '/',
+//   },
+// };
 
 
 export default function Home() {
@@ -36,7 +47,7 @@ export default function Home() {
   };
 
   if (!pageLoaded) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>; // Or a more sophisticated loader
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>; 
   }
 
   return (
@@ -47,28 +58,26 @@ export default function Home() {
         <section id="featured-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-                Featured Product Categories
-              </h2>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+                Explore Our Industrial Steel Products
+              </h1>
               <p className="mt-3 text-lg text-muted-foreground">
-                Explore our main categories of high-quality industrial products.
+                Discover main categories of high-quality steel balls, polish media, and gauges from {siteConfig.name}.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {mainCategoriesData.map((category, index) => (
                 <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
-                  <Link href={category.path} className="block">
+                  <Link href={category.path} className="block" aria-label={`Explore ${category.name}`}>
                     <CardHeader className="p-0 relative">
                       <Image
                         src={category.imageSrc}
-                        alt={category.name}
+                        alt={`${category.name} - ${siteConfig.name}`}
                         width={400}
                         height={250}
                         className={`object-contain w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
                         placeholder="blur" 
-                        data-ai-hint={category.imageHint}
                         onLoad={() => handleImageLoad(category.id)}
-                        // No priority for below-the-fold images, lazy loading is default
                       />
                     </CardHeader>
                     <CardContent className="p-6 flex-grow">
@@ -98,3 +107,14 @@ export default function Home() {
     </div>
   );
 }
+
+// If you need to set metadata for this client component specifically,
+// and cannot use generateMetadata (e.g. if it's purely static or you prefer this way for a specific reason)
+// you can use a <Head> component from 'next/head' inside the component's return statement.
+// However, `generateMetadata` or static metadata export is preferred for App Router.
+// For a top-level page like Home, usually `metadata` export at the top is fine.
+// This is an example of how you might try to do it if needed, but it's not the standard for App Router pages.
+// Home.metadata = {
+//   title: `Home - ${siteConfig.name} | Steel Balls & Polish Media`,
+//   description: `Welcome to ${siteConfig.name}, India's leading manufacturer of high-quality steel balls, polish media, and abrasives. Explore our products and services.`,
+// }

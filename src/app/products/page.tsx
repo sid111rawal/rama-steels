@@ -9,22 +9,68 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Button } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState, Suspense } from 'react'; // Added React for Suspense
+import React, { useEffect, useState, Suspense } from 'react';
 import type { Product, ProductCategory } from '@/lib/data';
 import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
+
+// export async function generateMetadata({ searchParams }: { searchParams: { category?: string; search?: string } }): Promise<Metadata> {
+//   const category = searchParams?.category ? decodeURIComponent(searchParams.category) : null;
+//   const searchQuery = searchParams?.search ? decodeURIComponent(searchParams.search) : null;
+
+//   let title = `All Products - ${siteConfig.name}`;
+//   let description = `Browse all industrial steel products from ${siteConfig.name}, including steel balls, polish media, and gauges.`;
+//   let canonicalPath = '/products';
+
+//   if (category) {
+//     title = `${category} - ${siteConfig.name}`;
+//     description = `Explore our range of high-quality ${category.toLowerCase()} at ${siteConfig.name}. Find the best ${category.toLowerCase()} for your industrial needs.`;
+//     canonicalPath = `/products?category=${encodeURIComponent(category)}`;
+//   }
+
+//   if (searchQuery) {
+//     title = `Search Results for "${searchQuery}" - ${siteConfig.name}`;
+//     description = `Find products matching "${searchQuery}" at ${siteConfig.name}. Browse our extensive catalog of industrial supplies.`;
+//     canonicalPath = `/products?search=${encodeURIComponent(searchQuery)}`;
+//     if (category) {
+//       title = `Search Results for "${searchQuery}" in ${category} - ${siteConfig.name}`;
+//       description = `Find ${category.toLowerCase()} matching "${searchQuery}" at ${siteConfig.name}.`;
+//       canonicalPath = `/products?category=${encodeURIComponent(category)}&search=${encodeURIComponent(searchQuery)}`;
+//     }
+//   }
+
+
+//   return {
+//     title,
+//     description,
+//     alternates: {
+//       canonical: canonicalPath,
+//     },
+//     openGraph: {
+//       title,
+//       description,
+//       url: `${siteConfig.url}${canonicalPath}`,
+//     },
+//     twitter: {
+//       title,
+//       description,
+//     }
+//   };
+// }
+
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message: string) => void }) {
   const searchParams = useSearchParams();
-  const categoryFilter = searchParams.get('category');
-  const searchQuery = searchParams.get('search');
+  const categoryFilter = searchParams?.get('category');
+  const searchQuery = searchParams?.get('search');
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
   const [loadedCategoryImages, setLoadedCategoryImages] = useState<Record<string, boolean>>({});
-  const [pageTitle, setPageTitle] = useState('Our Products');
-  const [pageDescription, setPageDescription] = useState('Browse our comprehensive range of high-quality industrial products.');
+  const [pageTitle, setPageTitle] = useState<string>(`All Products from ${siteConfig.name}`);
+  const [pageDescription, setPageDescription] = useState<string>(`Browse our comprehensive range of high-quality industrial steel balls, polish media, and gauges manufactured by ${siteConfig.name}.`);
 
   const handleImageLoad = (id: string) => {
     setLoadedImages(prev => ({ ...prev, [id]: true }));
@@ -36,8 +82,8 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
 
   useEffect(() => {
     let productsToDisplay: Product[] = [...productsData];
-    let title = 'Our Products';
-    let description = 'Browse our comprehensive range of high-quality industrial products.';
+    let title = `All Products - ${siteConfig.name}`;
+    let description = `Browse all industrial steel products from ${siteConfig.name}, including steel balls, polish media, and gauges.`;
     let isCategoryListView = false;
     let currentCategoryNameForMessage = '';
     let currentSearchTermForMessage = '';
@@ -45,35 +91,37 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
     if (searchQuery) {
       const decodedSearch = decodeURIComponent(searchQuery).toLowerCase();
       currentSearchTermForMessage = decodeURIComponent(searchQuery);
-      productsToDisplay = productsToDisplay.filter(
+      productsToDisplay = productsData.filter( // Always filter from original productsData for search
         (product) =>
           product.name.toLowerCase().includes(decodedSearch) ||
           (product.altName && product.altName.toLowerCase().includes(decodedSearch))
       );
-      title = `Search Results for "${currentSearchTermForMessage}"`;
-      description = `Found ${productsToDisplay.length} product(s) matching your search.`;
+      title = `Search Results for "${currentSearchTermForMessage}" - ${siteConfig.name}`;
+      description = `Found ${productsToDisplay.length} product(s) matching your search for "${currentSearchTermForMessage}".`;
     }
 
     if (categoryFilter) {
       const decodedCategory = decodeURIComponent(categoryFilter);
       currentCategoryNameForMessage = decodedCategory;
-      productsToDisplay = productsToDisplay.filter(
+      // If there was a search, filter the already searched products by category
+      // Otherwise, filter all products by category
+      productsToDisplay = (searchQuery ? productsToDisplay : productsData).filter(
         (product) => product.category.toLowerCase() === decodedCategory.toLowerCase()
       );
       
       if (searchQuery) {
-        title = `Search Results for "${currentSearchTermForMessage}" in ${decodedCategory}`;
-        description = `Found ${productsToDisplay.length} product(s) matching your search in ${decodedCategory}.`;
+        title = `Search Results for "${currentSearchTermForMessage}" in ${decodedCategory} - ${siteConfig.name}`;
+        description = `Found ${productsToDisplay.length} product(s) matching your search for "${currentSearchTermForMessage}" in ${decodedCategory}.`;
       } else {
-        title = decodedCategory;
-        description = `Explore our high-quality ${decodedCategory.toLowerCase()}.`;
+        title = `${decodedCategory} - ${siteConfig.name}`;
+        description = `Explore our high-quality ${decodedCategory.toLowerCase()} at ${siteConfig.name}. Find the best ${decodedCategory.toLowerCase()} for your industrial needs.`;
       }
     }
     
     if (!searchQuery && !categoryFilter) {
       isCategoryListView = true;
-      title = 'Product Categories';
-      description = 'Explore our range of products by category.';
+      title = `Product Categories - ${siteConfig.name}`;
+      description = `Explore our range of industrial products by category, including ferrous balls, non-ferrous balls, gauges, and polish media.`;
     }
 
     setFilteredProducts(isCategoryListView ? [] : productsToDisplay);
@@ -103,7 +151,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
           {pageTitle}
         </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
+        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           {pageDescription}
         </p>
         {(categoryFilter || searchQuery) && (
@@ -117,16 +165,15 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {mainCategoriesData.map((category: ProductCategory, index: number) => (
             <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
-              <Link href={category.path} className="block">
+              <Link href={category.path} className="block" aria-label={`Explore ${category.name}`}>
                 <CardHeader className="p-0 relative">
                   <Image
                     src={category.imageSrc}
-                    alt={category.name}
+                    alt={`${category.name} available at ${siteConfig.name}`}
                     width={400}
                     height={250}
-                    className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedCategoryImages[category.id] ? 'img-loaded' : 'img-loading'}`}
-                    placeholder="blur" // StaticImageData benefits from blur
-                    data-ai-hint={category.imageHint}
+                    className={`object-contain w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedCategoryImages[category.id] ? 'img-loaded' : 'img-loading'}`}
+                    placeholder="blur"
                     onLoad={() => handleCategoryImageLoad(category.id)}
                   />
                 </CardHeader>
@@ -147,19 +194,17 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
           {filteredProducts.map((product, index) => (
             <Card key={product.id} className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
-              <Link href={`/products/${product.id}`} className="block group">
+              <Link href={`/products/${product.id}`} className="block group" aria-label={`View details for ${product.name}`}>
                 <CardHeader className="p-0 relative">
                   <Image
                     src={product.imageSrc}
-                    alt={product.name}
+                    alt={`${product.name} - ${product.category}`}
                     width={400}
                     height={300}
                     className={`object-cover w-full h-48 sm:h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[product.id] ? 'img-loaded' : 'img-loading'}`}
                     sizes="100vw"
                     placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
-                    data-ai-hint={product.imageHint}
                     onLoad={() => handleImageLoad(product.id)}
-                    // No priority for listing images
                   />
                 </CardHeader>
                 <CardContent className="p-4 flex-grow">
@@ -181,7 +226,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
             No products found {searchQuery ? `for "${searchQuery}"` : ''} {categoryFilter ? `in ${categoryFilter}` : ''}.
           </p>
           <Button asChild>
-            <Link href="/products">View All Categories</Link>
+            <Link href="/products">View All Product Categories</Link>
           </Button>
         </div>
       )}
