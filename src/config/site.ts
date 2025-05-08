@@ -6,14 +6,14 @@ export const siteConfig = {
   name: "Rama & Sons",
   description: "Excellence in industrial steel products with over 20 years of experience.",
   keywords: "Steel Balls, Polish Media, Industrial Steel, Rama & Sons",
-  url: "https://www.ramasons.com", // Replace with actual URL, or use deployed URL if preferred
+  url: "https://www.ramasons.com", 
   ogImage: appLogo as StaticImageData,
   contactInfo: {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
     email: "ramasons2001@gmail.com",
-    formSubmitEmail: "sidrawal1200@gmail.com", // User provided email for form submission
-    formSubmitRedirectUrl: "https://ramason.netlify.app/", // User provided absolute redirect URL
+    formSubmitEmail: "sidrawal1200@gmail.com", 
+    formSubmitRedirectUrl: "https://ramason.netlify.app/", 
   },
   socialLinks: {
     facebook: "#",
@@ -22,8 +22,7 @@ export const siteConfig = {
   },
   whatsAppDefaultMessage: "Hi Rama & Sons. I have a question",
   heroParticleColor: {
-    light: "#1A237E", // Deep Blue (corresponds to light theme's primary: hsl(226 70% 28%))
-    dark: "#5C6BC0"   // Lighter Blue (corresponds to dark theme's primary: hsl(226 70% 58%))
+    light: "#1A237E", // Deep Blue (primary for light mode)
+    dark: "#7986CB"   // Lighter Blue, closer to accent for dark mode (hsl(231, 48%, 63%))
   },
 };
-

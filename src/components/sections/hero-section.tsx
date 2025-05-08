@@ -16,6 +16,7 @@ export default function HeroSection() {
   const [particleColor, setParticleColor] = useState(siteConfig.heroParticleColor.light);
 
   useEffect(() => {
+    // Set particle color based on the current theme
     setParticleColor(theme === 'dark' ? siteConfig.heroParticleColor.dark : siteConfig.heroParticleColor.light);
   }, [theme]);
 
@@ -28,7 +29,7 @@ export default function HeroSection() {
       <ParticlesComponent
         containerId="hero-particles"
         particleColor={particleColor} 
-        particleDensity={isMobile ? 180 : 300} // Increased particle density by 2x
+        particleDensity={isMobile ? 180 : 300} // Further increased particle density
       />
 
       <div className="absolute inset-0 bg-background/10 dark:bg-background/15 z-[1] pointer-events-none"></div>

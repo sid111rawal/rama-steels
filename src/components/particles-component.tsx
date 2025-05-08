@@ -11,7 +11,7 @@ interface ParticlesComponentProps {
 
 const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
   particleColor = '#A0AEC0', 
-  particleDensity = 50, // Reduced default particle density
+  particleDensity = 150, // Default particle density, can be overridden
   containerId = 'particles-js-hero'
 }) => {
   useEffect(() => {
@@ -38,7 +38,7 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
 
       let currentParticleCount = particleDensity;
       if (window.innerWidth < 768) {
-        currentParticleCount = Math.max(20, Math.floor(particleDensity / 1.5)); // Adjusted mobile density
+        currentParticleCount = Math.max(20, Math.floor(particleDensity / 1.5)); 
       }
 
       try {
@@ -55,20 +55,20 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
               "polygon": { "nb_sides": 5 }
             },
             "opacity": {
-              "value": 0.6, // Slightly increased base opacity as animation is off
+              "value": 0.6,
               "random": true,
               "anim": {
-                "enable": false, // Disabled opacity animation
+                "enable": true, 
                 "speed": 0.5, 
                 "opacity_min": 0.1,
                 "sync": false
               }
             },
             "size": {
-              "value": 2.5, // Slightly reduced size
+              "value": 2.5, 
               "random": true,
               "anim": {
-                "enable": false, // Disabled size animation
+                "enable": true, 
                 "speed": 2, 
                 "size_min": 0.3,
                 "sync": false
@@ -76,31 +76,31 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
             },
             "line_linked": {
               "enable": true,
-              "distance": 120, // Slightly reduced distance
+              "distance": 120, 
               "color": particleColor, 
-              "opacity": 0.3, // Slightly reduced opacity
+              "opacity": 0.3, 
               "width": 1
             },
             "move": {
               "enable": true,
-              "speed": 1.5, // Reduced speed
+              "speed": 1.5, 
               "direction": "none", 
               "random": true,
               "straight": false,
               "out_mode": "out", 
               "bounce": false,
-              "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } // Disabled attract
+              "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 } 
             }
           },
           "interactivity": {
             "detect_on": "canvas",
             "events": {
-              "onhover": { "enable": true, "mode": "grab" }, // Changed to grab
+              "onhover": { "enable": true, "mode": "grab" }, 
               "onclick": { "enable": true, "mode": "push" },
               "resize": true
             },
             "modes": {
-              "grab": { "distance": 100, "line_linked": { "opacity": 0.7 } }, // Adjusted grab
+              "grab": { "distance": 100, "line_linked": { "opacity": 0.7 } }, 
               "bubble": { 
                 "distance": 150, 
                 "size": 8, 
@@ -112,7 +112,7 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
                 "distance": 80, 
                 "duration": 0.4
               },
-              "push": { "particles_nb": 3 }, // Reduced particles on push
+              "push": { "particles_nb": 3 }, 
               "remove": { "particles_nb": 2 }
             }
           },
