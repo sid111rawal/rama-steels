@@ -47,6 +47,7 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
   }
 
   const relatedProducts = productsData.filter(p => p.id !== product.id && p.category === product.category).slice(0, 3);
+  const categoryPath = `/products?category=${encodeURIComponent(product.category)}`;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -54,9 +55,9 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
       <main role="main" className="flex-grow bg-secondary/50 py-8 sm:py-12 fade-in-element">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Button variant="outline" asChild className="mb-8 group">
-            <Link href="/products">
+            <Link href={categoryPath}>
               <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to All Products
+              Back to {product.category}
             </Link>
           </Button>
 
@@ -147,9 +148,12 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
         </div>
       </main>
       <Footer />
-      <Suspense fallback={null}>
-        <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name}.`} />
-      </Suspense>
+      {product && (
+        <Suspense fallback={null}>
+          <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name}.`} />
+        </Suspense>
+      )}
     </div>
   );
 }
+
