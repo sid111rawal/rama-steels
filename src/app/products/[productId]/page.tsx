@@ -42,7 +42,6 @@ export async function generateMetadata({ params }: { params: ProductPageParams }
   const description = `Details and specifications for ${product.name}, a high-quality ${product.category.toLowerCase()} offered by ${siteConfig.name}. ${product.description.substring(0, 160)}`;
   const keywords = `${product.name}, ${product.category}, ${product.altName || ''}, industrial supplies, ${siteConfig.name}`;
   
-  // Ensure imageSrc is a string for absolute URL generation
   const imageUrl = typeof product.imageSrc === 'string' ? product.imageSrc : (product.imageSrc as any).src;
   const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
 
@@ -66,7 +65,7 @@ export async function generateMetadata({ params }: { params: ProductPageParams }
           alt: product.name,
         },
       ],
-      type: 'product', 
+      type: 'website', // Changed from 'product' to 'website'
     },
     twitter: {
       card: 'summary_large_image',
@@ -110,6 +109,7 @@ export default async function ProductDetailPage({ params }: { params: ProductPag
     "offers": {
       "@type": "Offer",
       "url": `${siteConfig.url}/products/${product.id}`,
+      // "price": "Contact for Price", // Removed as per previous request
       "priceCurrency": "INR", 
       "availability": "https://schema.org/InStock", 
       "itemCondition": "https://schema.org/NewCondition",
@@ -149,7 +149,7 @@ export default async function ProductDetailPage({ params }: { params: ProductPag
                 height={450}
                 className="w-full h-auto object-contain rounded-md img-loaded"
                 placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
-                blurDataURL={typeof product.imageSrc === 'string' ? undefined: product.imageSrc.blurDataURL}
+                blurDataURL={typeof product.imageSrc === 'string' ? undefined: (product.imageSrc as any).blurDataURL}
                 priority 
               />
             </div>
@@ -220,7 +220,7 @@ export default async function ProductDetailPage({ params }: { params: ProductPag
                         height={300}
                         className="w-full h-48 object-cover img-loaded group-hover:opacity-90"
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
-                        blurDataURL={typeof rp.imageSrc === 'string' ? undefined: rp.imageSrc.blurDataURL}
+                        blurDataURL={typeof rp.imageSrc === 'string' ? undefined: (rp.imageSrc as any).blurDataURL}
                         loading="lazy" 
                        />
                        <div className="p-4 flex-grow flex flex-col">
@@ -251,3 +251,4 @@ export async function generateStaticParams() {
     productId: product.id,
   }));
 }
+

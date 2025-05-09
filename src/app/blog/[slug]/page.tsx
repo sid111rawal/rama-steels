@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'lucide-react';
+import { ArrowLeft, CalendarDays, UserCircle, MessageSquare } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
 import React, { Suspense } from 'react'; 
@@ -13,14 +13,13 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import ClientWhatsAppLoader from '@/components/client-whatsapp-loader';
-
+import ShareButton from '@/components/share-button'; // Import the new ShareButton component
 
 interface BlogPostPageParams {
   slug: string;
 }
 
 async function getPost(slug: string) {
-  // In a real app, you might fetch this from a database or API
   return blogPostsData.find(p => p.slug === slug);
 }
 
@@ -54,7 +53,7 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
       url: `${siteConfig.url}/blog/${post.slug}`,
       type: 'article',
       publishedTime: new Date(post.date).toISOString(), 
-      authors: [post.author], // Assuming post.author is a string like "John Doe"
+      authors: [post.author],
       section: post.category,
       tags: post.keywords,
       images: [
@@ -100,7 +99,6 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
     "headline": post.title,
     "image": absolutePostImageUrl,
     "datePublished": new Date(post.date).toISOString(),
-    // "dateModified": new Date(post.dateModified || post.date).toISOString(), // If you have a modified date
     "author": {
       "@type": "Person", 
       "name": post.author
@@ -161,7 +159,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
                 height={400}
                 className="w-full h-auto object-cover rounded-lg shadow-md img-loaded"
                 placeholder={typeof post.imageSrc === 'string' ? undefined : "blur"}
-                blurDataURL={typeof post.imageSrc === 'string' ? undefined : post.imageSrc.blurDataURL}
+                blurDataURL={typeof post.imageSrc === 'string' ? undefined : (post.imageSrc as any).blurDataURL}
                 priority 
               />
             </figure>
@@ -178,24 +176,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
                 <MessageSquare className="h-5 w-5" />
                 <span>Comments or thoughts? Share this post!</span> 
               </div>
-              {/* Basic share button - This will remain client-side behavior */}
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  if (typeof window !== 'undefined' && navigator.share) {
-                    navigator.share({
-                      title: post.title,
-                      text: post.excerpt,
-                      url: window.location.href,
-                    }).catch(console.error);
-                  } else {
-                    alert('Sharing is not supported on this browser, please copy the link manually.');
-                  }
-                }}
-              >
-                <Share2 className="h-4 w-4 mr-2" />
-                Share This Article
-              </Button>
+              <ShareButton title={post.title} text={post.excerpt} />
             </footer>
           </article>
         </div>
