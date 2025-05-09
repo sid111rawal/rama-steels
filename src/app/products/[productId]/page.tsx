@@ -13,14 +13,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
-import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react'; 
 import type { Metadata } from 'next';
 import Script from 'next/script'; 
 import { notFound } from 'next/navigation';
-
-// Dynamically import WhatsAppChat as it's a client component
-const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
+import ClientWhatsAppLoader from '@/components/client-whatsapp-loader';
 
 interface ProductPageParams {
   productId: string;
@@ -242,7 +239,7 @@ export default async function ProductDetailPage({ params }: { params: ProductPag
       <Footer />
       {product && (
         <Suspense fallback={null}>
-          <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about ${product.name} (${product.category}).`} />
+           <ClientWhatsAppLoader message={`Hi ${siteConfig.name}. I have a question about ${product.name} (${product.category}).`} />
         </Suspense>
       )}
     </div>

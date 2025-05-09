@@ -7,15 +7,12 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
-import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react'; 
 import { blogPostsData } from '@/lib/data';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
-
-// Dynamically import WhatsAppChat as it's a client component
-const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat').then(mod => mod.default), { ssr: false });
+import ClientWhatsAppLoader from '@/components/client-whatsapp-loader';
 
 
 interface BlogPostPageParams {
@@ -205,7 +202,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
       </main>
       <Footer />
       <Suspense fallback={null}>
-        <WhatsAppChat message={`Hi ${siteConfig.name}. I have a question about the blog post: ${post.title}`} />
+        <ClientWhatsAppLoader message={`Hi ${siteConfig.name}. I have a question about the blog post: ${post.title}`} />
       </Suspense>
     </div>
   );
