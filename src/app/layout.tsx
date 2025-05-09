@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
@@ -9,7 +10,7 @@ import Script from 'next/script';
 const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-montserrat',
-  weight: ['400', '600', '700'], // Added 700 for bolder titles
+  weight: ['400', '600', '700'], 
 });
 
 const roboto = Roboto({
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     },
     description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
     images: [{ 
-      url: siteConfig.ogImage.src, 
+      url: siteConfig.ogImage.src, // Use the src string from the StaticImageData object
       width: siteConfig.ogImage.width, 
       height: siteConfig.ogImage.height, 
       alt: `${siteConfig.name} Logo` 
@@ -60,10 +61,10 @@ export const metadata: Metadata = {
     },
     description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
     images: [{ 
-      url: siteConfig.ogImage.src, 
+      url: siteConfig.ogImage.src,  // Use the src string from the StaticImageData object
       alt: `${siteConfig.name} Logo` 
     }],
-    // siteId: '@YourTwitterHandle', // Add your Twitter handle if available
+    // siteId: '@YourTwitterHandle', 
     // creatorId: '@YourTwitterHandle',
   },
   robots: {
@@ -78,7 +79,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // google: 'your-google-site-verification-code', // Add your Google verification code
+    // google: 'your-google-site-verification-code', 
     // yandex: 'your-yandex-verification-code',
   }
 };
@@ -93,18 +94,18 @@ export default function RootLayout({
     "@type": "Organization",
     "name": siteConfig.name,
     "url": siteConfig.url,
-    "logo": `${siteConfig.url}${siteConfig.ogImage.src}`, // Assuming ogImage is relative to public
+    "logo": `${siteConfig.url}${siteConfig.ogImage.src}`, 
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": siteConfig.contactInfo.phone,
       "contactType": "Customer Service",
       "email": siteConfig.contactInfo.email,
-      "areaServed": "IN", // India
+      "areaServed": "IN", 
       "availableLanguage": "en"
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": siteConfig.contactInfo.address.split(',')[0], // Assuming address is "Street, City, Country"
+      "streetAddress": siteConfig.contactInfo.address.split(',')[0], 
       "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim(),
       "addressCountry": "IN"
     },
@@ -112,7 +113,7 @@ export default function RootLayout({
       siteConfig.socialLinks.facebook,
       siteConfig.socialLinks.twitter,
       siteConfig.socialLinks.linkedin
-    ].filter(Boolean) // Filter out any empty links
+    ].filter(Boolean) 
   };
 
   const websiteSchema = {

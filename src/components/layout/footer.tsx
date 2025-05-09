@@ -14,12 +14,10 @@ export default function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="inline-block mb-4" aria-label={`Go to ${siteConfig.name} homepage`}>
               <Image
-                src={siteConfig.ogImage.src} // Using src from the object
+                src={siteConfig.ogImage} // Use StaticImageData directly
                 alt={`${siteConfig.name} - Industrial Steel Products Manufacturer Logo`}
-                width={siteConfig.ogImage.width || 80} // Use configured width or default
-                height={siteConfig.ogImage.height || 80} // Use configured height or default
-                className="rounded-full hover:opacity-80 transition-opacity duration-300"
-                placeholder="blur"
+                className="rounded-full hover:opacity-80 transition-opacity duration-300 h-20 w-20" // Adjusted size, width/height inferred
+                placeholder="blur" // Now safe to use with StaticImageData
               />
             </Link>
             <p className="text-sm text-muted-foreground">{siteConfig.description.substring(0, 100)}...</p>

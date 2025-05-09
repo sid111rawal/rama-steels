@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -55,6 +56,14 @@ export default function Header() {
 
     setSuggestions(filteredProducts);
     // Visibility will be handled by onFocus and click-outside
+    if (document.activeElement === event.target) { // only show if input is focused
+        if (desktopSearchContainerRef.current?.contains(event.target)) {
+            setIsDesktopSuggestionsVisible(true);
+        }
+        if (mobileSearchContainerRef.current?.contains(event.target)) {
+            setIsMobileSuggestionsVisible(true);
+        }
+    }
   };
 
   const clearSearch = () => {
@@ -153,15 +162,14 @@ export default function Header() {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-2 sm:mr-6" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
-              src={siteConfig.ogImage.src} // Using src from the object
+              src={siteConfig.ogImage} 
               alt={`${siteConfig.name} - Steel Ball and Polish Media Manufacturer Logo`}
-              width={siteConfig.ogImage.width || 55} // Use configured width or default
-              height={siteConfig.ogImage.height || 55} // Use configured height or default
-              className="rounded-full group-hover:opacity-80 transition-opacity duration-300"
+              className="rounded-full group-hover:opacity-80 transition-opacity duration-300 h-14 w-14 sm:h-16 sm:w-16" // Adjusted size
               placeholder="blur"
               priority 
             />
-            <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">{siteConfig.name}</span>
+            <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">{siteConfig.name.split(' ')[0]}</span>
+            <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap sm:block hidden">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center">
