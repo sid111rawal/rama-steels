@@ -12,8 +12,12 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState, Suspense } from 'react';
 import type { Product, ProductCategory } from '@/lib/data';
 import dynamic from 'next/dynamic';
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next'; // Metadata for client components is handled differently
 
+// For client components, dynamic metadata generation (based on searchParams) is complex.
+// It's better to handle this with a Server Component that reads searchParams server-side.
+// For now, we'll rely on the layout.tsx for general metadata.
+// If this page were a Server Component, generateMetadata could be used:
 // export async function generateMetadata({ searchParams }: { searchParams: { category?: string; search?: string } }): Promise<Metadata> {
 //   const category = searchParams?.category ? decodeURIComponent(searchParams.category) : null;
 //   const searchQuery = searchParams?.search ? decodeURIComponent(searchParams.search) : null;
@@ -21,17 +25,20 @@ import type { Metadata } from 'next';
 //   let title = `All Products - ${siteConfig.name}`;
 //   let description = `Browse all industrial steel products from ${siteConfig.name}, including steel balls, polish media, and gauges.`;
 //   let canonicalPath = '/products';
+//   let keywords = ['all products', siteConfig.name, 'industrial supplies'];
 
 //   if (category) {
 //     title = `${category} - ${siteConfig.name}`;
 //     description = `Explore our range of high-quality ${category.toLowerCase()} at ${siteConfig.name}. Find the best ${category.toLowerCase()} for your industrial needs.`;
 //     canonicalPath = `/products?category=${encodeURIComponent(category)}`;
+//     keywords = [category, `${siteConfig.name} products`, 'industrial components'];
 //   }
 
 //   if (searchQuery) {
 //     title = `Search Results for "${searchQuery}" - ${siteConfig.name}`;
 //     description = `Find products matching "${searchQuery}" at ${siteConfig.name}. Browse our extensive catalog of industrial supplies.`;
 //     canonicalPath = `/products?search=${encodeURIComponent(searchQuery)}`;
+//     keywords.push(searchQuery, 'product search');
 //     if (category) {
 //       title = `Search Results for "${searchQuery}" in ${category} - ${siteConfig.name}`;
 //       description = `Find ${category.toLowerCase()} matching "${searchQuery}" at ${siteConfig.name}.`;
@@ -39,10 +46,10 @@ import type { Metadata } from 'next';
 //     }
 //   }
 
-
 //   return {
 //     title,
 //     description,
+//     keywords,
 //     alternates: {
 //       canonical: canonicalPath,
 //     },
@@ -91,7 +98,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
     if (searchQuery) {
       const decodedSearch = decodeURIComponent(searchQuery).toLowerCase();
       currentSearchTermForMessage = decodeURIComponent(searchQuery);
-      productsToDisplay = productsData.filter( // Always filter from original productsData for search
+      productsToDisplay = productsData.filter( 
         (product) =>
           product.name.toLowerCase().includes(decodedSearch) ||
           (product.altName && product.altName.toLowerCase().includes(decodedSearch))
@@ -103,8 +110,6 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
     if (categoryFilter) {
       const decodedCategory = decodeURIComponent(categoryFilter);
       currentCategoryNameForMessage = decodedCategory;
-      // If there was a search, filter the already searched products by category
-      // Otherwise, filter all products by category
       productsToDisplay = (searchQuery ? productsToDisplay : productsData).filter(
         (product) => product.category.toLowerCase() === decodedCategory.toLowerCase()
       );
@@ -127,6 +132,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
     setFilteredProducts(isCategoryListView ? [] : productsToDisplay);
     setPageTitle(title);
     setPageDescription(description);
+    // document.title = title; // For client-side title update
 
     const baseMessage = `Hi ${siteConfig.name}. I have a question about your products`;
     let contextMessage = ".";
@@ -174,6 +180,7 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                     height={250}
                     className={`object-contain w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedCategoryImages[category.id] ? 'img-loaded' : 'img-loading'}`}
                     placeholder="blur"
+                    blurDataURL={category.imageSrc.blurDataURL}
                     onLoad={() => handleCategoryImageLoad(category.id)}
                   />
                 </CardHeader>
@@ -204,11 +211,13 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                     className={`object-cover w-full h-48 sm:h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[product.id] ? 'img-loaded' : 'img-loading'}`}
                     sizes="100vw"
                     placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
+                    blurDataURL={typeof product.imageSrc === 'string' ? undefined : product.imageSrc.blurDataURL}
                     onLoad={() => handleImageLoad(product.id)}
                   />
                 </CardHeader>
                 <CardContent className="p-4 flex-grow">
                   <CardTitle className="text-lg font-semibold mb-2 h-14 line-clamp-2 group-hover:text-primary transition-colors">{product.name}</CardTitle>
+                   {product.altName && <p className="text-xs text-muted-foreground mb-1 line-clamp-1">AKA: {product.altName}</p>}
                   <p className="text-sm text-muted-foreground line-clamp-3 h-[3.75rem]">{product.description}</p>
                 </CardContent>
               </Link>

@@ -1,5 +1,3 @@
-'use client';
-
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -10,96 +8,89 @@ import { ArrowLeft, CalendarDays, UserCircle, MessageSquare, Share2 } from 'luci
 import { Separator } from '@/components/ui/separator';
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import React, { Suspense, use } from 'react'; 
-import { blogPostsData as blogPosts } from '@/lib/data';
+import React, { Suspense } from 'react'; 
+import { blogPostsData } from '@/lib/data';
 import type { Metadata } from 'next';
-import Script from 'next/script'; // For JSON-LD
+import Script from 'next/script';
+import { notFound } from 'next/navigation';
 
+// Dynamically import WhatsAppChat as it's a client component
+const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat').then(mod => mod.default), { ssr: false });
 
-// export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-//   const post = blogPosts.find(p => p.slug === params.slug);
-
-//   if (!post) {
-//     return {
-//       title: `Blog Post Not Found - ${siteConfig.name}`,
-//       description: `The blog post you are looking for could not be found on ${siteConfig.name}'s blog.`,
-//     };
-//   }
-
-//   const title = `${post.title} - ${siteConfig.name} Blog`;
-//   const description = post.excerpt; // Use excerpt as meta description
-//   const keywords = `${post.title}, ${post.category}, ${siteConfig.name} blog, ${post.keywords ? post.keywords.join(', ') : ''}`;
-//   const imageUrl = typeof post.imageSrc === 'string' ? post.imageSrc : (post.imageSrc as any).src;
-
-//   return {
-//     title,
-//     description,
-//     keywords,
-//     alternates: {
-//       canonical: `/blog/${post.slug}`,
-//     },
-//     openGraph: {
-//       title,
-//       description,
-//       url: `${siteConfig.url}/blog/${post.slug}`,
-//       type: 'article',
-//       publishedTime: new Date(post.date).toISOString(), // Ensure post.date is in a format Date can parse
-//       authors: [post.author],
-//       section: post.category,
-//       tags: post.keywords,
-//       images: [
-//         {
-//           url: imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl}`,
-//           width: 800, // Adjust as needed
-//           height: 400, // Adjust as needed
-//           alt: post.title,
-//         },
-//       ],
-//     },
-//     twitter: {
-//       title,
-//       description,
-//       images: [{ 
-//         url: imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl}`, 
-//         alt: post.title 
-//       }],
-//     }
-//   };
-// }
-
-
-const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 interface BlogPostPageParams {
   slug: string;
 }
 
+async function getPost(slug: string) {
+  // In a real app, you might fetch this from a database or API
+  return blogPostsData.find(p => p.slug === slug);
+}
 
-export default function BlogPostPage({ params }: { params: BlogPostPageParams }) {
-  // This 'use' hook approach for params is specific to Client Components
-  // and might not be ideal if full SSG/ISR capabilities for metadata are desired.
-  // For full App Router capabilities with `generateMetadata`, this page would typically be a Server Component.
-  const resolvedParams = use(params as unknown as Promise<BlogPostPageParams>);
-  const post = blogPosts.find(p => p.slug === resolvedParams.slug);
+export async function generateMetadata({ params }: { params: BlogPostPageParams }): Promise<Metadata> {
+  const post = await getPost(params.slug);
 
   if (!post) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow container mx-auto px-4 py-8 text-center">
-          <h1 className="text-4xl font-bold my-8">Blog Post Not Found</h1>
-          <p className="text-muted-foreground mb-6">Sorry, we couldn't find the blog post you were looking for.</p>
-          <Button asChild>
-            <Link href="/blog">Back to Blog</Link>
-          </Button>
-        </main>
-        <Footer />
-      </div>
-    );
+    return {
+      title: `Blog Post Not Found - ${siteConfig.name}`,
+      description: `The blog post you are looking for could not be found on ${siteConfig.name}'s blog.`,
+    };
+  }
+
+  const title = `${post.title} - ${siteConfig.name} Blog`;
+  const description = post.excerpt; 
+  const keywords = `${post.title}, ${post.category}, ${siteConfig.name} blog, ${post.keywords ? post.keywords.join(', ') : ''}`;
+  
+  const imageUrl = typeof post.imageSrc === 'string' ? post.imageSrc : (post.imageSrc as any).src;
+  const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+
+  return {
+    title,
+    description,
+    keywords: keywords.split(',').map(k => k.trim()).filter(Boolean),
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${siteConfig.url}/blog/${post.slug}`,
+      type: 'article',
+      publishedTime: new Date(post.date).toISOString(), 
+      authors: [post.author], // Assuming post.author is a string like "John Doe"
+      section: post.category,
+      tags: post.keywords,
+      images: [
+        {
+          url: absoluteImageUrl,
+          width: 800, 
+          height: 400, 
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [{ 
+        url: absoluteImageUrl, 
+        alt: post.title 
+      }],
+    }
+  };
+}
+
+
+export default async function BlogPostPage({ params }: { params: BlogPostPageParams }) {
+  const post = await getPost(params.slug);
+
+  if (!post) {
+    notFound();
   }
 
   const postImageUrl = typeof post.imageSrc === 'string' ? post.imageSrc : (post.imageSrc as any).src;
-  const absolutePostImageUrl = postImageUrl.startsWith('http') ? postImageUrl : `${siteConfig.url}${postImageUrl}`;
+  const absolutePostImageUrl = postImageUrl.startsWith('http') ? postImageUrl : `${siteConfig.url}${postImageUrl.startsWith('/') ? '' : '/'}${postImageUrl}`;
 
 
   const articleSchema = {
@@ -114,7 +105,7 @@ export default function BlogPostPage({ params }: { params: BlogPostPageParams })
     "datePublished": new Date(post.date).toISOString(),
     // "dateModified": new Date(post.dateModified || post.date).toISOString(), // If you have a modified date
     "author": {
-      "@type": "Person", // Or Organization if appropriate
+      "@type": "Person", 
       "name": post.author
     },
     "publisher": {
@@ -126,7 +117,7 @@ export default function BlogPostPage({ params }: { params: BlogPostPageParams })
       }
     },
     "description": post.excerpt,
-    "articleBody": post.content.replace(/<[^>]*>?/gm, ''), // Basic stripping of HTML for articleBody
+    "articleBody": post.content.replace(/<[^>]*>?/gm, ''), 
     "keywords": post.keywords ? post.keywords.join(',') : post.category
   };
 
@@ -172,6 +163,8 @@ export default function BlogPostPage({ params }: { params: BlogPostPageParams })
                 width={800}
                 height={400}
                 className="w-full h-auto object-cover rounded-lg shadow-md img-loaded"
+                placeholder={typeof post.imageSrc === 'string' ? undefined : "blur"}
+                blurDataURL={typeof post.imageSrc === 'string' ? undefined : post.imageSrc.blurDataURL}
                 priority 
               />
             </figure>
@@ -186,21 +179,19 @@ export default function BlogPostPage({ params }: { params: BlogPostPageParams })
             <footer className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <MessageSquare className="h-5 w-5" />
-                {/* Placeholder for discussion link or comments count */}
                 <span>Comments or thoughts? Share this post!</span> 
               </div>
-              {/* Basic share button - consider using a library for more advanced sharing */}
+              {/* Basic share button - This will remain client-side behavior */}
               <Button 
                 variant="outline" 
                 onClick={() => {
-                  if (navigator.share) {
+                  if (typeof window !== 'undefined' && navigator.share) {
                     navigator.share({
                       title: post.title,
                       text: post.excerpt,
                       url: window.location.href,
                     }).catch(console.error);
                   } else {
-                    // Fallback for browsers that don't support navigator.share
                     alert('Sharing is not supported on this browser, please copy the link manually.');
                   }
                 }}
@@ -220,8 +211,8 @@ export default function BlogPostPage({ params }: { params: BlogPostPageParams })
   );
 }
 
-// export async function generateStaticParams() {
-//   return blogPosts.map((post) => ({
-//     slug: post.slug,
-//   }));
-// }
+export async function generateStaticParams() {
+  return blogPostsData.map((post) => ({
+    slug: post.slug,
+  }));
+}

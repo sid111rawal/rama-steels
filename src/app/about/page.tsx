@@ -6,9 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { siteConfig } from '@/config/site';
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next'; // Metadata for client components is handled differently
 
-// export const metadata: Metadata = { // Metadata for client components is typically handled differently or not directly exported like this.
+// For client components, if you need to set metadata dynamically, you'd typically use a useEffect hook with document.title, etc.
+// Or, preferably, make this a Server Component if metadata is static or fetched server-side.
+// For now, we will rely on the layout.tsx for general metadata and specific metadata can be added if this page is converted to a server component.
+
+// export const metadata: Metadata = { 
 //   title: `About ${siteConfig.name} - Our Story and Values in Steel Manufacturing`,
 //   description: `Learn about ${siteConfig.name}, a leading Indian manufacturer of steel balls and polish media with over 20 years of experience. Discover our commitment to quality, innovation, and customer satisfaction.`,
 //   keywords: `about ${siteConfig.name}, steel manufacturing India, company history, industrial products, quality steel balls`,
@@ -21,6 +25,13 @@ import type { Metadata } from 'next';
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 export default function AboutPage() {
+  // If this were a Server Component, metadata could be exported directly.
+  // For Client Components, dynamic metadata changes would occur in useEffect or via a wrapper.
+  // Example for client-side title update (though App Router prefers generateMetadata):
+  // React.useEffect(() => {
+  //   document.title = `About ${siteConfig.name} - Our Story and Values`;
+  // }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -66,3 +77,16 @@ export default function AboutPage() {
     </div>
   );
 }
+
+// To use generateMetadata, this page should be a Server Component.
+// Example if it were a Server Component:
+// export async function generateMetadata(): Promise<Metadata> {
+//   return {
+//     title: `About ${siteConfig.name} - Our Story and Values`,
+//     description: `Learn about ${siteConfig.name}, a leading Indian manufacturer with over 20 years of experience.`,
+//     keywords: [`about ${siteConfig.name}`, 'company history', 'steel manufacturing'],
+//     alternates: {
+//       canonical: '/about',
+//     },
+//   };
+// }

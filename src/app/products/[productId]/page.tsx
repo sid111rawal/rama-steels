@@ -1,5 +1,3 @@
-'use client';
-
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { productsData } from '@/lib/data';
@@ -16,90 +14,89 @@ import {
 } from "@/components/ui/accordion";
 import { siteConfig } from '@/config/site';
 import dynamic from 'next/dynamic';
-import React, { Suspense, use } from 'react'; 
+import React, { Suspense } from 'react'; 
 import type { Metadata } from 'next';
-import Script from 'next/script'; // For JSON-LD
+import Script from 'next/script'; 
+import { notFound } from 'next/navigation';
 
-// export async function generateMetadata({ params }: { params: { productId: string } }): Promise<Metadata> {
-//   const product = productsData.find(p => p.id === params.productId);
-
-//   if (!product) {
-//     return {
-//       title: `Product Not Found - ${siteConfig.name}`,
-//       description: `The product you are looking for could not be found on ${siteConfig.name}.`,
-//     };
-//   }
-
-//   const title = `${product.name} - ${product.category} | ${siteConfig.name}`;
-//   const description = `Details and specifications for ${product.name}, a high-quality ${product.category.toLowerCase()} offered by ${siteConfig.name}. ${product.description.substring(0, 100)}...`;
-//   const keywords = `${product.name}, ${product.category}, ${product.altName || ''}, industrial supplies, ${siteConfig.name}`;
-//   const imageUrl = typeof product.imageSrc === 'string' ? product.imageSrc : (product.imageSrc as any).src;
-
-
-//   return {
-//     title,
-//     description,
-//     keywords,
-//     alternates: {
-//       canonical: `/products/${product.id}`,
-//     },
-//     openGraph: {
-//       title,
-//       description,
-//       url: `${siteConfig.url}/products/${product.id}`,
-//       images: [
-//         {
-//           url: imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl}`,
-//           width: 600, // Adjust as needed
-//           height: 450, // Adjust as needed
-//           alt: product.name,
-//         },
-//       ],
-//       type: 'product', // More specific OG type
-//     },
-//     twitter: {
-//       title,
-//       description,
-//       images: [{ 
-//         url: imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl}`, 
-//         alt: product.name 
-//       }],
-//     }
-//   };
-// }
-
-
+// Dynamically import WhatsAppChat as it's a client component
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 interface ProductPageParams {
   productId: string;
 }
 
-export default function ProductDetailPage({ params }: { params: ProductPageParams }) {
-  const resolvedParams = use(params as unknown as Promise<ProductPageParams>);
-  const product = productsData.find(p => p.id === resolvedParams.productId);
+async function getProduct(productId: string) {
+  // In a real app, you might fetch this from a database or API
+  return productsData.find(p => p.id === productId);
+}
+
+export async function generateMetadata({ params }: { params: ProductPageParams }): Promise<Metadata> {
+  const product = await getProduct(params.productId);
 
   if (!product) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow container mx-auto px-4 py-8 text-center">
-          <h1 className="text-4xl font-bold my-8">Product Not Found</h1>
-          <p className="text-muted-foreground mb-6">The product you are looking for might have been removed or is temporarily unavailable.</p>
-          <Button asChild>
-            <Link href="/products">Back to All Products</Link>
-          </Button>
-        </main>
-        <Footer />
-      </div>
-    );
+    return {
+      title: `Product Not Found - ${siteConfig.name}`,
+      description: `The product you are looking for could not be found on ${siteConfig.name}.`,
+    };
+  }
+
+  const title = `${product.name} - ${product.category} | ${siteConfig.name}`;
+  const description = `Details and specifications for ${product.name}, a high-quality ${product.category.toLowerCase()} offered by ${siteConfig.name}. ${product.description.substring(0, 160)}`;
+  const keywords = `${product.name}, ${product.category}, ${product.altName || ''}, industrial supplies, ${siteConfig.name}`;
+  
+  // Ensure imageSrc is a string for absolute URL generation
+  const imageUrl = typeof product.imageSrc === 'string' ? product.imageSrc : (product.imageSrc as any).src;
+  const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+
+
+  return {
+    title,
+    description,
+    keywords: keywords.split(',').map(k => k.trim()).filter(Boolean),
+    alternates: {
+      canonical: `/products/${product.id}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${siteConfig.url}/products/${product.id}`,
+      images: [
+        {
+          url: absoluteImageUrl,
+          width: 600, 
+          height: 450, 
+          alt: product.name,
+        },
+      ],
+      type: 'product', 
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [{ 
+        url: absoluteImageUrl, 
+        alt: product.name 
+      }],
+    }
+  };
+}
+
+
+export default async function ProductDetailPage({ params }: { params: ProductPageParams }) {
+  const product = await getProduct(params.productId);
+
+  if (!product) {
+    notFound();
   }
 
   const relatedProducts = productsData.filter(p => p.id !== product.id && p.category === product.category).slice(0, 3);
   const categoryPath = `/products?category=${encodeURIComponent(product.category)}`;
   
-  const productImageUrl = typeof product.imageSrc === 'string' ? product.imageSrc : (product.imageSrc as any).src;
-  const absoluteProductImageUrl = productImageUrl.startsWith('http') ? productImageUrl : `${siteConfig.url}${productImageUrl}`;
+  const productImageUrlString = typeof product.imageSrc === 'string' ? product.imageSrc : (product.imageSrc as any).src;
+  const absoluteProductImageUrl = productImageUrlString.startsWith('http') ? productImageUrlString : `${siteConfig.url}${productImageUrlString.startsWith('/') ? '' : '/'}${productImageUrlString}`;
+
 
   const productSchema = {
     "@context": "https://schema.org",
@@ -107,8 +104,8 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
     "name": product.name,
     "image": absoluteProductImageUrl,
     "description": product.description,
-    "sku": product.id, // Use product ID as SKU
-    "mpn": product.id, // Manufacturer Part Number, can be same as SKU if not distinct
+    "sku": product.id, 
+    "mpn": product.id, 
     "brand": {
       "@type": "Brand",
       "name": siteConfig.name
@@ -116,27 +113,16 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
     "offers": {
       "@type": "Offer",
       "url": `${siteConfig.url}/products/${product.id}`,
-      "priceCurrency": "INR", // Assuming Indian Rupees
-      // "price": "0", // Set to 0 or remove if price not available, or use priceValidUntil
-      "availability": "https://schema.org/InStock", // Or OutOfStock, PreOrder etc.
+      "priceCurrency": "INR", 
+      "availability": "https://schema.org/InStock", 
       "itemCondition": "https://schema.org/NewCondition",
       "seller": {
         "@type": "Organization",
         "name": siteConfig.name
       }
     },
-    // "aggregateRating": { // Example if you have ratings
-    //   "@type": "AggregateRating",
-    //   "ratingValue": "4.5",
-    //   "reviewCount": "12"
-    // },
-    // "review": [ // Example if you have reviews
-    //   {
-    //     "@type": "Review",
-    //     "author": "Priya Sharma",
-    //     "reviewBody": "Excellent quality steel balls!"
-    //   }
-    // ]
+    // "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.5", "reviewCount": "12" }, // Example
+    // "review": [ { "@type": "Review", "author": "Priya Sharma", "reviewBody": "Excellent quality!" } ] // Example
   };
 
 
@@ -166,13 +152,14 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
                 height={450}
                 className="w-full h-auto object-contain rounded-md img-loaded"
                 placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
-                priority // Main product image, likely LCP
+                blurDataURL={typeof product.imageSrc === 'string' ? undefined: product.imageSrc.blurDataURL}
+                priority 
               />
             </div>
             <div className="bg-background p-6 sm:p-8 rounded-lg shadow-xl fade-in-element" style={{animationDelay: '100ms'}}>
               <Badge variant="default" className="mb-3">{product.category}</Badge>
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{product.name}</h1>
-
+              {product.altName && <p className="text-sm text-muted-foreground mb-3">Also known as: {product.altName}</p>}
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">{product.description}</p>
 
               <div className="space-y-4 mb-8">
@@ -195,7 +182,7 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
                   <AccordionTrigger className="text-lg font-medium">Product Specifications</AccordionTrigger>
                   <AccordionContent>
                     <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                      <li>Material: {product.altName ? product.altName.split(',')[0] : 'High-Grade Industrial Material'} (example)</li>
+                      <li>Material: {product.altName?.split(',')[0] || 'High-Grade Industrial Material'}</li>
                       <li>Size Range: Various sizes available (Contact for details)</li>
                       <li>Hardness: Application-specific (Contact for details)</li>
                       <li>Certifications: ISO 9001 Compliant Manufacturing (example)</li>
@@ -236,6 +223,7 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
                         height={300}
                         className="w-full h-48 object-cover img-loaded group-hover:opacity-90"
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
+                        blurDataURL={typeof rp.imageSrc === 'string' ? undefined: rp.imageSrc.blurDataURL}
                         loading="lazy" 
                        />
                        <div className="p-4 flex-grow flex flex-col">
@@ -261,9 +249,8 @@ export default function ProductDetailPage({ params }: { params: ProductPageParam
   );
 }
 
-// generateStaticParams can be used if you want to pre-render these pages at build time
-// export async function generateStaticParams() {
-//   return productsData.map(product => ({
-//     productId: product.id,
-//   }));
-// }
+export async function generateStaticParams() {
+  return productsData.map(product => ({
+    productId: product.id,
+  }));
+}

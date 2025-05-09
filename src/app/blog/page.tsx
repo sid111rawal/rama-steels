@@ -11,8 +11,12 @@ import { CalendarDays, UserCircle } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import React, { useState, Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import type { Metadata } from 'next';
-import { blogPostsData as blogPosts } from '@/lib/data';
+// import type { Metadata } from 'next'; // Metadata for client components is handled differently
+import { blogPostsData } from '@/lib/data';
+
+// For client components, if you need to set metadata dynamically, you'd typically use a useEffect hook with document.title, etc.
+// Or, preferably, make this a Server Component if metadata is static or fetched server-side.
+// For now, we will rely on the layout.tsx for general metadata and specific metadata can be added if this page is converted to a server component.
 
 // export const metadata: Metadata = {
 //   title: `Blog - Insights & News from ${siteConfig.name}`,
@@ -33,6 +37,11 @@ export default function BlogPage() {
     setLoadedImages(prev => ({ ...prev, [postId]: true }));
   };
 
+  // Example for client-side title update (though App Router prefers generateMetadata):
+  // React.useEffect(() => {
+  //   document.title = `Blog - Insights & News from ${siteConfig.name}`;
+  // }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -48,9 +57,9 @@ export default function BlogPage() {
 
         <section id="blog-posts" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            {blogPosts.length > 0 ? (
+            {blogPostsData.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogPosts.map((post, index) => (
+                {blogPostsData.map((post, index) => (
                   <Card key={post.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms` }}>
                     <Link href={`/blog/${post.slug}`} className="block" aria-label={`Read more about ${post.title}`}>
                       <CardHeader className="p-0 relative">
@@ -60,6 +69,8 @@ export default function BlogPage() {
                           width={400}
                           height={250}
                           className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[post.id] ? 'img-loaded' : 'img-loading'}`}
+                          placeholder={typeof post.imageSrc === 'string' ? undefined : "blur"}
+                          blurDataURL={typeof post.imageSrc === 'string' ? undefined: post.imageSrc.blurDataURL}
                           onLoad={() => handleImageLoad(post.id)}
                         />
                          <Badge variant="default" className="absolute top-3 left-3">{post.category}</Badge>
@@ -102,3 +113,16 @@ export default function BlogPage() {
     </div>
   );
 }
+
+// To use generateMetadata, this page should be a Server Component.
+// Example if it were a Server Component:
+// export async function generateMetadata(): Promise<Metadata> {
+//   return {
+//     title: `Blog - Insights & News from ${siteConfig.name}`,
+//     description: `Stay updated with the latest industry news, technical insights, and articles from ${siteConfig.name}.`,
+//     keywords: [`industrial blog`, 'steel manufacturing news', `${siteConfig.name} blog`],
+//     alternates: {
+//       canonical: '/blog',
+//     },
+//   };
+// }

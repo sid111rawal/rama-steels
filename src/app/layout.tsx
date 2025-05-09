@@ -1,4 +1,3 @@
-
 import type {Metadata} from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
@@ -20,12 +19,12 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(siteConfig.url), // Essential for resolving relative OG images
   title: {
     default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
+  description: siteConfig.description,
   keywords: siteConfig.keywords,
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
@@ -41,9 +40,9 @@ export const metadata: Metadata = {
       default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
       template: `%s | ${siteConfig.name}`,
     },
-    description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
+    description: siteConfig.description,
     images: [{ 
-      url: siteConfig.ogImage.src, // Use the src string from the StaticImageData object
+      url: siteConfig.ogImage.src, 
       width: siteConfig.ogImage.width, 
       height: siteConfig.ogImage.height, 
       alt: `${siteConfig.name} Logo` 
@@ -59,9 +58,9 @@ export const metadata: Metadata = {
       default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
       template: `%s | ${siteConfig.name}`,
     },
-    description: `Discover ${siteConfig.name}'s extensive range of precision-engineered steel balls, industrial polish media, and abrasives. Over 20 years of manufacturing excellence in India.`,
+    description: siteConfig.description,
     images: [{ 
-      url: siteConfig.ogImage.src,  // Use the src string from the StaticImageData object
+      url: siteConfig.ogImage.src,
       alt: `${siteConfig.name} Logo` 
     }],
     // siteId: '@YourTwitterHandle', 
@@ -105,15 +104,17 @@ export default function RootLayout({
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": siteConfig.contactInfo.address.split(',')[0], 
-      "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim(),
+      "streetAddress": siteConfig.contactInfo.address.split(',')[0]?.trim() || "Jaipur House",
+      "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim() || "Agra",
+      "addressRegion": siteConfig.contactInfo.address.split(',')[2]?.trim(), // Optional if available
+      "postalCode": siteConfig.contactInfo.address.split(',')[3]?.trim(), // Optional if available
       "addressCountry": "IN"
     },
     "sameAs": [
       siteConfig.socialLinks.facebook,
       siteConfig.socialLinks.twitter,
       siteConfig.socialLinks.linkedin
-    ].filter(Boolean) 
+    ].filter(link => link && link !== "#") // Filter out placeholder or empty links
   };
 
   const websiteSchema = {
@@ -132,7 +133,7 @@ export default function RootLayout({
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": `${siteConfig.url}/products?search={search_term_string}`,
+      "target": `${siteConfig.url}/products?search={search_term_string}`, // Ensure this path is correct
       "query-input": "required name=search_term_string"
     }
   };
@@ -141,11 +142,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
+        <Script
+          id="organization-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <script
+        <Script
+          id="website-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
