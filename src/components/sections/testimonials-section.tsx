@@ -1,8 +1,9 @@
+
 'use client';
 
 import * as React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+// Removed Avatar, AvatarFallback, AvatarImage imports
 import {
   Carousel,
   CarouselContent,
@@ -21,8 +22,7 @@ interface Testimonial {
   role: string;
   company: string;
   testimonial: string;
-  avatarSrc?: string;
-  avatarFallback: string;
+  // Removed avatarSrc and avatarFallback as they are no longer used
   rating: number;
 }
 
@@ -31,81 +31,81 @@ const testimonialsData: Testimonial[] = [
     id: 't001',
     name: 'Priya Sharma',
     role: 'Procurement Head',
-    company: 'Bharat Heavy Electricals Limited (BHEL)', // Real company
+    company: 'Bharat Heavy Electricals Limited (BHEL)',
     testimonial: `We've been sourcing EN31 steel balls from ${siteConfig.name} for our bearing manufacturing unit. Their consistent quality and on-time delivery have been exceptional. A reliable Indian supplier.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarPriya/100/100',
-    avatarFallback: 'PS',
     rating: 5,
   },
   {
     id: 't002',
     name: 'Rohan Mehta',
     role: 'Chief Engineer',
-    company: 'Tata Steel Downstream Products Ltd.', // Real company
+    company: 'Tata Steel Downstream Products Ltd.',
     testimonial: `The SS-316 stainless steel balls from ${siteConfig.name} are top-notch for our chemical processing equipment. Their corrosion resistance is exactly what we need. Highly recommend their products made in Agra.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarRohan/100/100',
-    avatarFallback: 'RM',
     rating: 5,
   },
   {
     id: 't003',
     name: 'Anjali Desai',
     role: 'Operations Director',
-    company: 'Titan Company Limited (Jewellery Division)', // Real company
+    company: 'Titan Company Limited (Jewellery Division)',
     testimonial: `Their stainless steel polishing media has drastically improved our finishing process for jewelry components. The team at ${siteConfig.name} was very helpful in selecting the right grade and size.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarAnjali/100/100',
-    avatarFallback: 'AD',
     rating: 4,
   },
   {
     id: 't004',
     name: 'Vikram Singh',
     role: 'Managing Director',
-    company: 'Larsen & Toubro (Heavy Engineering Division)', // Real company
+    company: 'Larsen & Toubro (Heavy Engineering Division)',
     testimonial: `${siteConfig.name} has been our go-to supplier for custom precision gauges and various steel balls for over five years. Their commitment to quality and understanding of Indian industrial needs is commendable.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarVikram/100/100',
-    avatarFallback: 'VS',
     rating: 5,
   },
   {
     id: 't005',
     name: 'Deepak Kumar',
     role: 'Quality Control Manager',
-    company: 'SKF India Ltd.', // Real company (bearing manufacturer)
+    company: 'SKF India Ltd.',
     testimonial: `The precision and consistency of steel balls from ${siteConfig.name} are unmatched. Their products have helped us reduce rejection rates and improve the overall quality of our bearings. Truly a top-tier manufacturer in India.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarDeepak/100/100',
-    avatarFallback: 'DK',
     rating: 5,
   },
   {
     id: 't006',
     name: 'Sneha Patel',
     role: 'Lead Design Engineer',
-    company: 'Flowserve India Controls Pvt. Ltd.', // Real company (valve manufacturer)
+    company: 'Flowserve India Controls Pvt. Ltd.',
     testimonial: `For our specialized valve components, we rely on ${siteConfig.name} for high-grade non-ferrous balls. Their technical support and ability to deliver custom specifications have been invaluable to our projects.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarSneha/100/100',
-    avatarFallback: 'SP',
     rating: 4,
   },
   {
     id: 't007',
     name: 'Rajesh Gupta',
     role: 'Production Manager',
-    company: 'Hindustan Aeronautics Limited (HAL)', // Real company (aerospace)
+    company: 'Hindustan Aeronautics Limited (HAL)',
     testimonial: `The non-metallic balls, especially the ceramic variants, from ${siteConfig.name} have met our stringent requirements for aerospace applications. Their reliability and performance under extreme conditions are commendable.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarRajesh/100/100',
-    avatarFallback: 'RG',
     rating: 5,
   },
   {
     id: 't008',
     name: 'Meera Krishnan',
     role: 'R&D Specialist',
-    company: 'Aditya Birla Chemicals', // Real company (chemicals)
+    company: 'Aditya Birla Chemicals',
     testimonial: `${siteConfig.name}'s polish media and abrasives, particularly their SS Cut Wire Shorts, have significantly improved our surface finishing processes for specialized equipment. Their product consistency is key for our operations.`,
-    avatarSrc: 'https://picsum.photos/seed/avatarMeera/100/100',
-    avatarFallback: 'MK',
     rating: 4,
+  },
+  {
+    id: 't009',
+    name: 'Arjun Reddy',
+    role: 'Senior Buyer',
+    company: 'Ashok Leyland (Automotive Manufacturer)',
+    testimonial: `The EN-9 and other carbon steel balls supplied by ${siteConfig.name} are consistently up to mark for our automotive component manufacturing. Their timely deliveries help us maintain our production schedules.`,
+    rating: 4,
+  },
+  {
+    id: 't010',
+    name: 'Pooja Iyer',
+    role: 'Plant Manager',
+    company: 'Thermax Limited (Energy and Environment Solutions)',
+    testimonial: `We utilize various grades of stainless steel balls from ${siteConfig.name} in our heat exchangers and environmental control systems. The product quality and their technical support are excellent.`,
+    rating: 5,
   },
 ];
 
@@ -145,12 +145,9 @@ export default function TestimonialsSection() {
                       <blockquote className="text-muted-foreground italic mb-6 text-base md:text-lg leading-relaxed">
                         <p>"{testimonial.testimonial}"</p>
                       </blockquote>
-                      <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start">
-                        <Avatar className="h-12 w-12 sm:mr-4 mb-2 sm:mb-0">
-                          <AvatarImage src={testimonial.avatarSrc} alt={`Avatar of ${testimonial.name}, ${testimonial.role} at ${testimonial.company}`} data-ai-hint="person face" />
-                          <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
-                        </Avatar>
-                        <div>
+                      <div className="flex flex-col items-center justify-center sm:items-start"> {/* Removed sm:flex-row and sm:justify-start, adjusted alignment */}
+                        {/* Avatar component removed */}
+                        <div className="mt-2 text-center sm:text-left"> {/* Added margin-top for spacing and ensured text alignment */}
                           <p className="font-semibold text-foreground">{testimonial.name}</p>
                           <p className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</p>
                         </div>
@@ -168,3 +165,4 @@ export default function TestimonialsSection() {
     </section>
   );
 }
+
