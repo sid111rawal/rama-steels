@@ -16,7 +16,7 @@ import { productsData } from '@/lib/data';
 const mainPageNavLinksConfig = [
   { href: '/', label: 'Home', isPageLink: true },
   { href: '/products', label: 'Products', isPageLink: true },
-  { href: '/#featured-categories', label: 'Categories', isHashLink: true, sectionId: 'featured-categories' },
+  // { href: '/#featured-categories', label: 'Categories', isHashLink: true, sectionId: 'featured-categories' }, // Removed as per user request
   { href: '/#testimonials', label: 'Testimonials', isHashLink: true, sectionId: 'testimonials' },
   { href: '/#inquiry', label: 'Inquiry', isHashLink: true, sectionId: 'inquiry' },
   { href: '/about', label: 'About Us', isPageLink: true },
@@ -134,10 +134,17 @@ export default function Header() {
         }
       });
       
-      if (!currentActiveSection && scrollY < (document.getElementById(mainPageNavLinksConfig.find(l => l.sectionId)?.sectionId || '')?.offsetTop || window.innerHeight / 2) - headerHeight) {
-        // If at the top of the page before any hash sections, consider Home active
-        currentActiveSection = '/';
+      // Determine if 'Home' should be active
+      // It's active if no hash section is active OR if we are at the very top before any hash-linked sections.
+      const firstHashSection = mainPageNavLinksConfig.find(l => l.isHashLink && l.sectionId);
+      const firstHashSectionTop = firstHashSection && document.getElementById(firstHashSection.sectionId) 
+                                    ? document.getElementById(firstHashSection.sectionId)!.offsetTop - headerHeight 
+                                    : window.innerHeight; // Fallback if no hash sections or element not found
+
+      if (!currentActiveSection && scrollY < firstHashSectionTop) {
+        currentActiveSection = '/'; 
       }
+
 
       setActiveSection(currentActiveSection);
     };
@@ -163,8 +170,8 @@ export default function Header() {
           if (link.isHashLink) {
             isActive = activeSection === link.href;
           } else if (link.href === '/') {
-             // Home link is active if no hash section is active or if activeSection points to '/'
-            isActive = activeSection === '/' || activeSection === '' || (activeSection !== '' && !mainPageNavLinksConfig.some(l => l.isHashLink && l.href === activeSection));
+             // Home link is active if no hash section is active or if activeSection points to '/' or is empty (initial state)
+            isActive = activeSection === '/' || activeSection === '' ;
           } else {
             // For other page links when on homepage, they are not active by hash
             isActive = pathname === link.href;
@@ -206,8 +213,6 @@ export default function Header() {
               </Button>
             </SheetClose>
           ) : (
-            // For desktop, wrap Button with Link for SPA navigation benefits if it's not a hash link *on the current page*
-            // or if it's a hash link but we are not on the homepage (so it navigates first)
             (link.isPageLink || (link.isHashLink && pathname !== '/')) ? (
               <Button key={link.href} {...buttonProps} asChild>
                 <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
@@ -291,7 +296,7 @@ export default function Header() {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                onFocusCapture={() => searchTerm.trim() && setIsDesktopSuggestionsVisible(true)} // Use onFocusCapture
+                onFocusCapture={() => searchTerm.trim() && setIsDesktopSuggestionsVisible(true)} 
                 className="h-9 pl-3 pr-8 w-36 lg:w-48 rounded-md border focus:border-primary"
                 aria-label="Search products by name or type (e.g., EN31 steel balls, polish media)"
                 autoComplete="off"
@@ -333,7 +338,7 @@ export default function Header() {
                       placeholder="Search products..."
                       value={searchTerm}
                       onChange={handleSearchChange}
-                      onFocusCapture={() => searchTerm.trim() && setIsMobileSuggestionsVisible(true)} // Use onFocusCapture
+                      onFocusCapture={() => searchTerm.trim() && setIsMobileSuggestionsVisible(true)} 
                       className="h-10 pl-3 pr-10 w-full rounded-md border focus:border-primary"
                       aria-label="Search products by name or type (e.g., steel balls, polish media)"
                       autoComplete="off"
