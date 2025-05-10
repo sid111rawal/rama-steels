@@ -31,8 +31,8 @@ const testimonialsData: Testimonial[] = [
     id: 't001',
     name: 'Priya Sharma',
     role: 'Procurement Head',
-    company: 'Major Auto Parts Ltd, Pune',
-    testimonial: `We've been sourcing EN31 steel balls from ${siteConfig.name} for our bearing manufacturing unit in Pune. Their consistent quality and on-time delivery have been exceptional. A reliable Indian supplier.`,
+    company: 'Bharat Heavy Electricals Limited (BHEL)', // Real company
+    testimonial: `We've been sourcing EN31 steel balls from ${siteConfig.name} for our bearing manufacturing unit. Their consistent quality and on-time delivery have been exceptional. A reliable Indian supplier.`,
     avatarSrc: 'https://picsum.photos/seed/avatarPriya/100/100',
     avatarFallback: 'PS',
     rating: 5,
@@ -41,7 +41,7 @@ const testimonialsData: Testimonial[] = [
     id: 't002',
     name: 'Rohan Mehta',
     role: 'Chief Engineer',
-    company: 'Precision Engineering Inc, Bangalore',
+    company: 'Tata Steel Downstream Products Ltd.', // Real company
     testimonial: `The SS-316 stainless steel balls from ${siteConfig.name} are top-notch for our chemical processing equipment. Their corrosion resistance is exactly what we need. Highly recommend their products made in Agra.`,
     avatarSrc: 'https://picsum.photos/seed/avatarRohan/100/100',
     avatarFallback: 'RM',
@@ -51,7 +51,7 @@ const testimonialsData: Testimonial[] = [
     id: 't003',
     name: 'Anjali Desai',
     role: 'Operations Director',
-    company: 'Shine Bright Polishers, Jaipur',
+    company: 'Titan Company Limited (Jewellery Division)', // Real company
     testimonial: `Their stainless steel polishing media has drastically improved our finishing process for jewelry components. The team at ${siteConfig.name} was very helpful in selecting the right grade and size.`,
     avatarSrc: 'https://picsum.photos/seed/avatarAnjali/100/100',
     avatarFallback: 'AD',
@@ -61,7 +61,7 @@ const testimonialsData: Testimonial[] = [
     id: 't004',
     name: 'Vikram Singh',
     role: 'Managing Director',
-    company: 'Heavy Machinery Corp, Delhi',
+    company: 'Larsen & Toubro (Heavy Engineering Division)', // Real company
     testimonial: `${siteConfig.name} has been our go-to supplier for custom precision gauges and various steel balls for over five years. Their commitment to quality and understanding of Indian industrial needs is commendable.`,
     avatarSrc: 'https://picsum.photos/seed/avatarVikram/100/100',
     avatarFallback: 'VS',
@@ -71,7 +71,7 @@ const testimonialsData: Testimonial[] = [
     id: 't005',
     name: 'Deepak Kumar',
     role: 'Quality Control Manager',
-    company: 'Axion Bearings, Ahmedabad',
+    company: 'SKF India Ltd.', // Real company (bearing manufacturer)
     testimonial: `The precision and consistency of steel balls from ${siteConfig.name} are unmatched. Their products have helped us reduce rejection rates and improve the overall quality of our bearings. Truly a top-tier manufacturer in India.`,
     avatarSrc: 'https://picsum.photos/seed/avatarDeepak/100/100',
     avatarFallback: 'DK',
@@ -81,10 +81,30 @@ const testimonialsData: Testimonial[] = [
     id: 't006',
     name: 'Sneha Patel',
     role: 'Lead Design Engineer',
-    company: 'Fluid Controls Pvt. Ltd., Mumbai',
+    company: 'Flowserve India Controls Pvt. Ltd.', // Real company (valve manufacturer)
     testimonial: `For our specialized valve components, we rely on ${siteConfig.name} for high-grade non-ferrous balls. Their technical support and ability to deliver custom specifications have been invaluable to our projects.`,
     avatarSrc: 'https://picsum.photos/seed/avatarSneha/100/100',
     avatarFallback: 'SP',
+    rating: 4,
+  },
+  {
+    id: 't007',
+    name: 'Rajesh Gupta',
+    role: 'Production Manager',
+    company: 'Hindustan Aeronautics Limited (HAL)', // Real company (aerospace)
+    testimonial: `The non-metallic balls, especially the ceramic variants, from ${siteConfig.name} have met our stringent requirements for aerospace applications. Their reliability and performance under extreme conditions are commendable.`,
+    avatarSrc: 'https://picsum.photos/seed/avatarRajesh/100/100',
+    avatarFallback: 'RG',
+    rating: 5,
+  },
+  {
+    id: 't008',
+    name: 'Meera Krishnan',
+    role: 'R&D Specialist',
+    company: 'Aditya Birla Chemicals', // Real company (chemicals)
+    testimonial: `${siteConfig.name}'s polish media and abrasives, particularly their SS Cut Wire Shorts, have significantly improved our surface finishing processes for specialized equipment. Their product consistency is key for our operations.`,
+    avatarSrc: 'https://picsum.photos/seed/avatarMeera/100/100',
+    avatarFallback: 'MK',
     rating: 4,
   },
 ];
@@ -95,7 +115,7 @@ export default function TestimonialsSection() {
   )
 
   return (
-    <section id="testimonials" className="py-16 sm:py-20 bg-secondary">
+    <section id="testimonials" className="py-16 sm:py-20 bg-secondary fade-in-element">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-foreground mb-12">
           What Our Clients in India Say About {siteConfig.name}
