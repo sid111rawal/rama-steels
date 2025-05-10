@@ -16,7 +16,6 @@ import { productsData } from '@/lib/data';
 const mainPageNavLinksConfig = [
   { href: '/', label: 'Home', isPageLink: true },
   { href: '/products', label: 'Products', isPageLink: true },
-  // { href: '/#featured-categories', label: 'Categories', isHashLink: true, sectionId: 'featured-categories' }, // Removed as per user request
   { href: '/#testimonials', label: 'Testimonials', isHashLink: true, sectionId: 'testimonials' },
   { href: '/#inquiry', label: 'Inquiry', isHashLink: true, sectionId: 'inquiry' },
   { href: '/about', label: 'About Us', isPageLink: true },
@@ -134,12 +133,19 @@ export default function Header() {
         }
       });
       
-      // Determine if 'Home' should be active
-      // It's active if no hash section is active OR if we are at the very top before any hash-linked sections.
       const firstHashSection = mainPageNavLinksConfig.find(l => l.isHashLink && l.sectionId);
-      const firstHashSectionTop = firstHashSection && document.getElementById(firstHashSection.sectionId) 
-                                    ? document.getElementById(firstHashSection.sectionId)!.offsetTop - headerHeight 
-                                    : window.innerHeight; // Fallback if no hash sections or element not found
+      let firstHashSectionTop = Infinity; 
+      if (firstHashSection && firstHashSection.sectionId) {
+          const sectionElement = document.getElementById(firstHashSection.sectionId);
+          if (sectionElement) {
+            firstHashSectionTop = sectionElement.offsetTop - headerHeight;
+          } else {
+            // Fallback if the element is not found, might happen during initial render or if ID is incorrect
+            // Setting to window.innerHeight can be a rough estimate, or a large number if sections are further down
+             firstHashSectionTop = window.innerHeight; 
+          }
+      }
+
 
       if (!currentActiveSection && scrollY < firstHashSectionTop) {
         currentActiveSection = '/'; 
@@ -166,18 +172,15 @@ export default function Header() {
     <>
       {mainPageNavLinksConfig.map((link) => {
         let isActive = false;
-        if (pathname === '/') { // Only apply hash link active state on homepage
+        if (pathname === '/') { 
           if (link.isHashLink) {
             isActive = activeSection === link.href;
           } else if (link.href === '/') {
-             // Home link is active if no hash section is active or if activeSection points to '/' or is empty (initial state)
             isActive = activeSection === '/' || activeSection === '' ;
           } else {
-            // For other page links when on homepage, they are not active by hash
             isActive = pathname === link.href;
           }
         } else {
-          // For non-homepage paths, only page links can be active
           isActive = link.isPageLink ? pathname === link.href || (pathname.startsWith(link.href) && link.href !== '/') : false;
         }
         
@@ -194,7 +197,9 @@ export default function Header() {
               }
               if (isMobile) setSheetOpen(false);
             } else if (link.isHashLink && pathname !== '/') {
-              router.push(link.href); // Navigates to home and then scrolls due to useEffect in home page
+               // Construct absolute URL for hash links when not on homepage
+              const absoluteUrl = new URL(link.href, siteConfig.url).toString();
+              router.push(absoluteUrl);
               if (isMobile) setSheetOpen(false);
             } else {
               router.push(link.href);
@@ -212,16 +217,10 @@ export default function Header() {
                 {link.label}
               </Button>
             </SheetClose>
-          ) : (
-            (link.isPageLink || (link.isHashLink && pathname !== '/')) ? (
-              <Button key={link.href} {...buttonProps} asChild>
-                <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
-              </Button>
-            ) : (
-              <Button key={link.href} {...buttonProps} aria-label={`Navigate to ${link.label}`}>
-                {link.label}
-              </Button>
-            )
+          ) : ( // For desktop links
+             <Button key={link.href} {...buttonProps} asChild={link.isPageLink || (link.isHashLink && pathname !== '/')} aria-label={`Navigate to ${link.label}`}>
+              {link.isPageLink || (link.isHashLink && pathname !== '/') ? <Link href={link.href}>{link.label}</Link> : <>{link.label}</>}
+            </Button>
           )
         );
       })}
@@ -267,7 +266,7 @@ export default function Header() {
     <header ref={headerRef} className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out">
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-2 sm:mr-6" aria-label={`Go to ${siteConfig.name} homepage`}>
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-4 md:mr-8" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
               src={siteConfig.ogImage.src} 
               alt={`${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media`}
@@ -279,7 +278,7 @@ export default function Header() {
               priority 
               data-ai-hint="company logo"
             />
-             <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">
+             <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">
               {siteConfig.name.split(' ')[0]} <span className="hidden sm:inline">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
             </span>
           </Link>
