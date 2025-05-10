@@ -11,7 +11,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Button } from '@/components/ui/button';
 import React, { useState, Suspense, useEffect } from 'react'; 
 import dynamic from 'next/dynamic';
-// import type { Metadata } from 'next'; // Metadata for client components is handled differently
 
 const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section'), {
   loading: () => <div className="text-center py-10">Loading testimonials...</div>,
@@ -30,9 +29,22 @@ export default function Home() {
 
   useEffect(() => {
     setPageLoaded(true);
-    // Client-side document title update for better immediate feedback, complementing server-side metadata.
     document.title = `${siteConfig.name} - ${siteConfig.tagline}`;
-  }, []);
+
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.getElementById(hash.substring(1)); // remove #
+      if (element) {
+        // A small delay can help ensure the element is fully rendered,
+        // especially for dynamically loaded or animated sections.
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 300); // Increased delay slightly for potentially slower components
+        return () => clearTimeout(timer);
+      }
+    }
+  }, []); // Empty dependency array means this runs once after initial mount
+
 
   const handleImageLoad = (categoryId: string) => {
     setLoadedImages(prev => ({ ...prev, [categoryId]: true }));
@@ -101,3 +113,36 @@ export default function Home() {
     </div>
   );
 }
+
+// Example of how metadata would be handled if this were a Server Component
+// export const metadata: Metadata = {
+//   title: `${siteConfig.name} - ${siteConfig.tagline}`,
+//   description: siteConfig.description,
+//   keywords: siteConfig.keywords,
+//   alternates: {
+//     canonical: '/',
+//   },
+// openGraph: {
+//     title: `${siteConfig.name} - ${siteConfig.tagline}`,
+//     description: siteConfig.description,
+//     url: siteConfig.url,
+//     images: [
+//       {
+//         url: siteConfig.ogImage.src, // Assuming siteConfig.ogImage is a simple string URL or has a src property
+//         width: siteConfig.ogImage.width, // Provide width
+//         height: siteConfig.ogImage.height, // Provide height
+//         alt: `${siteConfig.name} - Manufacturer of Steel Balls and Polish Media`,
+//       },
+//     ],
+//     siteName: siteConfig.name,
+//     type: 'website',
+//     locale: 'en_IN',
+//   },
+//   twitter: {
+//     card: 'summary_large_image',
+//     title: `${siteConfig.name} - ${siteConfig.tagline}`,
+//     description: siteConfig.description,
+//     images: [{ url: siteConfig.ogImage.src, alt: `${siteConfig.name} - Industrial Steel Products`}],
+//     // site: '@YourTwitterHandle', // Add your Twitter handle if available
+//   },
+// };
