@@ -33,17 +33,18 @@ export default function Home() {
 
     const hash = window.location.hash;
     if (hash) {
-      const element = document.getElementById(hash.substring(1)); // remove #
-      if (element) {
-        // A small delay can help ensure the element is fully rendered,
-        // especially for dynamically loaded or animated sections.
-        const timer = setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 300); // Increased delay slightly for potentially slower components
-        return () => clearTimeout(timer);
-      }
+      const elementId = hash.substring(1); // remove #
+      // A longer delay can help ensure the element is fully rendered,
+      // especially for dynamically loaded or animated sections like Testimonials or Inquiry.
+      const timer = setTimeout(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 700); // Increased delay from 300ms to 700ms
+      return () => clearTimeout(timer);
     }
-  }, []); // Empty dependency array means this runs once after initial mount
+  }, []); // Empty dependency array means this runs once after initial mount and on subsequent mounts if page re-mounts
 
 
   const handleImageLoad = (categoryId: string) => {
@@ -113,36 +114,3 @@ export default function Home() {
     </div>
   );
 }
-
-// Example of how metadata would be handled if this were a Server Component
-// export const metadata: Metadata = {
-//   title: `${siteConfig.name} - ${siteConfig.tagline}`,
-//   description: siteConfig.description,
-//   keywords: siteConfig.keywords,
-//   alternates: {
-//     canonical: '/',
-//   },
-// openGraph: {
-//     title: `${siteConfig.name} - ${siteConfig.tagline}`,
-//     description: siteConfig.description,
-//     url: siteConfig.url,
-//     images: [
-//       {
-//         url: siteConfig.ogImage.src, // Assuming siteConfig.ogImage is a simple string URL or has a src property
-//         width: siteConfig.ogImage.width, // Provide width
-//         height: siteConfig.ogImage.height, // Provide height
-//         alt: `${siteConfig.name} - Manufacturer of Steel Balls and Polish Media`,
-//       },
-//     ],
-//     siteName: siteConfig.name,
-//     type: 'website',
-//     locale: 'en_IN',
-//   },
-//   twitter: {
-//     card: 'summary_large_image',
-//     title: `${siteConfig.name} - ${siteConfig.tagline}`,
-//     description: siteConfig.description,
-//     images: [{ url: siteConfig.ogImage.src, alt: `${siteConfig.name} - Industrial Steel Products`}],
-//     // site: '@YourTwitterHandle', // Add your Twitter handle if available
-//   },
-// };
