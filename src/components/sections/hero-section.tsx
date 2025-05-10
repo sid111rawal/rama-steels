@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -16,8 +17,13 @@ export default function HeroSection() {
   const [particleColor, setParticleColor] = useState(siteConfig.heroParticleColor.light);
 
   useEffect(() => {
-    setParticleColor(theme === 'dark' ? siteConfig.heroParticleColor.dark : siteConfig.heroParticleColor.light);
+    // Ensure theme is loaded before setting particle color
+    if (theme) {
+      setParticleColor(theme === 'dark' ? siteConfig.heroParticleColor.dark : siteConfig.heroParticleColor.light);
+    }
   }, [theme]);
+
+  const currentParticleDensity = isMobile ? 80 : 240; // Doubled the particle density (was 40 for mobile, 120 for desktop)
 
   return (
     <section
@@ -26,11 +32,14 @@ export default function HeroSection() {
       className="relative bg-gradient-to-br from-background to-secondary py-24 sm:py-32 md:py-40 flex items-center justify-center text-center overflow-hidden animated-element"
       aria-labelledby="hero-heading"
     >
-      <ParticlesComponent
-        containerId="hero-particles"
-        particleColor={particleColor} 
-        particleDensity={isMobile ? 40 : 120} 
-      />
+      {/* Conditionally render ParticlesComponent only after theme is determined to avoid color mismatch during hydration */}
+      {theme && (
+        <ParticlesComponent
+          containerId="hero-particles"
+          particleColor={particleColor} 
+          particleDensity={currentParticleDensity} 
+        />
+      )}
 
       <div className="absolute inset-0 bg-background/10 dark:bg-background/15 z-[1] pointer-events-none"></div>
 
@@ -55,3 +64,4 @@ export default function HeroSection() {
     </section>
   );
 }
+

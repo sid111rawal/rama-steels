@@ -1,3 +1,4 @@
+
 import type { StaticImageData } from 'next/image';
 import appLogo from '@/images/logo/l.jpeg'; 
 
@@ -37,7 +38,12 @@ export const siteConfig = {
     "gauges for quality control", "precision measurement tools"
   ],
   url: "https://www.ramasons.com", 
-  ogImage: appLogo, 
+  ogImage: { // Updated to be an object with src, width, height, and blurDataURL
+    src: appLogo,
+    width: 512, // Example width, adjust to your logo's actual dimensions
+    height: 512, // Example height, adjust to your logo's actual dimensions
+    blurDataURL: 'data:image/jpeg;base64,...', // Generate a real blurDataURL for your logo
+  },
   contactInfo: {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
@@ -52,9 +58,10 @@ export const siteConfig = {
   },
   whatsAppDefaultMessage: "Hi Rama & Sons. I have a question about your steel balls and polish media.",
   heroParticleColor: {
-    light: "#1A237E", 
-    dark: "#7986CB"   
+    light: "#1A237E", // Deep Blue from --primary for light mode
+    dark: "#7986CB"   // Lighter Deep Blue from --primary for dark mode
   },
 };
 
 export type SiteConfig = typeof siteConfig;
+
