@@ -55,10 +55,10 @@ export default function Header() {
 
     setSuggestions(filteredProducts);
     if (document.activeElement === event.target) {
-        if (desktopSearchContainerRef.current?.contains(event.target)) {
+        if (desktopSearchContainerRef.current?.contains(event.target as Node)) {
             setIsDesktopSuggestionsVisible(true);
         }
-        if (mobileSearchContainerRef.current?.contains(event.target)) {
+        if (mobileSearchContainerRef.current?.contains(event.target as Node)) {
             setIsMobileSuggestionsVisible(true);
         }
     }
@@ -110,10 +110,24 @@ export default function Header() {
             <Button
               variant="ghost"
               asChild
-              onClick={() => setSheetOpen(false)} 
+              onClick={() => {
+                if (link.isHashLink && pathname === '/') {
+                  // If on homepage and it's a hash link, just close sheet and let browser handle scroll
+                  setSheetOpen(false);
+                } else if (link.isHashLink && pathname !== '/') {
+                   // If not on homepage and it's a hash link, navigate to home then scroll
+                  router.push(link.href); // Navigates to home and then scrolls due to useEffect in home page
+                  setSheetOpen(false);
+                } else {
+                  // For regular links or hash links when already on the correct base path
+                  router.push(link.href);
+                  setSheetOpen(false);
+                }
+              }}
               className={`w-full justify-start text-lg py-3 ${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
             >
-              <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
+              {/* For hash links, ensure they point to the root if not already on the homepage */}
+              <Link href={link.isHashLink && pathname !=='/' ? `/${link.href.substring(link.href.lastIndexOf('#'))}`: link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
             </Button>
           </SheetClose>
         ) : (
@@ -123,7 +137,7 @@ export default function Header() {
             asChild
             className={`${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
           >
-            <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
+             <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
           </Button>
         )
       ))}
@@ -172,15 +186,19 @@ export default function Header() {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-2 sm:mr-6" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
-              src={siteConfig.ogImage} 
+              src={siteConfig.ogImage.src}
               alt={`${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media`}
+              width={siteConfig.ogImage.width}
+              height={siteConfig.ogImage.height}
               className="rounded-full group-hover:opacity-80 transition-opacity duration-300 h-14 w-14 sm:h-16 sm:w-16" 
-              placeholder="blur" // Removed as blurDataURL is not directly in siteConfig.ogImage StaticImageData
+              placeholder="blur" 
               blurDataURL={siteConfig.ogImage.blurDataURL}
               priority 
               data-ai-hint="company logo"
             />
-            <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300">{siteConfig.name}</span>
+             <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">
+              {siteConfig.name.split(' ')[0]} <span className="hidden sm:inline">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
+            </span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center">

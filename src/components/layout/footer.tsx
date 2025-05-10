@@ -13,8 +13,10 @@ export default function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="inline-block mb-4" aria-label={`Go to ${siteConfig.name} homepage`}>
               <Image
-                src={siteConfig.ogImage} 
+                src={siteConfig.ogImage.src} 
                 alt={`${siteConfig.name} - Manufacturer of Steel Balls, Polish Media, and Gauges in India`}
+                width={siteConfig.ogImage.width}
+                height={siteConfig.ogImage.height}
                 className="rounded-full hover:opacity-80 transition-opacity duration-300 h-20 w-20" 
                 placeholder="blur" 
                 blurDataURL={siteConfig.ogImage.blurDataURL}
