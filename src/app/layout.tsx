@@ -161,7 +161,7 @@ export default function RootLayout({
       <body className={`${roboto.variable} ${montserrat.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light" // Changed from system to light
+          defaultTheme="light" 
           enableSystem
           disableTransitionOnChange
         >

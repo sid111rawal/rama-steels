@@ -33,18 +33,21 @@ export default function Home() {
 
     const hash = window.location.hash;
     if (hash) {
-      const elementId = hash.substring(1); // remove #
-      // A longer delay can help ensure the element is fully rendered,
-      // especially for dynamically loaded or animated sections like Testimonials or Inquiry.
+      const elementId = hash.substring(1); 
       const timer = setTimeout(() => {
         const element = document.getElementById(elementId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY - headerHeight;
+          window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+          });
         }
-      }, 700); // Increased delay from 300ms to 700ms
+      }, 500); // Delay to allow page layout to settle
       return () => clearTimeout(timer);
     }
-  }, []); // Empty dependency array means this runs once after initial mount and on subsequent mounts if page re-mounts
+  }, []);
 
 
   const handleImageLoad = (categoryId: string) => {
@@ -59,13 +62,15 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main role="main" className="flex-grow fade-in-element">
-        <HeroSection />
+        {/* HeroSection already has id="home" internally */}
+        <HeroSection /> 
+        {/* "featured-categories" id is used by header scrollspy */}
         <section id="featured-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                 Explore Our Industrial Steel Products from {siteConfig.name}
-              </h1>
+              </h2>
               <p className="mt-3 text-lg text-muted-foreground max-w-prose mx-auto">
                 Discover main categories of high-quality steel balls, innovative polish media, and precision gauges manufactured in India by {siteConfig.name}. We cater to diverse industrial needs with durable and reliable solutions.
               </p>
@@ -103,7 +108,9 @@ export default function Home() {
           </div>
         </section>
         <Suspense fallback={<div className="text-center py-10">Loading customer experiences and inquiry options...</div>}>
+          {/* TestimonialsSection already has id="testimonials" internally */}
           <TestimonialsSection />
+          {/* InquirySection already has id="inquiry" internally */}
           <InquirySection />
         </Suspense>
       </main>
