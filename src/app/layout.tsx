@@ -19,9 +19,9 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url), // Essential for resolving relative OG images
+  metadataBase: new URL(siteConfig.url), 
   title: {
-    default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
+    default: `${siteConfig.name} - ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: {
-      default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
+      default: `${siteConfig.name} - ${siteConfig.tagline}`,
       template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
       url: siteConfig.ogImage.src, 
       width: siteConfig.ogImage.width, 
       height: siteConfig.ogImage.height, 
-      alt: `${siteConfig.name} Logo` 
+      alt: `${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media` 
     }],
     url: siteConfig.url,
     siteName: siteConfig.name,
@@ -55,16 +55,16 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: {
-      default: `${siteConfig.name} - High-Quality Steel Balls & Polish Media`,
+      default: `${siteConfig.name} - ${siteConfig.tagline}`,
       template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
     images: [{ 
       url: siteConfig.ogImage.src,
-      alt: `${siteConfig.name} Logo` 
+      alt: `${siteConfig.name} Logo - Industrial Steel Products` 
     }],
-    // siteId: '@YourTwitterHandle', 
-    // creatorId: '@YourTwitterHandle',
+    // site: '@YourTwitterHandle', // Add if you have a Twitter handle
+    // creator: '@CreatorTwitterHandle', // Add if relevant
   },
   robots: {
     index: true,
@@ -94,6 +94,7 @@ export default function RootLayout({
     "name": siteConfig.name,
     "url": siteConfig.url,
     "logo": `${siteConfig.url}${siteConfig.ogImage.src}`, 
+    "description": siteConfig.description,
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": siteConfig.contactInfo.phone,
@@ -106,15 +107,15 @@ export default function RootLayout({
       "@type": "PostalAddress",
       "streetAddress": siteConfig.contactInfo.address.split(',')[0]?.trim() || "Jaipur House",
       "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim() || "Agra",
-      "addressRegion": siteConfig.contactInfo.address.split(',')[2]?.trim(), // Optional if available
-      "postalCode": siteConfig.contactInfo.address.split(',')[3]?.trim(), // Optional if available
+      "addressRegion": siteConfig.contactInfo.address.split(',')[2]?.trim() || "Uttar Pradesh", // Assuming UP for Agra
+      "postalCode": siteConfig.contactInfo.address.split(',')[3]?.trim() || "282002", // Example postal code for Agra
       "addressCountry": "IN"
     },
     "sameAs": [
       siteConfig.socialLinks.facebook,
       siteConfig.socialLinks.twitter,
       siteConfig.socialLinks.linkedin
-    ].filter(link => link && link !== "#") // Filter out placeholder or empty links
+    ].filter(link => link && link !== "#") 
   };
 
   const websiteSchema = {
@@ -133,7 +134,7 @@ export default function RootLayout({
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": `${siteConfig.url}/products?search={search_term_string}`, // Ensure this path is correct
+      "target": `${siteConfig.url}/products?search={search_term_string}`, 
       "query-input": "required name=search_term_string"
     }
   };

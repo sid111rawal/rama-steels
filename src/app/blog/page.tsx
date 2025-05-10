@@ -9,23 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle } from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-// import type { Metadata } from 'next'; // Metadata for client components is handled differently
 import { blogPostsData } from '@/lib/data';
-
-// For client components, if you need to set metadata dynamically, you'd typically use a useEffect hook with document.title, etc.
-// Or, preferably, make this a Server Component if metadata is static or fetched server-side.
-// For now, we will rely on the layout.tsx for general metadata and specific metadata can be added if this page is converted to a server component.
-
-// export const metadata: Metadata = {
-//   title: `Blog - Insights & News from ${siteConfig.name}`,
-//   description: `Stay updated with the latest industry news, technical insights, and articles from ${siteConfig.name}, your expert in steel balls and polish media manufacturing.`,
-//   keywords: `industrial blog, steel manufacturing news, technical articles, ${siteConfig.name} blog, polish media insights`,
-//   alternates: {
-//     canonical: '/blog',
-//   },
-// };
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
@@ -36,11 +22,11 @@ export default function BlogPage() {
   const handleImageLoad = (postId: string) => {
     setLoadedImages(prev => ({ ...prev, [postId]: true }));
   };
+  
+  useEffect(() => {
+    document.title = `Industrial Insights & News | ${siteConfig.name} Blog`;
+  }, []);
 
-  // Example for client-side title update (though App Router prefers generateMetadata):
-  // React.useEffect(() => {
-  //   document.title = `Blog - Insights & News from ${siteConfig.name}`;
-  // }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -48,9 +34,9 @@ export default function BlogPage() {
       <main role="main" className="flex-grow">
         <section id="blog-hero" className="py-20 bg-secondary text-center fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">{siteConfig.name} Industry Blog</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">{siteConfig.name} Industrial Insights Blog</h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Latest insights, technical guides, and industry news from the steel manufacturing experts at {siteConfig.name}.
+              Stay updated with the latest industry news, technical guides on steel balls, polish media, and manufacturing insights from the experts at {siteConfig.name}.
             </p>
           </div>
         </section>
@@ -70,8 +56,9 @@ export default function BlogPage() {
                           height={250}
                           className={`object-cover w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[post.id] ? 'img-loaded' : 'img-loading'}`}
                           placeholder={typeof post.imageSrc === 'string' ? undefined : "blur"}
-                          blurDataURL={typeof post.imageSrc === 'string' ? undefined: post.imageSrc.blurDataURL}
+                          blurDataURL={typeof post.imageSrc === 'string' ? undefined: (post.imageSrc as any).blurDataURL}
                           onLoad={() => handleImageLoad(post.id)}
+                          data-ai-hint={`${post.category.toLowerCase()} article`}
                         />
                          <Badge variant="default" className="absolute top-3 left-3">{post.category}</Badge>
                       </CardHeader>
@@ -101,7 +88,7 @@ export default function BlogPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground text-lg">No blog posts available at the moment. Check back soon!</p>
+              <p className="text-center text-muted-foreground text-lg">No blog posts available at the moment. Check back soon for insights from {siteConfig.name}!</p>
             )}
           </div>
         </section>
@@ -114,13 +101,12 @@ export default function BlogPage() {
   );
 }
 
-// To use generateMetadata, this page should be a Server Component.
 // Example if it were a Server Component:
 // export async function generateMetadata(): Promise<Metadata> {
 //   return {
-//     title: `Blog - Insights & News from ${siteConfig.name}`,
-//     description: `Stay updated with the latest industry news, technical insights, and articles from ${siteConfig.name}.`,
-//     keywords: [`industrial blog`, 'steel manufacturing news', `${siteConfig.name} blog`],
+//     title: `Industrial Insights & News | ${siteConfig.name} Blog`,
+//     description: `Stay updated with the latest industry news, technical insights, and articles from ${siteConfig.name}, your expert in steel balls and polish media manufacturing.`,
+//     keywords: [`industrial blog`, 'steel manufacturing news', `${siteConfig.name} blog`, 'steel ball insights', 'polish media guides', ...siteConfig.keywords.slice(0,5)],
 //     alternates: {
 //       canonical: '/blog',
 //     },

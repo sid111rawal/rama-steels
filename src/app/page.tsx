@@ -11,7 +11,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Button } from '@/components/ui/button';
 import React, { useState, Suspense, useEffect } from 'react'; 
 import dynamic from 'next/dynamic';
-import type { Metadata } from 'next';
+// import type { Metadata } from 'next'; // Metadata for client components is handled differently
 
 const TestimonialsSection = dynamic(() => import('@/components/sections/testimonials-section'), {
   loading: () => <div className="text-center py-10">Loading testimonials...</div>,
@@ -23,16 +23,6 @@ const InquirySection = dynamic(() => import('@/components/sections/inquiry-secti
 });
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
-// It's generally better to handle metadata in Server Components or using generateMetadata for dynamic pages.
-// For a static client page, this approach is less common with App Router, but if needed:
-// export const metadata: Metadata = { 
-//   title: `Home - ${siteConfig.name} | Steel Balls & Polish Media`,
-//   description: `Welcome to ${siteConfig.name}, India's leading manufacturer of high-quality steel balls, polish media, and abrasives. Explore our products and services.`,
-//   alternates: {
-//     canonical: '/',
-//   },
-// };
-
 
 export default function Home() {
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
@@ -40,6 +30,8 @@ export default function Home() {
 
   useEffect(() => {
     setPageLoaded(true);
+    // Client-side document title update for better immediate feedback, complementing server-side metadata.
+    document.title = `${siteConfig.name} - ${siteConfig.tagline}`;
   }, []);
 
   const handleImageLoad = (categoryId: string) => {
@@ -47,7 +39,7 @@ export default function Home() {
   };
 
   if (!pageLoaded) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>; 
+    return <div className="flex justify-center items-center min-h-screen text-lg font-semibold">Loading {siteConfig.name}...</div>; 
   }
 
   return (
@@ -59,25 +51,27 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-                Explore Our Industrial Steel Products
+                Explore Our Industrial Steel Products from {siteConfig.name}
               </h1>
-              <p className="mt-3 text-lg text-muted-foreground">
-                Discover main categories of high-quality steel balls, polish media, and gauges from {siteConfig.name}.
+              <p className="mt-3 text-lg text-muted-foreground max-w-prose mx-auto">
+                Discover main categories of high-quality steel balls, innovative polish media, and precision gauges manufactured in India by {siteConfig.name}. We cater to diverse industrial needs with durable and reliable solutions.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {mainCategoriesData.map((category, index) => (
                 <Card key={category.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group fade-in-element" style={{ animationDelay: `${index * 100}ms`}}>
-                  <Link href={category.path} className="block" aria-label={`Explore ${category.name}`}>
+                  <Link href={category.path} className="block" aria-label={`Explore ${category.name} from ${siteConfig.name}`}>
                     <CardHeader className="p-0 relative">
                       <Image
                         src={category.imageSrc}
-                        alt={`${category.name} - ${siteConfig.name}`}
+                        alt={`${category.name} manufactured by ${siteConfig.name}`}
                         width={400}
                         height={250}
                         className={`object-contain w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
                         placeholder="blur" 
+                        blurDataURL={category.imageSrc.blurDataURL}
                         onLoad={() => handleImageLoad(category.id)}
+                        data-ai-hint={`${category.name.toLowerCase().replace(/\s+/g, ' ').split(' ')[0]} industrial`}
                       />
                     </CardHeader>
                     <CardContent className="p-6 flex-grow">
@@ -87,7 +81,7 @@ export default function Home() {
                   </Link>
                   <CardFooter className="p-6 pt-0">
                     <Button variant="outline" asChild className="w-full sm:w-auto">
-                      <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '').replace(' Metal','')}</Link>
+                      <Link href={category.path}>Explore {category.name.replace(' Balls','').replace(' Media & Abrasives', '').replace(' Metal','')} Category</Link>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -95,7 +89,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+        <Suspense fallback={<div className="text-center py-10">Loading customer experiences and inquiry options...</div>}>
           <TestimonialsSection />
           <InquirySection />
         </Suspense>
@@ -107,14 +101,3 @@ export default function Home() {
     </div>
   );
 }
-
-// If you need to set metadata for this client component specifically,
-// and cannot use generateMetadata (e.g. if it's purely static or you prefer this way for a specific reason)
-// you can use a <Head> component from 'next/head' inside the component's return statement.
-// However, `generateMetadata` or static metadata export is preferred for App Router.
-// For a top-level page like Home, usually `metadata` export at the top is fine.
-// This is an example of how you might try to do it if needed, but it's not the standard for App Router pages.
-// Home.metadata = {
-//   title: `Home - ${siteConfig.name} | Steel Balls & Polish Media`,
-//   description: `Welcome to ${siteConfig.name}, India's leading manufacturer of high-quality steel balls, polish media, and abrasives. Explore our products and services.`,
-// }

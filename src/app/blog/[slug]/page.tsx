@@ -13,7 +13,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import ClientWhatsAppLoader from '@/components/client-whatsapp-loader';
-import ShareButton from '@/components/share-button'; // Import the new ShareButton component
+import ShareButton from '@/components/share-button'; 
 
 interface BlogPostPageParams {
   slug: string;
@@ -29,13 +29,21 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
   if (!post) {
     return {
       title: `Blog Post Not Found - ${siteConfig.name}`,
-      description: `The blog post you are looking for could not be found on ${siteConfig.name}'s blog.`,
+      description: `The blog post you are looking for could not be found on ${siteConfig.name}'s blog. Explore other articles on steel manufacturing and industrial products.`,
     };
   }
 
-  const title = `${post.title} - ${siteConfig.name} Blog`;
+  const title = `${post.title} | ${siteConfig.name} Blog`;
   const description = post.excerpt; 
-  const keywords = `${post.title}, ${post.category}, ${siteConfig.name} blog, ${post.keywords ? post.keywords.join(', ') : ''}`;
+  const keywordsList = [
+    post.title, 
+    post.category, 
+    `${siteConfig.name} blog`, 
+    ...(post.keywords ? post.keywords : []),
+    'industrial insights',
+    'steel manufacturing India',
+     ...siteConfig.keywords.slice(0,3)
+  ];
   
   const imageUrl = typeof post.imageSrc === 'string' ? post.imageSrc : (post.imageSrc as any).src;
   const absoluteImageUrl = imageUrl.startsWith('http') ? imageUrl : `${siteConfig.url}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
@@ -43,7 +51,7 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
   return {
     title,
     description,
-    keywords: keywords.split(',').map(k => k.trim()).filter(Boolean),
+    keywords: keywordsList.filter((value, index, self) => self.indexOf(value) === index && value.length > 0),
     alternates: {
       canonical: `/blog/${post.slug}`,
     },
@@ -54,16 +62,18 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
       type: 'article',
       publishedTime: new Date(post.date).toISOString(), 
       authors: [post.author],
-      section: post.category,
+      section: post.category, // Used as article:section
       tags: post.keywords,
       images: [
         {
           url: absoluteImageUrl,
           width: 800, 
           height: 400, 
-          alt: post.title,
+          alt: `Article image for "${post.title}" by ${siteConfig.name}`,
         },
       ],
+      siteName: siteConfig.name,
+      locale: 'en_IN',
     },
     twitter: {
       card: 'summary_large_image',
@@ -71,7 +81,7 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
       description,
       images: [{ 
         url: absoluteImageUrl, 
-        alt: post.title 
+        alt: `Twitter image for article: ${post.title}` 
       }],
     }
   };
@@ -99,9 +109,11 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
     "headline": post.title,
     "image": absolutePostImageUrl,
     "datePublished": new Date(post.date).toISOString(),
+    "dateModified": new Date(post.date).toISOString(), // Assuming dateModified is same as published for now
     "author": {
       "@type": "Person", 
-      "name": post.author
+      "name": post.author,
+      "url": siteConfig.url // Or a specific author page URL if available
     },
     "publisher": {
       "@type": "Organization",
@@ -113,7 +125,8 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
     },
     "description": post.excerpt,
     "articleBody": post.content.replace(/<[^>]*>?/gm, ''), 
-    "keywords": post.keywords ? post.keywords.join(',') : post.category
+    "keywords": post.keywords ? post.keywords.join(', ') : post.category,
+    "articleSection": post.category // For schema.org article section
   };
 
   return (
@@ -126,8 +139,8 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
       <Header />
       <main role="main" className="flex-grow bg-background py-8 sm:py-12 fade-in-element">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <nav aria-label="Breadcrumb">
-            <Button variant="outline" asChild className="mb-8 group">
+          <nav aria-label="Breadcrumb" className="mb-8">
+            <Button variant="outline" asChild className="group">
               <Link href="/blog">
                 <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to All Blog Posts
@@ -154,13 +167,14 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
             <figure className="mb-8">
               <Image
                 src={post.imageSrc}
-                alt={`Main image for blog post: ${post.title}`}
+                alt={`Main image for blog post: ${post.title} - by ${siteConfig.name}`}
                 width={800}
                 height={400}
                 className="w-full h-auto object-cover rounded-lg shadow-md img-loaded"
                 placeholder={typeof post.imageSrc === 'string' ? undefined : "blur"}
                 blurDataURL={typeof post.imageSrc === 'string' ? undefined : (post.imageSrc as any).blurDataURL}
                 priority 
+                data-ai-hint={`${post.category.toLowerCase()} topic illustrative`}
               />
             </figure>
 
@@ -174,7 +188,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
             <footer className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <MessageSquare className="h-5 w-5" />
-                <span>Comments or thoughts? Share this post!</span> 
+                <span>Found this article useful? Share it!</span> 
               </div>
               <ShareButton title={post.title} text={post.excerpt} />
             </footer>

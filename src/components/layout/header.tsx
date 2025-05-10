@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -55,8 +54,7 @@ export default function Header() {
     ).slice(0, MAX_SUGGESTIONS);
 
     setSuggestions(filteredProducts);
-    // Visibility will be handled by onFocus and click-outside
-    if (document.activeElement === event.target) { // only show if input is focused
+    if (document.activeElement === event.target) {
         if (desktopSearchContainerRef.current?.contains(event.target)) {
             setIsDesktopSuggestionsVisible(true);
         }
@@ -115,7 +113,7 @@ export default function Header() {
               onClick={() => setSheetOpen(false)} 
               className={`w-full justify-start text-lg py-3 ${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
             >
-              <Link href={link.href}>{link.label}</Link>
+              <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
             </Button>
           </SheetClose>
         ) : (
@@ -125,7 +123,7 @@ export default function Header() {
             asChild
             className={`${pathname === link.href && !link.isHashLink ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'} transition-colors duration-200`}
           >
-            <Link href={link.href}>{link.label}</Link>
+            <Link href={link.href} aria-label={`Navigate to ${link.label}`}>{link.label}</Link>
           </Button>
         )
       ))}
@@ -150,6 +148,18 @@ export default function Header() {
               </button>
             </li>
           ))}
+           {suggestions.length > 0 && searchTerm.trim() && (
+             <li>
+                <button
+                    type="button"
+                    onClick={() => handleSearchSubmit()}
+                    className="w-full text-left p-3 hover:bg-accent transition-colors text-sm font-semibold text-primary"
+                    aria-label={`Search for all products matching ${searchTerm}`}
+                >
+                    View all results for "{searchTerm}"
+                </button>
+            </li>
+           )}
         </ul>
       </div>
     );
@@ -163,10 +173,12 @@ export default function Header() {
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-2 sm:mr-6" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
               src={siteConfig.ogImage} 
-              alt={`${siteConfig.name} - Steel Ball and Polish Media Manufacturer Logo`}
-              className="rounded-full group-hover:opacity-80 transition-opacity duration-300 h-14 w-14 sm:h-16 sm:w-16" // Adjusted size
-              placeholder="blur"
+              alt={`${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media`}
+              className="rounded-full group-hover:opacity-80 transition-opacity duration-300 h-14 w-14 sm:h-16 sm:w-16" 
+              placeholder="blur" // Removed as blurDataURL is not directly in siteConfig.ogImage StaticImageData
+              blurDataURL={siteConfig.ogImage.blurDataURL}
               priority 
+              data-ai-hint="company logo"
             />
             <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">{siteConfig.name.split(' ')[0]}</span>
             <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap sm:block hidden">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
@@ -186,7 +198,7 @@ export default function Header() {
                 onChange={handleSearchChange}
                 onFocus={() => searchTerm.trim() && setIsDesktopSuggestionsVisible(true)}
                 className="h-9 pl-3 pr-8 w-36 lg:w-48 rounded-md border focus:border-primary"
-                aria-label="Search products by name or type"
+                aria-label="Search products by name or type (e.g., EN31 steel balls, polish media)"
                 autoComplete="off"
               />
               {searchTerm && (
@@ -215,7 +227,7 @@ export default function Header() {
               <SheetContent side="right" className="w-full max-w-xs p-6 flex flex-col">
                 <SheetHeader className="mb-4">
                     <SheetTitle className="text-2xl font-semibold text-primary">{siteConfig.name}</SheetTitle>
-                    <SheetDescription className="sr-only">Main menu and product search</SheetDescription>
+                    <SheetDescription className="sr-only">Main menu and product search for {siteConfig.name}</SheetDescription>
                 </SheetHeader>
 
                 <div ref={mobileSearchContainerRef}>
@@ -228,7 +240,7 @@ export default function Header() {
                       onChange={handleSearchChange}
                       onFocus={() => searchTerm.trim() && setIsMobileSuggestionsVisible(true)}
                       className="h-10 pl-3 pr-10 w-full rounded-md border focus:border-primary"
-                      aria-label="Search products by name or type"
+                      aria-label="Search products by name or type (e.g., steel balls, polish media)"
                       autoComplete="off"
                     />
                      {searchTerm && (

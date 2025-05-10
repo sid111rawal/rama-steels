@@ -1,13 +1,43 @@
-
 import type { StaticImageData } from 'next/image';
 import appLogo from '@/images/logo/l.jpeg'; 
 
 export const siteConfig = {
   name: "Rama & Sons",
-  description: "Excellence in industrial steel products with over 20 years of experience. Manufacturer of steel balls, polish media, and gauges in India.",
-  keywords: "Steel Balls, Polish Media, Industrial Steel, Rama & Sons, Ferrous Balls, Non-Ferrous Balls, Non-Metallic Balls, Precision Gauges, Abrasives, Steel Ball Manufacturer India, Industrial Polish Media India",
+  tagline: "India's Leading Manufacturer of High-Quality Steel Balls & Polish Media",
+  description: "Excellence in industrial steel products with over 20 years of experience. Rama & Sons is a premier manufacturer of steel balls, polish media, and gauges in India, serving Agra and beyond.",
+  keywords: [
+    // General & Brand
+    "Rama & Sons", "Rama and Sons steel", "industrial steel products India", "steel manufacturing Agra",
+
+    // Product Specific - Steel Balls
+    "steel balls manufacturer", "industrial steel balls", "precision steel balls", "high quality steel balls",
+    "stainless steel balls", "SS 304 balls", "SS 316 balls", "SS 440c balls",
+    "carbon steel balls", "AISI 1010 steel balls", "EN9 steel balls",
+    "alloy steel balls", "EN31 steel balls", "100Cr6 steel balls", "AISI 52100 steel balls", "bearing steel balls",
+    "chrome steel balls", "ferrous metal balls",
+    "non-ferrous metal balls", "brass balls", "copper balls", "aluminium balls", "titanium balls", "tungsten carbide balls",
+    "non-metallic balls", "ceramic balls", "glass balls", "plastic balls", "ruby balls", "silicon nitride balls",
+
+    // Product Specific - Polish Media & Abrasives
+    "polishing media supplier", "abrasive media India", "tumbling media", "vibratory finishing media",
+    "stainless steel polishing media", "ss cut wire shots", "ss polish pins",
+    "ceramic polishing media", "plastic polishing media", "zinc shots", "zinc cut wire shots",
+
+    // Product Specific - Gauges
+    "precision gauges manufacturer", "plug gauges India", "ring gauges", "custom gauges Agra", "industrial gauges",
+
+    // Intent & Location Based
+    "buy steel balls India", "steel ball supplier Agra", "steel balls online", "steel ball price India",
+    "best steel ball manufacturer India", "top steel ball companies Agra",
+    "polish media for sale", "industrial abrasives supplier",
+
+    // Application/Use-case Based
+    "steel balls for bearings", "steel balls for automotive industry", "steel balls for grinding",
+    "polishing media for jewelry", "polishing media for metal finishing",
+    "gauges for quality control", "precision measurement tools"
+  ],
   url: "https://www.ramasons.com", 
-  ogImage: appLogo, // Store the StaticImageData object directly
+  ogImage: appLogo, 
   contactInfo: {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
@@ -20,10 +50,10 @@ export const siteConfig = {
     twitter: "https://www.twitter.com/ramasons",   
     linkedin: "https://www.linkedin.com/company/ramasons", 
   },
-  whatsAppDefaultMessage: "Hi Rama & Sons. I have a question",
+  whatsAppDefaultMessage: "Hi Rama & Sons. I have a question about your steel balls and polish media.",
   heroParticleColor: {
-    light: "#1A237E", // Deep Blue for light mode
-    dark: "#7986CB"   // Lighter Blue for dark mode
+    light: "#1A237E", 
+    dark: "#7986CB"   
   },
 };
 

@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Facebook, Twitter, Linkedin } from 'lucide-react';
 import Image from 'next/image';
@@ -14,13 +13,15 @@ export default function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="inline-block mb-4" aria-label={`Go to ${siteConfig.name} homepage`}>
               <Image
-                src={siteConfig.ogImage} // Use StaticImageData directly
-                alt={`${siteConfig.name} - Industrial Steel Products Manufacturer Logo`}
-                className="rounded-full hover:opacity-80 transition-opacity duration-300 h-20 w-20" // Adjusted size, width/height inferred
-                placeholder="blur" // Now safe to use with StaticImageData
+                src={siteConfig.ogImage} 
+                alt={`${siteConfig.name} - Manufacturer of Steel Balls, Polish Media, and Gauges in India`}
+                className="rounded-full hover:opacity-80 transition-opacity duration-300 h-20 w-20" 
+                placeholder="blur" 
+                blurDataURL={siteConfig.ogImage.blurDataURL}
+                data-ai-hint="company logo"
               />
             </Link>
-            <p className="text-sm text-muted-foreground">{siteConfig.description.substring(0, 100)}...</p>
+            <p className="text-sm text-muted-foreground">{siteConfig.description.substring(0, 120)}...</p>
           </div>
 
           <div className="md:col-span-1">
@@ -67,7 +68,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-border py-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground text-sm">
-          <p>&copy; {currentYear} {siteConfig.name}. All rights reserved. Website by <Link href="https://www.linkedin.com/in/siddharthrawal/" target="_blank" rel="noopener developer" className="hover:text-primary">Siddharth Rawal</Link>.</p>
+          <p>&copy; {currentYear} {siteConfig.name}. All rights reserved. Manufacturer of steel balls, polish media, and gauges in Agra, India. Website by <Link href="https://www.linkedin.com/in/siddharthrawal/" target="_blank" rel="noopener developer" className="hover:text-primary">Siddharth Rawal</Link>.</p>
         </div>
       </div>
     </footer>

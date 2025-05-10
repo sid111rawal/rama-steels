@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import { Star } from 'lucide-react';
+import { siteConfig } from '@/config/site';
 
 
 interface Testimonial {
@@ -30,8 +31,8 @@ const testimonialsData: Testimonial[] = [
     id: 't001',
     name: 'Priya Sharma',
     role: 'Procurement Head',
-    company: 'Bharat Heavy Electricals',
-    testimonial: 'Rama & Sons consistently delivers high-quality steel balls on time. Their understanding of Indian industrial needs and exceptional customer service make them a reliable partner.',
+    company: 'Major Auto Parts Ltd, Pune',
+    testimonial: `We've been sourcing EN31 steel balls from ${siteConfig.name} for our bearing manufacturing unit in Pune. Their consistent quality and on-time delivery have been exceptional. A reliable Indian supplier.`,
     avatarSrc: 'https://picsum.photos/seed/avatarPriya/100/100',
     avatarFallback: 'PS',
     rating: 5,
@@ -40,8 +41,8 @@ const testimonialsData: Testimonial[] = [
     id: 't002',
     name: 'Rohan Mehta',
     role: 'Chief Engineer',
-    company: 'Tata Motors',
-    testimonial: "The precision of steel balls from Rama & Sons is top-notch. We've seen a significant improvement in our machinery's performance and durability since sourcing from them in India.",
+    company: 'Precision Engineering Inc, Bangalore',
+    testimonial: `The SS-316 stainless steel balls from ${siteConfig.name} are top-notch for our chemical processing equipment. Their corrosion resistance is exactly what we need. Highly recommend their products made in Agra.`,
     avatarSrc: 'https://picsum.photos/seed/avatarRohan/100/100',
     avatarFallback: 'RM',
     rating: 5,
@@ -50,8 +51,8 @@ const testimonialsData: Testimonial[] = [
     id: 't003',
     name: 'Anjali Desai',
     role: 'Operations Director',
-    company: 'Larsen & Toubro',
-    testimonial: "Their polish media has drastically improved our finishing process for components manufactured in India. The team at Rama & Sons was very helpful in selecting the right media for our specific application.",
+    company: 'Shine Bright Polishers, Jaipur',
+    testimonial: `Their stainless steel polishing media has drastically improved our finishing process for jewelry components. The team at ${siteConfig.name} was very helpful in selecting the right grade and size.`,
     avatarSrc: 'https://picsum.photos/seed/avatarAnjali/100/100',
     avatarFallback: 'AD',
     rating: 4,
@@ -60,8 +61,8 @@ const testimonialsData: Testimonial[] = [
     id: 't004',
     name: 'Vikram Singh',
     role: 'Managing Director',
-    company: 'Mahindra & Mahindra',
-    testimonial: "We've been sourcing steel balls from Rama & Sons for over five years for our Indian manufacturing units. Their commitment to quality and innovation keeps us coming back. Highly recommended!",
+    company: 'Heavy Machinery Corp, Delhi',
+    testimonial: `${siteConfig.name} has been our go-to supplier for custom precision gauges and various steel balls for over five years. Their commitment to quality and understanding of Indian industrial needs is commendable.`,
     avatarFallback: 'VS',
     rating: 5,
   },
@@ -76,7 +77,7 @@ export default function TestimonialsSection() {
     <section id="testimonials" className="py-16 sm:py-20 bg-secondary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center text-foreground mb-12">
-          What Our Clients Say
+          What Our Clients in India Say About {siteConfig.name}
         </h2>
         <Carousel
           plugins={[plugin.current]}
@@ -87,6 +88,7 @@ export default function TestimonialsSection() {
           className="w-full max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto"
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
+          aria-label="Client Testimonials Carousel"
         >
           <CarouselContent className="-ml-4">
             {testimonialsData.map((testimonial) => (
@@ -94,17 +96,17 @@ export default function TestimonialsSection() {
                 <div className="p-1 h-full">
                   <Card className="h-full flex flex-col justify-between shadow-lg bg-background">
                     <CardContent className="p-6 text-center sm:text-left">
-                      <div className="flex mb-2">
+                      <div className="flex mb-2 justify-center sm:justify-start">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className={`h-5 w-5 ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
                         ))}
                       </div>
-                      <p className="text-muted-foreground italic mb-6 text-base md:text-lg leading-relaxed">
-                        "{testimonial.testimonial}"
-                      </p>
+                      <blockquote className="text-muted-foreground italic mb-6 text-base md:text-lg leading-relaxed">
+                        <p>"{testimonial.testimonial}"</p>
+                      </blockquote>
                       <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start">
                         <Avatar className="h-12 w-12 sm:mr-4 mb-2 sm:mb-0">
-                          <AvatarImage src={testimonial.avatarSrc} alt={testimonial.name} data-ai-hint="person face" />
+                          <AvatarImage src={testimonial.avatarSrc} alt={`Avatar of ${testimonial.name}, ${testimonial.role} at ${testimonial.company}`} data-ai-hint="person face" />
                           <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
                         </Avatar>
                         <div>
