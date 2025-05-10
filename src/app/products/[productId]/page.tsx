@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { ArrowLeft, MessageSquare } from 'lucide-react'; // Changed ShoppingCart, HelpCircle to MessageSquare
+import { ArrowLeft, MessageSquare } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -137,7 +137,7 @@ export default async function ProductDetailPage({ params }: { params: { productI
   };
 
   const whatsappPhoneNumber = siteConfig.contactInfo.phone.replace(/\D/g, '');
-  const whatsappMessage = encodeURIComponent(`Hi ${siteConfig.name}. I have a question about the product: ${product.name}.`);
+  const whatsappMessage = encodeURIComponent(`Hi ${siteConfig.name}. I have a question about the product: ${product.name} (${product.category}).`);
   const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=${whatsappMessage}`;
 
   return (
@@ -147,7 +147,9 @@ export default async function ProductDetailPage({ params }: { params: { productI
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
+        <Header />
+      </Suspense>
       <main role="main" className="flex-grow bg-secondary/50 py-8 sm:py-12 fade-in-element">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <nav aria-label="Breadcrumb" className="mb-8">

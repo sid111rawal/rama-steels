@@ -60,7 +60,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
+        <Header />
+      </Suspense>
       <main role="main" className="flex-grow fade-in-element">
         {/* HeroSection already has id="home" internally */}
         <HeroSection /> 

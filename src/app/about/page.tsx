@@ -16,7 +16,9 @@ export default function AboutPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
+        <Header />
+      </Suspense>
       <main role="main" className="flex-grow">
         <section id="about-hero" className="py-20 bg-secondary text-center fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,15 +81,3 @@ export default function AboutPage() {
     </div>
   );
 }
-
-// Example if it were a Server Component:
-// export async function generateMetadata(): Promise<Metadata> {
-//   return {
-//     title: `About ${siteConfig.name} - Steel Manufacturing Experts in India`,
-//     description: `Learn about ${siteConfig.name}, a leading Indian manufacturer of steel balls, polish media, and precision gauges with over 20 years of experience. Discover our commitment to quality, innovation, and customer satisfaction in Agra and across India.`,
-//     keywords: [`about ${siteConfig.name}`, 'company history', 'steel manufacturing India', 'industrial products Agra', 'quality steel balls', 'polish media manufacturer', ...siteConfig.keywords.slice(0,7)],
-//     alternates: {
-//       canonical: '/about',
-//     },
-//   };
-// }

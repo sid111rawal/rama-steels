@@ -30,7 +30,9 @@ export default function BlogPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
+        <Header />
+      </Suspense>
       <main role="main" className="flex-grow">
         <section id="blog-hero" className="py-20 bg-secondary text-center fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -100,15 +102,3 @@ export default function BlogPage() {
     </div>
   );
 }
-
-// Example if it were a Server Component:
-// export async function generateMetadata(): Promise<Metadata> {
-//   return {
-//     title: `Industrial Insights & News | ${siteConfig.name} Blog`,
-//     description: `Stay updated with the latest industry news, technical insights, and articles from ${siteConfig.name}, your expert in steel balls and polish media manufacturing.`,
-//     keywords: [`industrial blog`, 'steel manufacturing news', `${siteConfig.name} blog`, 'steel ball insights', 'polish media guides', ...siteConfig.keywords.slice(0,5)],
-//     alternates: {
-//       canonical: '/blog',
-//     },
-//   };
-// }

@@ -120,7 +120,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
       "name": siteConfig.name,
       "logo": {
         "@type": "ImageObject",
-        "url": `${siteConfig.url}${siteConfig.ogImage.src}`
+        "url": `${siteConfig.url}${siteConfig.ogImage.src.src}`
       }
     },
     "description": post.excerpt,
@@ -136,7 +136,9 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
+        <Header />
+      </Suspense>
       <main role="main" className="flex-grow bg-background py-8 sm:py-12 fade-in-element">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <nav aria-label="Breadcrumb" className="mb-8">

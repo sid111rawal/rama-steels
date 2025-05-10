@@ -265,8 +265,8 @@ export default function Header() {
   return (
     <header ref={headerRef} className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out">
       <nav role="navigation" aria-label="Main Navigation" className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-4 md:mr-8" aria-label={`Go to ${siteConfig.name} homepage`}>
+        <div className="flex h-20 items-center justify-between w-full">
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-6 md:mr-8" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
               src={siteConfig.ogImage.src} 
               alt={`${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media`}
@@ -278,19 +278,19 @@ export default function Header() {
               priority 
               data-ai-hint="company logo"
             />
-             <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">
-              {siteConfig.name.split(' ')[0]} <span className="hidden sm:inline">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
+             <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 md:whitespace-nowrap">
+              {siteConfig.name.split(' ')[0]} <span className="inline">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center">
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center flex-wrap">
             <NavLinksContent />
           </div>
           
-          <div className="hidden md:flex items-center space-x-2" ref={desktopSearchContainerRef}>
-            <form onSubmit={handleSearchSubmit} className="flex items-center relative">
+          <div className="hidden md:flex items-center space-x-2 flex-wrap" ref={desktopSearchContainerRef}>
+            <form onSubmit={handleSearchSubmit} className="flex items-center relative w-full md:w-auto">
               <Input
-                type="search"
+               type="search"
                 name="product-search-desktop"
                 placeholder="Search products..."
                 value={searchTerm}

@@ -196,20 +196,17 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
 export default function ProductsPage() {
   const [whatsAppMessage, setWhatsAppMessage] = useState(`Hi ${siteConfig.name}. I have a question about your products.`);
   
-  // This useEffect is for client-side meta updates, primarily for dynamic content.
-  // For static or mostly static pages, metadata export is preferred.
   useEffect(() => {
-    // This is a fallback. Ideally, metadata is handled by generateMetadata if this were a server component.
-    // For client components with dynamic content based on searchParams, it's tricky.
-    // The ProductsContent component updates document.title.
-    // Here we could set a general description, or leave it to the layout.
-    // document.querySelector('meta[name="description"]')?.setAttribute("content", `Browse products from ${siteConfig.name}.`);
+    // Fallback document title update, as ProductsContent will handle more specific titles
+    document.title = `Industrial Products | ${siteConfig.name}`;
   }, []);
 
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
+        <Header />
+      </Suspense>
       <main role="main" className="flex-grow">
         <section id="products-or-categories" className="py-16 sm:py-20 bg-background fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
