@@ -11,7 +11,7 @@ interface ParticlesComponentProps {
 
 const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
   particleColor = '#A0AEC0', 
-  particleDensity = 150, // Default particle density, can be overridden
+  particleDensity = 600, // Default particle density, can be overridden
   containerId = 'particles-js-hero'
 }) => {
   useEffect(() => {
