@@ -41,12 +41,14 @@ export const metadata: Metadata = {
       template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
-    images: [{ 
-      url: siteConfig.ogImage.src, 
-      width: siteConfig.ogImage.width, 
-      height: siteConfig.ogImage.height, 
-      alt: `${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media` 
-    }],
+    images: [
+      { 
+        url: siteConfig.ogImage.src.src, // Use the string path from StaticImageData
+        width: siteConfig.ogImage.width, 
+        height: siteConfig.ogImage.height, 
+        alt: `${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media` 
+      }
+    ],
     url: siteConfig.url,
     siteName: siteConfig.name,
     locale: 'en_IN',
@@ -59,10 +61,12 @@ export const metadata: Metadata = {
       template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
-    images: [{ 
-      url: siteConfig.ogImage.src,
-      alt: `${siteConfig.name} Logo - Industrial Steel Products` 
-    }],
+    images: [
+      { 
+        url: siteConfig.ogImage.src.src, // Use the string path from StaticImageData
+        alt: `${siteConfig.name} Logo - Industrial Steel Products` 
+      }
+    ],
     // site: '@YourTwitterHandle', // Add if you have a Twitter handle
     // creator: '@CreatorTwitterHandle', // Add if relevant
   },
@@ -93,7 +97,7 @@ export default function RootLayout({
     "@type": "Organization",
     "name": siteConfig.name,
     "url": siteConfig.url,
-    "logo": `${siteConfig.url}${siteConfig.ogImage.src}`, 
+    "logo": `${siteConfig.url}${siteConfig.ogImage.src.src}`, // Use the string path
     "description": siteConfig.description,
     "contactPoint": {
       "@type": "ContactPoint",
@@ -107,8 +111,8 @@ export default function RootLayout({
       "@type": "PostalAddress",
       "streetAddress": siteConfig.contactInfo.address.split(',')[0]?.trim() || "Jaipur House",
       "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim() || "Agra",
-      "addressRegion": siteConfig.contactInfo.address.split(',')[2]?.trim() || "Uttar Pradesh", // Assuming UP for Agra
-      "postalCode": siteConfig.contactInfo.address.split(',')[3]?.trim() || "282002", // Example postal code for Agra
+      "addressRegion": siteConfig.contactInfo.address.split(',')[2]?.trim() || "Uttar Pradesh", 
+      "postalCode": siteConfig.contactInfo.address.split(',')[3]?.trim() || "282002", 
       "addressCountry": "IN"
     },
     "sameAs": [
@@ -129,7 +133,7 @@ export default function RootLayout({
       "name": siteConfig.name,
       "logo": {
         "@type": "ImageObject",
-        "url": `${siteConfig.url}${siteConfig.ogImage.src}`
+        "url": `${siteConfig.url}${siteConfig.ogImage.src.src}` // Use the string path
       }
     },
     "potentialAction": {
@@ -157,7 +161,7 @@ export default function RootLayout({
       <body className={`${roboto.variable} ${montserrat.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="light" // Changed from system to light
           enableSystem
           disableTransitionOnChange
         >

@@ -38,11 +38,11 @@ export const siteConfig = {
     "gauges for quality control", "precision measurement tools"
   ],
   url: "https://www.ramasons.com", 
-  ogImage: { // Updated to be an object with src, width, height, and blurDataURL
+  ogImage: { 
     src: appLogo,
-    width: 512, // Example width, adjust to your logo's actual dimensions
-    height: 512, // Example height, adjust to your logo's actual dimensions
-    blurDataURL: 'data:image/jpeg;base64,...', // Generate a real blurDataURL for your logo
+    width: 512, 
+    height: 512, 
+    blurDataURL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', // Generic 1x1 transparent png
   },
   contactInfo: {
     address: "Jaipur House, Agra, India",
@@ -64,4 +64,3 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
-
