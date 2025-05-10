@@ -180,8 +180,7 @@ export default function Header() {
               priority 
               data-ai-hint="company logo"
             />
-            <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap">{siteConfig.name.split(' ')[0]}</span>
-            <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 whitespace-nowrap sm:block hidden">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
+            <span className="text-xl sm:text-2xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300">{siteConfig.name}</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center">

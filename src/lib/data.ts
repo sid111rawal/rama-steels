@@ -7,7 +7,7 @@ import { siteConfig } from '@/config/site';
 // Using lowercase folder names as per last error resolutions
 import firstpageFerrous from '../images/ferrous/firstpageferrous.png';
 import firstpageNonFerrous from '../images/non-ferrous/firstpagenonferrous.png'; 
-import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmetallic.png';
+import firstpageNonMetallic from '../images/non-mettalic/firstpagenonmettalic.png';
 import firstpageGauge from '../images/gauge/firstpagegauge.png'; // Corrected typo
 import firstpagePolishMedia from '../images/polish-media/firstpagepolishmedia.jpg';
 
