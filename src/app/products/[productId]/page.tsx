@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { ArrowLeft, ShoppingCart, HelpCircle } from 'lucide-react';
+import { ArrowLeft, MessageSquare } from 'lucide-react'; // Changed ShoppingCart, HelpCircle to MessageSquare
 import {
   Accordion,
   AccordionContent,
@@ -105,7 +105,6 @@ export default async function ProductDetailPage({ params }: { params: { productI
   const productImageUrlString = typeof product.imageSrc === 'string' ? product.imageSrc : (product.imageSrc as any).src;
   const absoluteProductImageUrl = productImageUrlString.startsWith('http') ? productImageUrlString : `${siteConfig.url}${productImageUrlString.startsWith('/') ? '' : '/'}${productImageUrlString}`;
 
-
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -120,7 +119,7 @@ export default async function ProductDetailPage({ params }: { params: { productI
       "@type": "Brand",
       "name": siteConfig.name
     },
-    "manufacturer": { // Added manufacturer
+    "manufacturer": { 
       "@type": "Organization",
       "name": siteConfig.name
     },
@@ -128,17 +127,18 @@ export default async function ProductDetailPage({ params }: { params: { productI
       "@type": "Offer",
       "url": `${siteConfig.url}/products/${product.id}`,
       "priceCurrency": "INR", 
-      "availability": "https://schema.org/InStock", // Assuming in stock, can be dynamic
+      "availability": "https://schema.org/InStock", 
       "itemCondition": "https://schema.org/NewCondition",
       "seller": {
         "@type": "Organization",
         "name": siteConfig.name
       }
     },
-    // "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.5", "reviewCount": "12" }, // Example
-    // "review": [ { "@type": "Review", "author": "Priya Sharma", "reviewBody": "Excellent quality!" } ] // Example
   };
 
+  const whatsappPhoneNumber = siteConfig.contactInfo.phone.replace(/\D/g, '');
+  const whatsappMessage = encodeURIComponent(`Hi ${siteConfig.name}. I have a question about the product: ${product.name}.`);
+  const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=${whatsappMessage}`;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -181,15 +181,9 @@ export default async function ProductDetailPage({ params }: { params: { productI
 
               <div className="space-y-4 mb-8">
                 <Button size="lg" className="w-full sm:w-auto transition-transform hover:scale-105" asChild>
-                  <Link href="/#inquiry">
-                    <ShoppingCart className="h-5 w-5 mr-2" />
-                    Add to Inquiry
-                  </Link>
-                </Button>
-                 <Button variant="outline" size="lg" className="w-full sm:w-auto ml-0 sm:ml-4" asChild>
-                  <Link href="/#inquiry">
-                    <HelpCircle className="h-5 w-5 mr-2" />
-                    Ask a Question about {product.name}
+                  <Link href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                    <MessageSquare className="h-5 w-5 mr-2" />
+                    Inquire on WhatsApp
                   </Link>
                 </Button>
               </div>
@@ -203,7 +197,7 @@ export default async function ProductDetailPage({ params }: { params: { productI
                       <li>Size Range: Various sizes available (Contact for details)</li>
                       <li>Hardness: Application-specific (Contact for details)</li>
                       <li>Standards: Complies with relevant ISO/ASTM standards (Contact for specifics)</li>
-                      <li>Origin: Made in India by {siteConfig.name}</li>
+                      <li>Origin: Made in India by ${siteConfig.name}</li>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
@@ -239,7 +233,7 @@ export default async function ProductDetailPage({ params }: { params: { productI
                         alt={`Related Product: ${rp.name} - ${rp.category} by ${siteConfig.name}`}
                         width={400}
                         height={300}
-                        className="w-full h-48 object-contain img-loaded group-hover:opacity-90" // Changed object-cover to object-contain
+                        className="w-full h-48 object-contain img-loaded group-hover:opacity-90" 
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
                         blurDataURL={typeof rp.imageSrc === 'string' ? undefined: (rp.imageSrc as any).blurDataURL}
                         loading="lazy" 
