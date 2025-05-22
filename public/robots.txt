@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.ramasons.com/sitemap.xml
+Sitemap: https://ramason.in/sitemap.xml

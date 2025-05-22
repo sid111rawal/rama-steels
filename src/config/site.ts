@@ -1,4 +1,3 @@
-
 import type { StaticImageData } from 'next/image';
 import appLogo from '@/images/logo/l.jpeg'; 
 
@@ -37,7 +36,7 @@ export const siteConfig = {
     "polishing media for jewelry", "polishing media for metal finishing",
     "gauges for quality control", "precision measurement tools"
   ],
-  url: "https://www.ramasons.com", 
+  url: "https://ramason.in", 
   ogImage: { 
     src: appLogo, // This is the StaticImageData object
     width: 512, 
