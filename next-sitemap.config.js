@@ -6,7 +6,7 @@ const { productsData, blogPostsData } = require('./src/lib/data-cjs.js');
 
 
 module.exports = {
-  siteUrl: siteConfig.url,
+  siteUrl: siteConfig.siteUrl,
   generateRobotsTxt: true, 
   robotsTxtOptions: {
     policies: [
@@ -15,9 +15,9 @@ module.exports = {
       // { userAgent: '*', disallow: '/admin/' }, 
     ],
     additionalSitemaps: [
-      `${siteConfig.url}/sitemap.xml`, 
+      `${siteConfig.siteUrl}/sitemap.xml`, 
       // If you have other sitemaps (e.g., for images, videos), add them here
-      // `${siteConfig.url}/image-sitemap.xml`,
+      // `${siteConfig.siteUrl}/image-sitemap.xml`,
     ],
   },
   // (Optional) Exclude routes from sitemap

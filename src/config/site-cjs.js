@@ -5,7 +5,7 @@ const siteConfig = {
   name: "Rama & Sons",
   description: "Excellence in industrial steel products with over 20 years of experience. Manufacturer of steel balls, polish media, and gauges in India.",
   keywords: "Steel Balls, Polish Media, Industrial Steel, Rama & Sons, Ferrous Balls, Non-Ferrous Balls, Non-Metallic Balls, Precision Gauges, Abrasives, Steel Ball Manufacturer India, Industrial Polish Media India",
-  url: "https://www.ramasons.com",
+  url: "https://ramason.in", // Updated to correct domain for sitemap
   // For ogImage, next-sitemap primarily uses the URL, not the image data itself.
   // We can hardcode a path here if needed, but often it's derived from the main URL.
   // For simplicity and to avoid issues with StaticImageData in CJS, we might omit specific width/height here.
