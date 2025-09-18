@@ -71,10 +71,10 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 sm:mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-                Explore Our Industrial Steel Products from {siteConfig.name}
+                Industrial Steel Products Categories - {siteConfig.name} Manufacturing Excellence
               </h2>
               <p className="mt-3 text-lg text-muted-foreground max-w-prose mx-auto">
-                Discover main categories of high-quality steel balls, innovative polish media, and precision gauges manufactured in India by {siteConfig.name}. We cater to diverse industrial needs with durable and reliable solutions.
+                Discover our comprehensive range of high-quality steel balls, innovative polish media, and precision gauges manufactured in India by {siteConfig.name}. From ferrous to non-ferrous metals, we deliver industrial solutions with over 20 years of expertise in Agra.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -84,13 +84,15 @@ export default function Home() {
                     <CardHeader className="p-0 relative">
                       <Image
                         src={category.imageSrc}
-                        alt={`${category.name} manufactured by ${siteConfig.name}`}
+                        alt={`${category.name} steel products - Premium ${category.name.toLowerCase()} manufactured by ${siteConfig.name} in India for industrial applications including bearings, automotive, and precision machinery`}
                         width={400}
                         height={250}
                         className={`object-contain w-full h-56 transition-transform duration-300 group-hover:scale-105 ${loadedImages[category.id] ? 'img-loaded' : 'img-loading'}`}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         placeholder="blur" 
                         blurDataURL={category.imageSrc.blurDataURL}
                         onLoad={() => handleImageLoad(category.id)}
+                        title={`${category.name} - ${siteConfig.name} Manufacturing`}
                         data-ai-hint={`${category.name.toLowerCase().replace(/\s+/g, ' ').split(' ')[0]} industrial`}
                       />
                     </CardHeader>

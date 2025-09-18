@@ -14,39 +14,42 @@ module.exports = {
       // Add disallow rules if needed, e.g., for admin or private areas
       // { userAgent: '*', disallow: '/admin/' }, 
     ],
-    additionalSitemaps: [
-      `${siteConfig.url}/sitemap.xml`, 
-      // If you have other sitemaps (e.g., for images, videos), add them here
-      // `${siteConfig.url}/image-sitemap.xml`,
-    ],
+    // Remove circular reference - next-sitemap will handle the main sitemap automatically
+    // additionalSitemaps: [
+    //   `${siteConfig.url}/sitemap.xml`, 
+    // ],
   },
   // (Optional) Exclude routes from sitemap
   exclude: ['/admin', '/404', '/api/*'], // Example exclusions, added /api/*
   // (Optional) Add custom paths or modify existing ones
   additionalPaths: async (config) => {
-    const productPaths = productsData.map(product => ({
-      loc: `/products/${product.id}`,
-      lastmod: new Date().toISOString(), // Or use a product-specific update date if available
-      changefreq: 'weekly', // How often product details might change
-      priority: 0.8, // Higher priority for product pages
-    }));
+    try {
+      const productPaths = productsData.map(product => ({
+        loc: `/products/${product.id}`,
+        lastmod: new Date().toISOString(),
+        changefreq: 'weekly',
+        priority: 0.8,
+      }));
 
-    const blogPostPaths = blogPostsData.map(post => ({
-      loc: `/blog/${post.slug}`,
-      lastmod: post.date ? new Date(post.date).toISOString() : new Date().toISOString(),
-      changefreq: 'monthly', // How often blog posts might be updated
-      priority: 0.7, // Slightly lower than products, but still important
-    }));
-    
-    const staticPagePaths = [
-      { loc: '/', changefreq: 'daily', priority: 1.0 },
-      { loc: '/about', changefreq: 'monthly', priority: 0.7 },
-      { loc: '/products', changefreq: 'weekly', priority: 0.9 },
-      { loc: '/blog', changefreq: 'weekly', priority: 0.7 },
-      // Add other static pages if any
-    ];
+      const blogPostPaths = blogPostsData.map(post => ({
+        loc: `/blog/${post.slug}`,
+        lastmod: post.date ? new Date(post.date).toISOString() : new Date().toISOString(),
+        changefreq: 'monthly',
+        priority: 0.7,
+      }));
+      
+      const staticPagePaths = [
+        { loc: '/', changefreq: 'daily', priority: 1.0, lastmod: new Date().toISOString() },
+        { loc: '/about', changefreq: 'monthly', priority: 0.7, lastmod: new Date().toISOString() },
+        { loc: '/products', changefreq: 'weekly', priority: 0.9, lastmod: new Date().toISOString() },
+        { loc: '/blog', changefreq: 'weekly', priority: 0.7, lastmod: new Date().toISOString() },
+      ];
 
-    return [...staticPagePaths, ...productPaths, ...blogPostPaths];
+      return [...staticPagePaths, ...productPaths, ...blogPostPaths];
+    } catch (error) {
+      console.error('Error generating sitemap paths:', error);
+      return [];
+    }
   },
   // (Optional) You can transform paths if needed
   // transform: async (config, path) => {

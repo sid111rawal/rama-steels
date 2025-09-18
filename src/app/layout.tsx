@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: `${siteConfig.name} - ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
+  description: siteConfig.pageDescriptions.home,
   keywords: siteConfig.keywords,
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
       default: `${siteConfig.name} - ${siteConfig.tagline}`,
       template: `%s | ${siteConfig.name}`,
     },
-    description: siteConfig.description,
+    description: siteConfig.pageDescriptions.home,
     images: [
       { 
         url: siteConfig.ogImage.src.src, // Use the string path from StaticImageData
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
       default: `${siteConfig.name} - ${siteConfig.tagline}`,
       template: `%s | ${siteConfig.name}`,
     },
-    description: siteConfig.description,
+    description: siteConfig.pageDescriptions.home,
     images: [
       { 
         url: siteConfig.ogImage.src.src, // Use the string path from StaticImageData
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // google: 'your-google-site-verification-code', 
+    google: 'google90490e4fdae7d67a', // Using the verification file found in public folder
     // yandex: 'your-yandex-verification-code',
   }
 };

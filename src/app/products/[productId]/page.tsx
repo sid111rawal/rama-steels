@@ -126,9 +126,17 @@ export default async function ProductDetailPage({ params }: { params: { productI
     "offers": {
       "@type": "Offer",
       "url": `${siteConfig.url}/products/${product.id}`,
+      "price": "0.00", // Contact for price - B2B pricing model
       "priceCurrency": "INR", 
+      "priceSpecification": {
+        "@type": "PriceSpecification",
+        "price": "0.00",
+        "priceCurrency": "INR",
+        "valueAddedTaxIncluded": false
+      },
       "availability": "https://schema.org/InStock", 
       "itemCondition": "https://schema.org/NewCondition",
+      "priceValidUntil": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Valid for 1 year
       "seller": {
         "@type": "Organization",
         "name": siteConfig.name
@@ -165,12 +173,14 @@ export default async function ProductDetailPage({ params }: { params: { productI
             <div className="bg-background p-4 sm:p-6 rounded-lg shadow-xl fade-in-element">
               <Image
                 src={product.imageSrc}
-                alt={`High-quality ${product.name} - ${product.category} by ${siteConfig.name}`}
+                alt={`${product.name} steel balls - Professional grade ${product.category.toLowerCase()} manufactured by ${siteConfig.name} in Agra, India. High-quality industrial steel components for ${product.category.toLowerCase().includes('ball') ? 'bearings, automotive, and precision applications' : product.category.toLowerCase().includes('media') ? 'surface finishing, polishing, and deburring' : product.category.toLowerCase().includes('gauge') ? 'precision measurement and quality control' : 'various industrial applications'}.`}
                 width={600}
                 height={450}
                 className="w-full h-auto object-contain rounded-md img-loaded"
+                sizes="(max-width: 768px) 100vw, 600px"
                 placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                 blurDataURL={typeof product.imageSrc === 'string' ? undefined: (product.imageSrc as any).blurDataURL}
+                title={`${product.name} - Premium ${product.category} | ${siteConfig.name} Manufacturing`}
                 priority 
                 data-ai-hint={`${product.category.toLowerCase()} ${product.name.toLowerCase().split(' ')[0]}`}
               />
@@ -232,12 +242,14 @@ export default async function ProductDetailPage({ params }: { params: { productI
                     <div className="bg-background rounded-lg shadow-lg overflow-hidden h-full flex flex-col hover:shadow-xl transition-shadow duration-300">
                        <Image
                         src={rp.imageSrc}
-                        alt={`Related Product: ${rp.name} - ${rp.category} by ${siteConfig.name}`}
+                        alt={`${rp.name} steel balls - Related ${rp.category.toLowerCase()} product by ${siteConfig.name} for similar industrial applications`}
                         width={400}
                         height={300}
                         className="w-full h-48 object-contain img-loaded group-hover:opacity-90" 
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         placeholder={typeof rp.imageSrc === 'string' ? undefined : "blur"}
                         blurDataURL={typeof rp.imageSrc === 'string' ? undefined: (rp.imageSrc as any).blurDataURL}
+                        title={`${rp.name} - Related ${rp.category} Product`}
                         loading="lazy" 
                         data-ai-hint={`${rp.category.toLowerCase()} related ${rp.name.toLowerCase().split(' ')[0]}`}
                        />

@@ -5,6 +5,13 @@ export const siteConfig = {
   name: "Rama & Sons",
   tagline: "India's Leading Manufacturer of High-Quality Steel Balls & Polish Media",
   description: "Excellence in industrial steel products with over 20 years of experience. Rama & Sons is a premier manufacturer of steel balls, polish media, and gauges in India, serving Agra and beyond.",
+  pageDescriptions: {
+    home: "Leading manufacturer of high-quality steel balls, polish media, and precision gauges in India. Rama & Sons offers superior industrial steel products with 20+ years of expertise. Contact us for steel ball manufacturing solutions in Agra.",
+    about: "Learn about Rama & Sons - India's trusted steel ball manufacturer with over 20 years of experience. Discover our journey, values, and commitment to excellence in industrial steel products manufacturing in Agra.",
+    products: "Explore our comprehensive range of industrial steel products including ferrous balls, non-ferrous balls, precision gauges, and polish media. High-quality steel balls manufactured in India by Rama & Sons.",
+    blog: "Stay updated with latest insights on steel manufacturing, industrial applications, and technical guides from Rama & Sons experts. Professional blog covering steel balls, polish media, and industrial products.",
+    faq: "Get answers to frequently asked questions about steel balls, polish media, precision gauges, and industrial manufacturing services from Rama & Sons. Expert technical support and product guidance for Indian industries.",
+  },
   keywords: [
     // General & Brand
     "Rama & Sons", "Rama and Sons steel", "industrial steel products India", "steel manufacturing Agra",

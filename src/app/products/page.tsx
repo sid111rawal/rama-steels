@@ -12,6 +12,9 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState, Suspense } from 'react';
 import type { Product, ProductCategory } from '@/lib/data';
 import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
+
+// Note: This is a client component, so we'll handle metadata dynamically
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
@@ -123,13 +126,15 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                 <CardHeader className="p-0 relative">
                   <Image
                     src={category.imageSrc}
-                    alt={`${category.name} category by ${siteConfig.name}`}
+                    alt={`${category.name} - Complete range of ${category.name.toLowerCase()} manufactured by ${siteConfig.name} in India including steel balls, polish media and industrial components`}
                     width={400}
                     height={250}
                     className={`object-contain w-full h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedCategoryImages[category.id] ? 'img-loaded' : 'img-loading'}`}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     placeholder="blur"
                     blurDataURL={category.imageSrc.blurDataURL}
                     onLoad={() => handleCategoryImageLoad(category.id)}
+                    title={`${category.name} Products - ${siteConfig.name} Manufacturing`}
                     data-ai-hint={`${category.name.toLowerCase().replace(/\s+/g, ' ').split(' ')[0]} products`}
                   />
                 </CardHeader>
@@ -154,14 +159,15 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
                 <CardHeader className="p-0 relative">
                   <Image
                     src={product.imageSrc}
-                    alt={`${product.name} - ${product.category} by ${siteConfig.name}`}
+                    alt={`${product.name} steel balls - High quality ${product.category.toLowerCase()} manufactured by ${siteConfig.name} in India for industrial applications`}
                     width={400}
                     height={300}
                     className={`object-contain w-full h-48 sm:h-56 transition-all duration-500 ease-in-out group-hover:scale-105 ${loadedImages[product.id] ? 'img-loaded' : 'img-loading'}`}
-                    sizes="100vw" // Responsive image sizing
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     placeholder={typeof product.imageSrc === 'string' ? undefined : "blur"}
                     blurDataURL={typeof product.imageSrc === 'string' ? undefined : product.imageSrc.blurDataURL}
                     onLoad={() => handleImageLoad(product.id)}
+                    title={`${product.name} - Premium ${product.category} from ${siteConfig.name}`}
                     data-ai-hint={`${product.category.toLowerCase()} ${product.name.toLowerCase().split(' ')[0]}`}
                   />
                 </CardHeader>

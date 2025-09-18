@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="bg-secondary text-secondary-foreground transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link href="/" className="inline-block mb-4" aria-label={`Go to ${siteConfig.name} homepage`}>
               <Image
@@ -27,7 +27,30 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-1">
-            <h3 className="text-xl font-semibold text-primary mb-4">Contact {siteConfig.name}</h3>
+            <h3 className="text-lg font-semibold text-primary mb-4">Product Categories</h3>
+            <ul className="space-y-2">
+              <li><Link href="/products?category=Ferrous+Balls" className="text-sm text-muted-foreground hover:text-primary transition-colors">Ferrous Steel Balls</Link></li>
+              <li><Link href="/products?category=Non-Ferrous+Balls" className="text-sm text-muted-foreground hover:text-primary transition-colors">Non-Ferrous Balls</Link></li>
+              <li><Link href="/products?category=Non-Metallic+Balls" className="text-sm text-muted-foreground hover:text-primary transition-colors">Non-Metallic Balls</Link></li>
+              <li><Link href="/products?category=Gauges" className="text-sm text-muted-foreground hover:text-primary transition-colors">Precision Gauges</Link></li>
+              <li><Link href="/products?category=Polish+Media+%26+Abrasives" className="text-sm text-muted-foreground hover:text-primary transition-colors">Polish Media & Abrasives</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-1">
+            <h3 className="text-lg font-semibold text-primary mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="/products" className="text-sm text-muted-foreground hover:text-primary transition-colors">All Products</Link></li>
+              <li><Link href="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ & Help</Link></li>
+              <li><Link href="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">Industry Blog</Link></li>
+              <li><Link href="/#inquiry" className="text-sm text-muted-foreground hover:text-primary transition-colors">Get Quote</Link></li>
+              <li><Link href="/#testimonials" className="text-sm text-muted-foreground hover:text-primary transition-colors">Customer Reviews</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-1">
+            <h3 className="text-lg font-semibold text-primary mb-4">Contact {siteConfig.name}</h3>
             <address className="not-italic">
               <ul className="space-y-3">
                 <li className="flex items-start">

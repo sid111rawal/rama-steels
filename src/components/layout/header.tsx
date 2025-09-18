@@ -19,6 +19,7 @@ const mainPageNavLinksConfig = [
   { href: '/#testimonials', label: 'Testimonials', isHashLink: true, sectionId: 'testimonials' },
   { href: '/#inquiry', label: 'Inquiry', isHashLink: true, sectionId: 'inquiry' },
   { href: '/about', label: 'About Us', isPageLink: true },
+  { href: '/faq', label: 'FAQ', isPageLink: true },
   { href: '/blog', label: 'Blog', isPageLink: true },
 ];
 

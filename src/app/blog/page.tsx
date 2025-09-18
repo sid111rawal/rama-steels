@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -26,7 +26,6 @@ export default function BlogPage() {
   useEffect(() => {
     document.title = `Industrial Insights & News | ${siteConfig.name} Blog`;
   }, []);
-
 
   return (
     <div className="flex flex-col min-h-screen">
