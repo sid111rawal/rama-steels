@@ -29,7 +29,6 @@ export default function Home() {
 
   useEffect(() => {
     setPageLoaded(true);
-    document.title = `${siteConfig.name} - ${siteConfig.tagline}`;
 
     const hash = window.location.hash;
     if (hash) {

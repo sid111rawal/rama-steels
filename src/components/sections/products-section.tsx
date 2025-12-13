@@ -28,7 +28,7 @@ export default function ProductsSection({ id, title, products, previewMode = fal
              </Button>
           )}
         </div>
-        <ProductCarousel products={products} previewMode={previewMode} loading="lazy" />
+        <ProductCarousel products={products} previewMode={previewMode} />
       </div>
     </section>
   );

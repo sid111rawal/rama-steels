@@ -202,10 +202,6 @@ function ProductsContent({ setWhatsAppMessage }: { setWhatsAppMessage: (message:
 export default function ProductsPage() {
   const [whatsAppMessage, setWhatsAppMessage] = useState(`Hi ${siteConfig.name}. I have a question about your products.`);
   
-  useEffect(() => {
-    // Fallback document title update, as ProductsContent will handle more specific titles
-    document.title = `Industrial Products | ${siteConfig.name}`;
-  }, []);
 
 
   return (

@@ -23,9 +23,6 @@ export default function BlogPage() {
     setLoadedImages(prev => ({ ...prev, [postId]: true }));
   };
   
-  useEffect(() => {
-    document.title = `Industrial Insights & News | ${siteConfig.name} Blog`;
-  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

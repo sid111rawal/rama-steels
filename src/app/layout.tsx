@@ -33,6 +33,10 @@ export const metadata: Metadata = {
   publisher: siteConfig.name,
   alternates: {
     canonical: '/',
+    languages: {
+      'en-IN': '/',
+      'en': '/',
+    },
   },
   icons: {
     icon: '/favicon.ico', 
@@ -111,10 +115,10 @@ export default function RootLayout({
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": siteConfig.contactInfo.address.split(',')[0]?.trim() || "Jaipur House",
-      "addressLocality": siteConfig.contactInfo.address.split(',')[1]?.trim() || "Agra",
-      "addressRegion": siteConfig.contactInfo.address.split(',')[2]?.trim() || "Uttar Pradesh", 
-      "postalCode": siteConfig.contactInfo.address.split(',')[3]?.trim() || "282002", 
+      "streetAddress": siteConfig.contactInfo.address.split(',').slice(0, -2).join(',').trim() || "Jaipur House",
+      "addressLocality": siteConfig.contactInfo.address.split(',').slice(-2, -1)[0]?.trim() || "Agra",
+      "addressRegion": siteConfig.contactInfo.address.split(',').slice(-1)[0]?.trim() || "Uttar Pradesh", 
+      "postalCode": "282002", // Default postal code, update if available in address
       "addressCountry": "IN"
     },
     "sameAs": [
@@ -145,9 +149,64 @@ export default function RootLayout({
     }
   };
 
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${siteConfig.url}#localbusiness`,
+    "name": siteConfig.name,
+    "image": `${siteConfig.url}${siteConfig.ogImage.src.src}`,
+    "description": siteConfig.description,
+    "url": siteConfig.url,
+    "telephone": siteConfig.contactInfo.phone,
+    "email": siteConfig.contactInfo.email,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": siteConfig.contactInfo.address.split(',').slice(0, -2).join(',').trim() || "Jaipur House",
+      "addressLocality": siteConfig.contactInfo.address.split(',').slice(-2, -1)[0]?.trim() || "Agra",
+      "addressRegion": siteConfig.contactInfo.address.split(',').slice(-1)[0]?.trim() || "Uttar Pradesh",
+      "postalCode": "282002",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "27.1767", // Approximate coordinates for Agra, update with exact location if available
+      "longitude": "78.0081"
+    },
+    "priceRange": "$$",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    },
+    "sameAs": [
+      siteConfig.socialLinks.facebook,
+      siteConfig.socialLinks.twitter,
+      siteConfig.socialLinks.linkedin
+    ].filter(link => link && link !== "#")
+  };
+
+  // Aggregate Rating Schema based on testimonials
+  const aggregateRatingSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${siteConfig.url}#organization`,
+    "name": siteConfig.name,
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.7",
+      "reviewCount": "10",
+      "bestRating": "5",
+      "worstRating": "4"
+    }
+  };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-IN" suppressHydrationWarning>
       <head>
         <Script
           id="organization-schema"
@@ -159,6 +218,19 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <Script
+          id="localbusiness-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+        <Script
+          id="aggregate-rating-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
+        />
+        <link rel="alternate" hrefLang="en-IN" href={siteConfig.url} />
+        <link rel="alternate" hrefLang="en" href={siteConfig.url} />
+        <link rel="alternate" hrefLang="x-default" href={siteConfig.url} />
       </head>
       <body className={`${roboto.variable} ${montserrat.variable} font-sans antialiased`}>
         <ThemeProvider

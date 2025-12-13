@@ -19,16 +19,15 @@ import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import ClientWhatsAppLoader from '@/components/client-whatsapp-loader';
 
-interface ProductPageParams {
-  productId: string;
-}
+interface ProductPageParams extends Promise<{ productId: string }> {}
 
 async function getProduct(productId: string) {
   return productsData.find(p => p.id === productId);
 }
 
 export async function generateMetadata({ params }: { params: ProductPageParams }): Promise<Metadata> {
-  const product = await getProduct(params.productId);
+  const { productId } = await params;
+  const product = await getProduct(productId);
 
   if (!product) {
     return {
@@ -92,8 +91,9 @@ export async function generateMetadata({ params }: { params: ProductPageParams }
 }
 
 
-export default async function ProductDetailPage({ params }: { params: { productId: string } }) {
-  const product = await getProduct(params.productId);
+export default async function ProductDetailPage({ params }: { params: Promise<{ productId: string }> }) {
+  const { productId } = await params;
+  const product = await getProduct(productId);
 
   if (!product) {
     notFound();
@@ -144,6 +144,37 @@ export default async function ProductDetailPage({ params }: { params: { productI
     },
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteConfig.url
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Products",
+        "item": `${siteConfig.url}/products`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": product.category,
+        "item": `${siteConfig.url}/products?category=${encodeURIComponent(product.category)}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": product.name,
+        "item": `${siteConfig.url}/products/${product.id}`
+      }
+    ]
+  };
+
   const whatsappPhoneNumber = siteConfig.contactInfo.phone.replace(/\D/g, '');
   const whatsappMessage = encodeURIComponent(`Hi ${siteConfig.name}. I have a question about the product: ${product.name} (${product.category}).`);
   const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=${whatsappMessage}`;
@@ -154,6 +185,11 @@ export default async function ProductDetailPage({ params }: { params: { productI
         id={`product-schema-${product.id}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <Script
+        id={`breadcrumb-schema-${product.id}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
         <Header />
@@ -209,7 +245,7 @@ export default async function ProductDetailPage({ params }: { params: { productI
                       <li>Size Range: Various sizes available (Contact for details)</li>
                       <li>Hardness: Application-specific (Contact for details)</li>
                       <li>Standards: Complies with relevant ISO/ASTM standards (Contact for specifics)</li>
-                      <li>Origin: Made in India by ${siteConfig.name}</li>
+                      <li>Origin: Made in India by {siteConfig.name}</li>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>

@@ -208,7 +208,7 @@ export default function Header() {
             }
           },
           className: `transition-colors duration-200 ${isMobile ? 'w-full justify-start text-lg py-3' : ''} ${isActive ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`,
-          'aria-current': isActive ? 'page' : undefined,
+          'aria-current': (isActive ? 'page' : undefined) as 'page' | undefined,
         };
 
         return (

@@ -11,9 +11,6 @@ import dynamic from 'next/dynamic';
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 export default function AboutPage() {
-  useEffect(() => {
-    document.title = `About ${siteConfig.name} - Our Story, Values & Expertise in Steel Manufacturing`;
-  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

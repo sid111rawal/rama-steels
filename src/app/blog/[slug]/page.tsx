@@ -15,16 +15,15 @@ import { notFound } from 'next/navigation';
 import ClientWhatsAppLoader from '@/components/client-whatsapp-loader';
 import ShareButton from '@/components/share-button'; 
 
-interface BlogPostPageParams {
-  slug: string;
-}
+interface BlogPostPageParams extends Promise<{ slug: string }> {}
 
 async function getPost(slug: string) {
   return blogPostsData.find(p => p.slug === slug);
 }
 
 export async function generateMetadata({ params }: { params: BlogPostPageParams }): Promise<Metadata> {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   if (!post) {
     return {
@@ -88,8 +87,9 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
 }
 
 
-export default async function BlogPostPage({ params }: { params: BlogPostPageParams }) {
-  const post = await getPost(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   if (!post) {
     notFound();
@@ -129,12 +129,42 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePar
     "articleSection": post.category // For schema.org article section
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteConfig.url
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": `${siteConfig.url}/blog`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `${siteConfig.url}/blog/${post.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Script
         id={`blogpost-schema-${post.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <Script
+        id={`breadcrumb-schema-${post.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <Suspense fallback={<div className="h-20 bg-background">Loading header...</div>}>
         <Header />
