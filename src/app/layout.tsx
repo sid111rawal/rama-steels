@@ -118,7 +118,8 @@ export default function RootLayout({
       "streetAddress": siteConfig.contactInfo.address.split(',').slice(0, -2).join(',').trim() || "Jaipur House",
       "addressLocality": siteConfig.contactInfo.address.split(',').slice(-2, -1)[0]?.trim() || "Agra",
       "addressRegion": siteConfig.contactInfo.address.split(',').slice(-1)[0]?.trim() || "Uttar Pradesh", 
-      "postalCode": "282002", // Default postal code, update if available in address
+      // TODO: Update postal code if you have the exact postal code for your business location
+      "postalCode": "282002", // Default postal code for Agra, India
       "addressCountry": "IN"
     },
     "sameAs": [
@@ -164,17 +165,21 @@ export default function RootLayout({
       "streetAddress": siteConfig.contactInfo.address.split(',').slice(0, -2).join(',').trim() || "Jaipur House",
       "addressLocality": siteConfig.contactInfo.address.split(',').slice(-2, -1)[0]?.trim() || "Agra",
       "addressRegion": siteConfig.contactInfo.address.split(',').slice(-1)[0]?.trim() || "Uttar Pradesh",
-      "postalCode": "282002",
+      // TODO: Update postal code if you have the exact postal code for your business location
+      "postalCode": "282002", // Default postal code for Agra, India
       "addressCountry": "IN"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "27.1767", // Approximate coordinates for Agra, update with exact location if available
+      // TODO: Update with exact business location coordinates if available
+      // Current values are approximate coordinates for Agra, India
+      "latitude": "27.1767",
       "longitude": "78.0081"
     },
-    "priceRange": "$$",
+    "priceRange": "$$", // Update if you have specific pricing information
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
+      // TODO: Verify and update with actual business hours
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "opens": "09:00",
       "closes": "18:00"
@@ -191,6 +196,8 @@ export default function RootLayout({
   };
 
   // Aggregate Rating Schema based on testimonials
+  // TODO: Update with actual aggregate rating data if you have verified reviews/ratings
+  // Current values are calculated from testimonials section (10 testimonials, average ~4.7/5)
   const aggregateRatingSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -198,8 +205,8 @@ export default function RootLayout({
     "name": siteConfig.name,
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.7",
-      "reviewCount": "10",
+      "ratingValue": "4.7", // Update with actual average rating
+      "reviewCount": "10", // Update with actual review count
       "bestRating": "5",
       "worstRating": "4"
     }

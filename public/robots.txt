@@ -2,8 +2,5 @@
 User-agent: *
 Allow: /
 
-# Host
-Host: https://ramason.in
-
 # Sitemaps
 Sitemap: https://ramason.in/sitemap.xml
