@@ -7,28 +7,64 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CalendarDays, UserCircle, Filter } from 'lucide-react';
+import { CalendarDays, UserCircle, Filter, Check } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import React, { useState, Suspense, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { blogPostsData, blogCategories } from '@/lib/data';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: false });
 
 
 export default function BlogPage() {
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set(['All']));
 
   const handleImageLoad = (postId: string) => {
     setLoadedImages(prev => ({ ...prev, [postId]: true }));
   };
 
-  // Filter blog posts by selected category
-  const filteredPosts = selectedCategory === 'All' 
-    ? blogPostsData 
-    : blogPostsData.filter(post => post.category === selectedCategory);
+  // Handle category selection/deselection
+  const handleCategoryToggle = (category: string) => {
+    setSelectedCategories(prev => {
+      const newSet = new Set(prev);
+      
+      if (category === 'All') {
+        // If "All" is clicked, toggle all categories
+        if (newSet.has('All')) {
+          // Deselect all
+          newSet.clear();
+        } else {
+          // Select all
+          newSet.clear();
+          newSet.add('All');
+          blogCategories.forEach(cat => newSet.add(cat));
+        }
+      } else {
+        // Toggle individual category
+        if (newSet.has(category)) {
+          newSet.delete(category);
+        } else {
+          newSet.add(category);
+        }
+        // Remove "All" if a specific category is selected
+        newSet.delete('All');
+      }
+      
+      // If no categories selected, default to "All"
+      if (newSet.size === 0) {
+        newSet.add('All');
+      }
+      
+      return newSet;
+    });
+  };
+
+  // Filter blog posts by selected categories
+  const filteredPosts = selectedCategories.has('All')
+    ? blogPostsData
+    : blogPostsData.filter(post => selectedCategories.has(post.category));
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -55,37 +91,57 @@ export default function BlogPage() {
                             <Filter className="h-5 w-5 text-primary" />
                             <h2 className="text-lg font-semibold">Filter by Category</h2>
                           </div>
-                          <ScrollArea className="h-auto lg:h-[calc(100vh-12rem)] max-h-96 lg:max-h-none">
-                            <nav className="space-y-2 pr-4">
-                              <Button
-                                onClick={() => setSelectedCategory('All')}
-                                variant={selectedCategory === 'All' ? 'default' : 'ghost'}
-                                className="w-full justify-start transition-all duration-200"
-                              >
-                                <span className="flex-1 text-left">All Posts</span>
-                                <Badge variant="secondary" className="ml-2">
-                                  {blogPostsData.length}
-                                </Badge>
-                              </Button>
-                              {blogCategories.map(category => {
-                                const count = blogPostsData.filter(post => post.category === category).length;
-                                return (
-                                  <Button
-                                    key={category}
-                                    onClick={() => setSelectedCategory(category)}
-                                    variant={selectedCategory === category ? 'default' : 'ghost'}
-                                    className="w-full justify-start transition-all duration-200"
-                                  >
-                                    <span className="flex-1 text-left truncate">{category}</span>
-                                    <Badge variant="secondary" className="ml-2">
-                                      {count}
-                                    </Badge>
-                                  </Button>
-                                );
-                              })}
-                            </nav>
-                            <ScrollBar orientation="vertical" />
-                          </ScrollArea>
+                          <nav className="space-y-2">
+                            <div
+                              onClick={() => handleCategoryToggle('All')}
+                              className={`w-full flex items-center justify-between px-3 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+                                selectedCategories.has('All')
+                                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                  : 'hover:bg-accent hover:text-accent-foreground'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3 flex-1 w-full">
+                                <Checkbox
+                                  checked={selectedCategories.has('All')}
+                                  onCheckedChange={() => handleCategoryToggle('All')}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="pointer-events-none"
+                                />
+                                <span className="flex-1 text-left text-sm font-medium">All Posts</span>
+                              </div>
+                              <Badge variant={selectedCategories.has('All') ? 'secondary' : 'secondary'} className="ml-2">
+                                {blogPostsData.length}
+                              </Badge>
+                            </div>
+                            {blogCategories.map(category => {
+                              const count = blogPostsData.filter(post => post.category === category).length;
+                              const isSelected = selectedCategories.has(category);
+                              return (
+                                <div
+                                  key={category}
+                                  onClick={() => handleCategoryToggle(category)}
+                                  className={`w-full flex items-center justify-between px-3 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+                                    isSelected
+                                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                      : 'hover:bg-accent hover:text-accent-foreground'
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-3 flex-1 w-full">
+                                    <Checkbox
+                                      checked={isSelected}
+                                      onCheckedChange={() => handleCategoryToggle(category)}
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="pointer-events-none"
+                                    />
+                                    <span className="flex-1 text-left truncate text-sm font-medium">{category}</span>
+                                  </div>
+                                  <Badge variant="secondary" className="ml-2">
+                                    {count}
+                                  </Badge>
+                                </div>
+                              );
+                            })}
+                          </nav>
                         </div>
                       </aside>
 
@@ -139,9 +195,9 @@ export default function BlogPage() {
                           </div>
                         ) : (
                           <p className="text-center text-muted-foreground text-lg py-12">
-                            {selectedCategory === 'All' 
+                            {selectedCategories.has('All') || selectedCategories.size === 0
                               ? `No blog posts available at the moment. Check back soon for insights from ${siteConfig.name}!`
-                              : `No blog posts found in the "${selectedCategory}" category. Try another category or view all posts.`
+                              : `No blog posts found in the selected ${selectedCategories.size === 1 ? 'category' : 'categories'}. Try selecting different categories or view all posts.`
                             }
                           </p>
                         )}
