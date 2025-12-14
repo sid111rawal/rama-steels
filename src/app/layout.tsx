@@ -129,11 +129,21 @@ export default function RootLayout({
     },
     "knowsAbout": [
       "Steel Ball Manufacturing",
-      "Polish Media Production",
-      "Precision Gauges",
-      "Industrial Steel Products",
       "Bearing Steel Balls",
-      "Stainless Steel Balls"
+      "Polish Media Production",
+      "Cross Pin Polish Media",
+      "Rava Polish Media",
+      "Disc Ball Polish Media (Damru)",
+      "Saturn Polish Media",
+      "Wire Short Polish Media",
+      "K Monel Balls",
+      "Inconel Balls",
+      "Hastelloy Balls",
+      "Aluminium Balls",
+      "Alumina Balls",
+      "Tungsten Carbide Balls",
+      "Precision Gauges",
+      "Industrial Steel Products"
     ],
     "contactPoint": {
       "@type": "ContactPoint",

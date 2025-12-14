@@ -6,7 +6,7 @@ export const siteConfig = {
   tagline: "India's Leading Manufacturer of High-Quality Steel Balls & Polish Media",
   description: "Excellence in industrial steel products with over 20 years of experience. Rama & Sons is a premier manufacturer of steel balls, polish media, and gauges in India, serving Agra and beyond.",
   pageDescriptions: {
-    home: "Leading manufacturer of high-quality steel balls, polish media, and precision gauges in India. Rama & Sons offers superior industrial steel products with 20+ years of expertise. Contact us for steel ball manufacturing solutions in Agra.",
+    home: "Leading manufacturer of high-quality steel balls (bearing steel balls, K Monel balls, Inconel balls, Hastelloy balls, aluminium balls, alumina balls, tungsten carbide balls), polish media (cross pin, pin, rava polish media, disc ball polish media/damru, saturn polish media, wire short), and precision gauges in India. Rama & Sons offers superior industrial steel products with 20+ years of expertise. Contact us for steel ball manufacturing solutions in Agra.",
     about: "Learn about Rama & Sons - India's trusted steel ball manufacturer with over 20 years of experience. Discover our journey, values, and commitment to excellence in industrial steel products manufacturing in Agra.",
     products: "Explore our comprehensive range of industrial steel products including ferrous balls, non-ferrous balls, precision gauges, and polish media. High-quality steel balls manufactured in India by Rama & Sons.",
     blog: "Stay updated with latest insights on steel manufacturing, industrial applications, and technical guides from Rama & Sons experts. Professional blog covering steel balls, polish media, and industrial products.",
@@ -22,13 +22,15 @@ export const siteConfig = {
     "carbon steel balls", "AISI 1010 steel balls", "EN9 steel balls",
     "alloy steel balls", "EN31 steel balls", "100Cr6 steel balls", "AISI 52100 steel balls", "bearing steel balls",
     "chrome steel balls", "ferrous metal balls",
-    "non-ferrous metal balls", "brass balls", "copper balls", "aluminium balls", "titanium balls", "tungsten carbide balls",
+    "non-ferrous metal balls", "brass balls", "copper balls", "aluminium balls", "aluminia balls", "titanium balls", "tungsten carbide balls",
+    "k monel ball", "k monel balls", "inconel ball", "inconel balls", "hastelloy ball", "hast alloy ball", "hastelloy balls",
     "non-metallic balls", "ceramic balls", "glass balls", "plastic balls", "ruby balls", "silicon nitride balls",
 
     // Product Specific - Polish Media & Abrasives
     "polishing media supplier", "abrasive media India", "tumbling media", "vibratory finishing media",
-    "stainless steel polishing media", "ss cut wire shots", "ss polish pins",
+    "stainless steel polishing media", "ss cut wire shots", "ss polish pins", "ss cross pin", "ss pin",
     "ceramic polishing media", "plastic polishing media", "zinc shots", "zinc cut wire shots",
+    "rava polish media", "disc ball polish media", "damru polish media", "saturn polish media", "wire short",
 
     // Product Specific - Gauges
     "precision gauges manufacturer", "plug gauges India", "ring gauges", "custom gauges Agra", "industrial gauges",
