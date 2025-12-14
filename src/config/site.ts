@@ -14,7 +14,7 @@ export const siteConfig = {
   },
   keywords: [
     // General & Brand
-    "Rama & Sons", "Rama and Sons steel", "industrial steel products India", "steel manufacturing Agra",
+    "Rama & Sons", "Rama and Sons steel", "ramason", "ramason steel", "ramason steel balls", "ramason.in", "industrial steel products India", "steel manufacturing Agra",
 
     // Product Specific - Steel Balls
     "steel balls manufacturer", "industrial steel balls", "precision steel balls", "high quality steel balls",

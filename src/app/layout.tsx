@@ -23,11 +23,11 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url), 
   title: {
-    default: `${siteConfig.name} - ${siteConfig.tagline}`,
-    template: `%s | ${siteConfig.name}`,
+    default: `${siteConfig.name} (Ramason) - ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.name} (Ramason)`,
   },
   description: siteConfig.pageDescriptions.home,
-  keywords: siteConfig.keywords,
+  keywords: [...siteConfig.keywords, "ramason", "ramason.in", "ramason steel", "ramason steel balls"],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: {
-      default: `${siteConfig.name} - ${siteConfig.tagline}`,
-      template: `%s | ${siteConfig.name}`,
+      default: `${siteConfig.name} (Ramason) - ${siteConfig.tagline}`,
+      template: `%s | ${siteConfig.name} (Ramason)`,
     },
     description: siteConfig.pageDescriptions.home,
     images: [
@@ -63,8 +63,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: {
-      default: `${siteConfig.name} - ${siteConfig.tagline}`,
-      template: `%s | ${siteConfig.name}`,
+      default: `${siteConfig.name} (Ramason) - ${siteConfig.tagline}`,
+      template: `%s | ${siteConfig.name} (Ramason)`,
     },
     description: siteConfig.pageDescriptions.home,
     images: [
@@ -101,10 +101,40 @@ export default function RootLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${siteConfig.url}#organization`,
     "name": siteConfig.name,
+    "alternateName": ["Rama & Sons", "Rama and Sons", "ramason", "Ramason Steel", "Ramason Steel Balls", "Ramason.in"],
     "url": siteConfig.url,
-    "logo": `${siteConfig.url}${siteConfig.ogImage.src.src}`, // Use the string path
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteConfig.url}${siteConfig.ogImage.src.src}`,
+      "width": siteConfig.ogImage.width,
+      "height": siteConfig.ogImage.height
+    },
+    "image": `${siteConfig.url}${siteConfig.ogImage.src.src}`,
     "description": siteConfig.description,
+    "foundingDate": "2001", // Update with actual founding year if different
+    "foundingLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Agra",
+        "addressRegion": "Uttar Pradesh",
+        "addressCountry": "IN"
+      }
+    },
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "value": "50-100" // TODO: Update with actual employee count range
+    },
+    "knowsAbout": [
+      "Steel Ball Manufacturing",
+      "Polish Media Production",
+      "Precision Gauges",
+      "Industrial Steel Products",
+      "Bearing Steel Balls",
+      "Stainless Steel Balls"
+    ],
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": siteConfig.contactInfo.phone,
@@ -191,7 +221,8 @@ export default function RootLayout({
     "sameAs": [
       siteConfig.socialLinks.facebook,
       siteConfig.socialLinks.twitter,
-      siteConfig.socialLinks.linkedin
+      siteConfig.socialLinks.linkedin,
+      siteConfig.url // Add website URL to sameAs
     ].filter(link => link && link !== "#")
   };
 

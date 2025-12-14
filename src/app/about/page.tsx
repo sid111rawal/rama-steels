@@ -20,7 +20,7 @@ export default function AboutPage() {
       <main role="main" className="flex-grow">
         <section id="about-hero" className="py-20 bg-secondary text-center fade-in-element">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">About {siteConfig.name}: Pioneering Steel Manufacturing in India</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-primary mb-4">About {siteConfig.name} (Ramason): Pioneering Steel Manufacturing in India</h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
               With over two decades of unwavering experience in steel manufacturing, {siteConfig.name} proudly stands as a leader in India, innovatively crafting superior industrial steel products like steel balls, polish media, and precision gauges.
             </p>
