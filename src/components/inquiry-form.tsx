@@ -147,19 +147,38 @@ export default function InquiryForm() {
             <FormField
               control={form.control}
               name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Message</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us more about your requirements, quantity, or any specific questions you have."
-                      className="resize-y min-h-[120px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const currentLength = field.value?.length || 0;
+                const minLength = 10;
+                const maxLength = 500;
+                const isBelowMin = currentLength > 0 && currentLength < minLength;
+                return (
+                  <FormItem>
+                    <FormLabel>Your Message</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Textarea
+                          placeholder="Tell us more about your requirements, quantity, or any specific questions you have."
+                          className="resize-y min-h-[120px] pr-16"
+                          {...field}
+                        />
+                        <div className="absolute bottom-2 right-2 text-xs text-muted-foreground">
+                          <span className={isBelowMin ? "text-destructive" : currentLength >= maxLength ? "text-orange-500" : ""}>
+                            {currentLength}
+                          </span>
+                          <span className="text-muted-foreground">/{maxLength}</span>
+                        </div>
+                      </div>
+                    </FormControl>
+                    {isBelowMin && (
+                      <p className="text-sm text-destructive mt-1">
+                        Message must be at least {minLength} characters.
+                      </p>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
             <Button type="submit" size="lg" className="w-full md:w-auto transition-transform hover:scale-105" disabled={form.formState.isSubmitting || !form.formState.isValid}>
               {form.formState.isSubmitting ? "Submitting..." : "Send Inquiry"}

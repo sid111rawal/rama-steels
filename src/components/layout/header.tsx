@@ -17,7 +17,6 @@ const mainPageNavLinksConfig = [
   { href: '/', label: 'Home', isPageLink: true },
   { href: '/products', label: 'Products', isPageLink: true },
   { href: '/#testimonials', label: 'Testimonials', isHashLink: true, sectionId: 'testimonials' },
-  { href: '/#inquiry', label: 'Inquiry', isHashLink: true, sectionId: 'inquiry' },
   { href: '/about', label: 'About Us', isPageLink: true },
   { href: '/faq', label: 'FAQ', isPageLink: true },
   { href: '/blog', label: 'Blog', isPageLink: true },
@@ -312,6 +311,11 @@ export default function Header() {
               {renderSuggestions(isDesktopSuggestionsVisible)}
             </form>
             <DarkModeToggle />
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-200">
+              <Link href="/contact" aria-label="Navigate to Contact Us">
+                Contact Us
+              </Link>
+            </Button>
           </div>
 
 
@@ -358,6 +362,13 @@ export default function Header() {
 
                 <nav className="flex flex-col space-y-3 mt-4" aria-label="Mobile navigation">
                   <NavLinksContent isMobile={true} />
+                  <SheetClose asChild>
+                    <Button asChild className="w-full justify-center text-lg py-3 bg-primary text-primary-foreground hover:bg-primary/90">
+                      <Link href="/contact" aria-label="Navigate to Contact Us">
+                        Contact Us
+                      </Link>
+                    </Button>
+                  </SheetClose>
                 </nav>
               </SheetContent>
             </Sheet>

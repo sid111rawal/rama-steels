@@ -73,11 +73,89 @@ export default function FAQPage() {
                         </AccordionTrigger>
                         <AccordionContent className="text-muted-foreground pb-6">
                           <div className="prose prose-gray dark:prose-invert max-w-none">
-                            {faq.answer.split('\n').map((paragraph, index) => (
-                              <p key={index} className="mb-3 whitespace-pre-line">
-                                {paragraph}
-                              </p>
-                            ))}
+                            {(() => {
+                              // Parse markdown formatting function
+                              const parseMarkdown = (text: string, keyPrefix: string): React.ReactNode[] => {
+                                const parts: React.ReactNode[] = [];
+                                const boldRegex = /\*\*(.*?)\*\*/g;
+                                let lastIndex = 0;
+                                let match;
+                                let keyCounter = 0;
+                                
+                                while ((match = boldRegex.exec(text)) !== null) {
+                                  // Add text before the match
+                                  if (match.index > lastIndex) {
+                                    parts.push(text.substring(lastIndex, match.index));
+                                  }
+                                  // Add bold text
+                                  parts.push(<strong key={`${keyPrefix}-bold-${keyCounter++}`}>{match[1]}</strong>);
+                                  lastIndex = match.index + match[0].length;
+                                }
+                                // Add remaining text
+                                if (lastIndex < text.length) {
+                                  parts.push(text.substring(lastIndex));
+                                }
+                                
+                                return parts.length > 0 ? parts : [text];
+                              };
+
+                              const lines = faq.answer.split('\n');
+                              const elements: React.ReactNode[] = [];
+                              let listItems: React.ReactNode[] = [];
+                              let listKey = '';
+                              
+                              lines.forEach((line, index) => {
+                                const trimmed = line.trim();
+                                if (!trimmed) {
+                                  if (listItems.length > 0) {
+                                    elements.push(
+                                      <ul key={listKey} className="list-disc ml-6 mb-3 space-y-2">
+                                        {listItems}
+                                      </ul>
+                                    );
+                                    listItems = [];
+                                  }
+                                  return;
+                                }
+                                
+                                // Check if it's a bullet point
+                                if (trimmed.startsWith('•') || trimmed.startsWith('-')) {
+                                  if (listItems.length === 0) {
+                                    listKey = `list-${faq.id}-${index}`;
+                                  }
+                                  const content = trimmed.substring(1).trim();
+                                  listItems.push(
+                                    <li key={`item-${faq.id}-${index}`}>
+                                      {parseMarkdown(content, `faq-${faq.id}-${index}`)}
+                                    </li>
+                                  );
+                                } else {
+                                  if (listItems.length > 0) {
+                                    elements.push(
+                                      <ul key={listKey} className="list-disc ml-6 mb-3 space-y-2">
+                                        {listItems}
+                                      </ul>
+                                    );
+                                    listItems = [];
+                                  }
+                                  elements.push(
+                                    <p key={`para-${faq.id}-${index}`} className="mb-3">
+                                      {parseMarkdown(trimmed, `faq-${faq.id}-${index}`)}
+                                    </p>
+                                  );
+                                }
+                              });
+                              
+                              if (listItems.length > 0) {
+                                elements.push(
+                                  <ul key={`list-${faq.id}-final`} className="list-disc ml-6 mb-3 space-y-2">
+                                    {listItems}
+                                  </ul>
+                                );
+                              }
+                              
+                              return elements;
+                            })()}
                           </div>
                         </AccordionContent>
                       </AccordionItem>
