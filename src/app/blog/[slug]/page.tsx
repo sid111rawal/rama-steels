@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: BlogPostPageParams 
     description,
     keywords: keywordsList.filter((value, index, self) => self.indexOf(value) === index && value.length > 0),
     alternates: {
-      canonical: `/blog/${post.slug}`,
+      canonical: `${siteConfig.url}/blog/${post.slug}`,
     },
     openGraph: {
       title,

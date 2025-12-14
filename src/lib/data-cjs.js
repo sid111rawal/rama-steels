@@ -56,6 +56,11 @@ const blogPostsData = [
   { slug: 'choosing-polishing-media', date: 'November 05, 2023' },
   { slug: 'steel-manufacturing-trends-2024', date: 'November 15, 2023' },
   { slug: 'stainless-steel-corrosion-resistance', date: 'November 28, 2023' },
+  { slug: 'steel-balls-price-guide-2025-india', date: 'January 15, 2025' },
+  { slug: 'best-bearing-steel-balls-manufacturer-india-2025', date: 'January 22, 2025' },
+  { slug: 'sustainable-steel-manufacturing-eco-friendly-india-2025', date: 'January 30, 2025' },
+  { slug: 'tumbling-media-vs-vibratory-finishing-guide-2025', date: 'February 05, 2025' },
+  { slug: 'steel-balls-for-ball-mills-complete-guide-2025', date: 'February 12, 2025' },
 ];
 
 module.exports = { productsData, blogPostsData };
