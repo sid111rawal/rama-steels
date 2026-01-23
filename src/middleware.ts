@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
  * Middleware for SEO optimizations:
  * 1. Handle soft 404 from SearchAction template URL
  *
- * Note: www → non-www redirect is handled by vercel.json at edge level
+ * Note: www → non-www redirect should be configured in Vercel Dashboard → Domains
  */
 export function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();

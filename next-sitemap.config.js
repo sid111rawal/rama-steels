@@ -1,4 +1,3 @@
-// @ts-check
 /** @type {import('next-sitemap').IConfig} */
 
 const { siteConfig } = require('./src/config/site-cjs.js');
@@ -24,7 +23,7 @@ module.exports = {
   // Exclude routes from sitemap
   exclude: ['/admin', '/404', '/api/*', '/products?*'], // Exclude query string routes
   // Add custom paths
-  additionalPaths: async (config) => {
+  additionalPaths: async (_config) => {
     try {
       const productPaths = productsData.map(product => ({
         loc: `/products/${product.id}`,
