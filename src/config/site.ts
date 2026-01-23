@@ -1,5 +1,5 @@
 import type { StaticImageData } from 'next/image';
-import appLogo from '@/images/logo/l.jpeg'; 
+import appLogo from '@/images/logo/l.jpeg';
 
 export const siteConfig = {
   name: "Rama & Sons",
@@ -12,6 +12,8 @@ export const siteConfig = {
     blog: "Stay updated with latest insights on steel manufacturing, industrial applications, and technical guides from Rama & Sons experts. Professional blog covering steel balls, polish media, and industrial products.",
     faq: "Get answers to frequently asked questions about steel balls, polish media, precision gauges, and industrial manufacturing services from Rama & Sons. Expert technical support and product guidance for Indian industries.",
     contact: "Contact Rama & Sons for inquiries about steel balls, polish media, and precision gauges. Reach us at +91-63976-82296 or ramasons2001@gmail.com. Located in Agra, India. Get in touch for your industrial steel product needs.",
+    tools: "Free online tools from Rama & Sons - Calculate pricing for steel balls and polish media products. Professional calculators for industrial steel product estimates.",
+    priceCalculator: "Steel Ball Price Calculator - Calculate the total price for your steel ball order based on size, quantity, and rate. Includes MOQ and minimum billing support from Rama & Sons.",
   },
   keywords: [
     // General & Brand
@@ -46,24 +48,24 @@ export const siteConfig = {
     "polishing media for jewelry", "polishing media for metal finishing",
     "gauges for quality control", "precision measurement tools"
   ],
-  url: "https://ramason.in", 
-  ogImage: { 
+  url: "https://ramason.in",
+  ogImage: {
     src: appLogo, // This is the StaticImageData object
-    width: 512, 
-    height: 512, 
+    width: 512,
+    height: 512,
     blurDataURL: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9PjsBCgsLDg0OHBAQHDsoIig7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/AABEIAAEAAQMBEgACEQEDEQH/xAAUAAEAAAAAAAAAAAAAAAAAAAAA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAAApb/wD/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAAAAhP/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Af//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIAAT8Af//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Af//Z', // More specific blurDataURL for JPEG
   },
   contactInfo: {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
     email: "ramasons2001@gmail.com",
-    formSubmitEmail: "sidrawal1200@gmail.com", 
-    formSubmitRedirectUrl: "https://ramason.in/", 
+    formSubmitEmail: "sidrawal1200@gmail.com",
+    formSubmitRedirectUrl: "https://ramason.in/",
   },
   socialLinks: {
-    facebook: "https://www.facebook.com/ramasons", 
-    twitter: "https://www.twitter.com/ramasons",   
-    linkedin: "https://www.linkedin.com/company/ramasons", 
+    facebook: "https://www.facebook.com/ramasons",
+    twitter: "https://www.twitter.com/ramasons",
+    linkedin: "https://www.linkedin.com/company/ramasons",
   },
   whatsAppDefaultMessage: "Hi Rama & Sons. I have a question about your steel balls and polish media.",
   heroParticleColor: {

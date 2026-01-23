@@ -1,27 +1,29 @@
 // @ts-check
 /** @type {import('next-sitemap').IConfig} */
 
-const { siteConfig } = require('./src/config/site-cjs.js'); 
+const { siteConfig } = require('./src/config/site-cjs.js');
 const { productsData, blogPostsData } = require('./src/lib/data-cjs.js');
 
 
 module.exports = {
   siteUrl: siteConfig.url,
-  generateRobotsTxt: true, 
+  generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
       { userAgent: '*', allow: '/' },
-      // Add disallow rules if needed, e.g., for admin or private areas
-      // { userAgent: '*', disallow: '/admin/' }, 
+      // Block search and filter URLs to prevent duplicate content
+      { userAgent: '*', disallow: '/products?search=' },
+      { userAgent: '*', disallow: '/products?category=' },
+      { userAgent: '*', disallow: '/products?product=' },
+      // Block SearchAction template URL (soft 404 fix)
+      { userAgent: '*', disallow: '/products?search={search_term_string}' },
+      { userAgent: '*', disallow: '/products?search=%7Bsearch_term_string%7D' },
     ],
-    // Remove circular reference - next-sitemap will handle the main sitemap automatically
-    // additionalSitemaps: [
-    //   `${siteConfig.url}/sitemap.xml`, 
-    // ],
+    additionalSitemaps: [],
   },
-  // (Optional) Exclude routes from sitemap
-  exclude: ['/admin', '/404', '/api/*'], // Example exclusions, added /api/*
-  // (Optional) Add custom paths or modify existing ones
+  // Exclude routes from sitemap
+  exclude: ['/admin', '/404', '/api/*', '/products?*'], // Exclude query string routes
+  // Add custom paths
   additionalPaths: async (config) => {
     try {
       const productPaths = productsData.map(product => ({
@@ -37,12 +39,16 @@ module.exports = {
         changefreq: 'monthly',
         priority: 0.7,
       }));
-      
+
       const staticPagePaths = [
         { loc: '/', changefreq: 'daily', priority: 1.0, lastmod: new Date().toISOString() },
         { loc: '/about', changefreq: 'monthly', priority: 0.7, lastmod: new Date().toISOString() },
         { loc: '/products', changefreq: 'weekly', priority: 0.9, lastmod: new Date().toISOString() },
         { loc: '/blog', changefreq: 'weekly', priority: 0.7, lastmod: new Date().toISOString() },
+        { loc: '/faq', changefreq: 'monthly', priority: 0.6, lastmod: new Date().toISOString() },
+        { loc: '/contact', changefreq: 'monthly', priority: 0.6, lastmod: new Date().toISOString() },
+        { loc: '/tools', changefreq: 'monthly', priority: 0.5, lastmod: new Date().toISOString() },
+        { loc: '/tools/price-calculator', changefreq: 'monthly', priority: 0.5, lastmod: new Date().toISOString() },
       ];
 
       return [...staticPagePaths, ...productPaths, ...blogPostPaths];

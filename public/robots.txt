@@ -2,6 +2,15 @@
 User-agent: *
 Allow: /
 
+# Block search and filter URLs to prevent duplicate content
+Disallow: /products?search=
+Disallow: /products?category=
+Disallow: /products?product=
+
+# Block SearchAction template URL (soft 404 fix)
+Disallow: /products?search={search_term_string}
+Disallow: /products?search=%7Bsearch_term_string%7D
+
 # Host
 Host: https://ramason.in
 

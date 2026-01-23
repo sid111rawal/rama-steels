@@ -20,6 +20,7 @@ const mainPageNavLinksConfig = [
   { href: '/about', label: 'About Us', isPageLink: true },
   { href: '/faq', label: 'FAQ', isPageLink: true },
   { href: '/blog', label: 'Blog', isPageLink: true },
+  { href: '/tools', label: 'Tools', isPageLink: true },
 ];
 
 const MAX_SUGGESTIONS = 7;
@@ -56,13 +57,13 @@ export default function Header() {
     ).slice(0, MAX_SUGGESTIONS);
 
     setSuggestions(filteredProducts);
-     if (document.activeElement === event.target) { // Check if the input is focused
-        if (desktopSearchContainerRef.current?.contains(event.target as Node)) {
-            setIsDesktopSuggestionsVisible(true);
-        }
-        if (mobileSearchContainerRef.current?.contains(event.target as Node)) {
-            setIsMobileSuggestionsVisible(true);
-        }
+    if (document.activeElement === event.target) { // Check if the input is focused
+      if (desktopSearchContainerRef.current?.contains(event.target as Node)) {
+        setIsDesktopSuggestionsVisible(true);
+      }
+      if (mobileSearchContainerRef.current?.contains(event.target as Node)) {
+        setIsMobileSuggestionsVisible(true);
+      }
     }
   };
 
@@ -72,7 +73,7 @@ export default function Header() {
     setIsDesktopSuggestionsVisible(false);
     setIsMobileSuggestionsVisible(false);
   }, []);
-  
+
   const handleSearchSubmit = useCallback((event?: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     if (searchTerm.trim()) {
@@ -89,7 +90,7 @@ export default function Header() {
     clearSearch();
     if (sheetOpen) setSheetOpen(false);
   }, [router, clearSearch, sheetOpen]);
-  
+
   const desktopSearchContainerRef = useRef<HTMLDivElement>(null);
   const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -132,29 +133,29 @@ export default function Header() {
           }
         }
       });
-      
+
       const firstHashSection = mainPageNavLinksConfig.find(l => l.isHashLink && l.sectionId);
-      let firstHashSectionTop = Infinity; 
+      let firstHashSectionTop = Infinity;
       if (firstHashSection && firstHashSection.sectionId) {
-          const sectionElement = document.getElementById(firstHashSection.sectionId);
-          if (sectionElement) {
-            firstHashSectionTop = sectionElement.offsetTop - headerHeight;
-          } else {
-            // Fallback if the element is not found, might happen during initial render or if ID is incorrect
-            // Setting to window.innerHeight can be a rough estimate, or a large number if sections are further down
-             firstHashSectionTop = window.innerHeight; 
-          }
+        const sectionElement = document.getElementById(firstHashSection.sectionId);
+        if (sectionElement) {
+          firstHashSectionTop = sectionElement.offsetTop - headerHeight;
+        } else {
+          // Fallback if the element is not found, might happen during initial render or if ID is incorrect
+          // Setting to window.innerHeight can be a rough estimate, or a large number if sections are further down
+          firstHashSectionTop = window.innerHeight;
+        }
       }
 
 
       if (!currentActiveSection && scrollY < firstHashSectionTop) {
-        currentActiveSection = '/'; 
+        currentActiveSection = '/';
       }
 
 
       setActiveSection(currentActiveSection);
     };
-    
+
     if (pathname === '/') {
       window.addEventListener('scroll', handleScroll);
       handleScroll(); // Initial check
@@ -172,18 +173,18 @@ export default function Header() {
     <>
       {mainPageNavLinksConfig.map((link) => {
         let isActive = false;
-        if (pathname === '/') { 
+        if (pathname === '/') {
           if (link.isHashLink) {
             isActive = activeSection === link.href;
           } else if (link.href === '/') {
-            isActive = activeSection === '/' || activeSection === '' ;
+            isActive = activeSection === '/' || activeSection === '';
           } else {
             isActive = pathname === link.href;
           }
         } else {
           isActive = link.isPageLink ? pathname === link.href || (pathname.startsWith(link.href) && link.href !== '/') : false;
         }
-        
+
         const buttonProps = {
           variant: "ghost" as const,
           onClick: () => {
@@ -197,7 +198,7 @@ export default function Header() {
               }
               if (isMobile) setSheetOpen(false);
             } else if (link.isHashLink && pathname !== '/') {
-               // Construct absolute URL for hash links when not on homepage
+              // Construct absolute URL for hash links when not on homepage
               const absoluteUrl = new URL(link.href, siteConfig.url).toString();
               router.push(absoluteUrl);
               if (isMobile) setSheetOpen(false);
@@ -218,7 +219,7 @@ export default function Header() {
               </Button>
             </SheetClose>
           ) : ( // For desktop links
-             <Button key={link.href} {...buttonProps} asChild={link.isPageLink || (link.isHashLink && pathname !== '/')} aria-label={`Navigate to ${link.label}`}>
+            <Button key={link.href} {...buttonProps} asChild={link.isPageLink || (link.isHashLink && pathname !== '/')} aria-label={`Navigate to ${link.label}`}>
               {link.isPageLink || (link.isHashLink && pathname !== '/') ? <Link href={link.href}>{link.label}</Link> : <>{link.label}</>}
             </Button>
           )
@@ -245,18 +246,18 @@ export default function Header() {
               </button>
             </li>
           ))}
-           {suggestions.length > 0 && searchTerm.trim() && (
-             <li>
-                <button
-                    type="button"
-                    onClick={() => handleSearchSubmit()}
-                    className="w-full text-left p-3 hover:bg-accent transition-colors text-sm font-semibold text-primary"
-                    aria-label={`Search for all products matching ${searchTerm}`}
-                >
-                    View all results for "{searchTerm}"
-                </button>
+          {suggestions.length > 0 && searchTerm.trim() && (
+            <li>
+              <button
+                type="button"
+                onClick={() => handleSearchSubmit()}
+                className="w-full text-left p-3 hover:bg-accent transition-colors text-sm font-semibold text-primary"
+                aria-label={`Search for all products matching ${searchTerm}`}
+              >
+                View all results for "{searchTerm}"
+              </button>
             </li>
-           )}
+          )}
         </ul>
       </div>
     );
@@ -268,17 +269,17 @@ export default function Header() {
         <div className="flex h-20 items-center justify-between w-full">
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group mr-6 md:mr-8" aria-label={`Go to ${siteConfig.name} homepage`}>
             <Image
-              src={siteConfig.ogImage.src} 
+              src={siteConfig.ogImage.src}
               alt={`${siteConfig.name} Logo - Manufacturer of Steel Balls and Polish Media`}
-              width={siteConfig.ogImage.width} 
+              width={siteConfig.ogImage.width}
               height={siteConfig.ogImage.height}
-              className="rounded-full group-hover:opacity-80 transition-opacity duration-300 h-14 w-14 sm:h-16 sm:w-16" 
-              placeholder="blur" 
+              className="rounded-full group-hover:opacity-80 transition-opacity duration-300 h-14 w-14 sm:h-16 sm:w-16"
+              placeholder="blur"
               blurDataURL={siteConfig.ogImage.blurDataURL}
-              priority 
+              priority
               data-ai-hint="company logo"
             />
-             <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 md:whitespace-nowrap">
+            <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors duration-300 md:whitespace-nowrap">
               {siteConfig.name.split(' ')[0]} <span className="inline">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
             </span>
           </Link>
@@ -286,16 +287,16 @@ export default function Header() {
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-grow justify-center flex-wrap">
             <NavLinksContent />
           </div>
-          
+
           <div className="hidden md:flex items-center space-x-2 flex-wrap" ref={desktopSearchContainerRef}>
             <form onSubmit={handleSearchSubmit} className="flex items-center relative w-full md:w-auto">
               <Input
-               type="search"
+                type="search"
                 name="product-search-desktop"
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                onFocusCapture={() => searchTerm.trim() && setIsDesktopSuggestionsVisible(true)} 
+                onFocusCapture={() => searchTerm.trim() && setIsDesktopSuggestionsVisible(true)}
                 className="h-9 pl-3 pr-8 w-36 lg:w-48 rounded-md border focus:border-primary"
                 aria-label="Search products by name or type (e.g., EN31 steel balls, polish media)"
                 autoComplete="off"
@@ -330,8 +331,8 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs p-6 flex flex-col">
                 <SheetHeader className="mb-4">
-                    <SheetTitle className="text-2xl font-semibold text-primary">{siteConfig.name}</SheetTitle>
-                    <SheetDescription className="sr-only">Main menu and product search for {siteConfig.name}</SheetDescription>
+                  <SheetTitle className="text-2xl font-semibold text-primary">{siteConfig.name}</SheetTitle>
+                  <SheetDescription className="sr-only">Main menu and product search for {siteConfig.name}</SheetDescription>
                 </SheetHeader>
 
                 <div ref={mobileSearchContainerRef}>
@@ -342,23 +343,23 @@ export default function Header() {
                       placeholder="Search products..."
                       value={searchTerm}
                       onChange={handleSearchChange}
-                      onFocusCapture={() => searchTerm.trim() && setIsMobileSuggestionsVisible(true)} 
+                      onFocusCapture={() => searchTerm.trim() && setIsMobileSuggestionsVisible(true)}
                       className="h-10 pl-3 pr-10 w-full rounded-md border focus:border-primary"
                       aria-label="Search products by name or type (e.g., steel balls, polish media)"
                       autoComplete="off"
                     />
-                     {searchTerm && (
-                        <Button type="button" variant="ghost" size="icon" onClick={clearSearch} className="absolute right-8 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Clear search input">
-                          <ClearIcon className="h-5 w-5" />
-                        </Button>
-                      )}
+                    {searchTerm && (
+                      <Button type="button" variant="ghost" size="icon" onClick={clearSearch} className="absolute right-8 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Clear search input">
+                        <ClearIcon className="h-5 w-5" />
+                      </Button>
+                    )}
                     <Button type="submit" variant="ghost" size="icon" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary" aria-label="Submit product search">
                       <SearchIcon className="h-5 w-5" />
                     </Button>
-                     {renderSuggestions(isMobileSuggestionsVisible)}
+                    {renderSuggestions(isMobileSuggestionsVisible)}
                   </form>
                 </div>
-                
+
 
                 <nav className="flex flex-col space-y-3 mt-4" aria-label="Mobile navigation">
                   <NavLinksContent isMobile={true} />
