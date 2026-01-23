@@ -14,7 +14,7 @@ const WhatsAppChat = dynamic(() => import('@/components/whatsapp-chat'), { ssr: 
 const tools = [
     {
         id: 'price-calculator',
-        name: 'Steel Ball Price Calculator',
+        name: 'Price Calculator',
         description: 'Calculate pricing for spherical metal balls based on size, quantity, and rate. Includes MOQ and minimum billing support.',
         icon: Calculator,
         href: '/tools/price-calculator',
@@ -35,7 +35,7 @@ export default function ToolsPage() {
                             Tools
                         </h1>
                         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Free online calculators and tools to help you estimate pricing and specifications for our steel ball products.
+                            Free online calculators and tools to help you estimate pricing and specifications for our products.
                         </p>
                     </div>
 

@@ -149,7 +149,7 @@ export default function PriceCalculatorPage() {
                             </h1>
                         </div>
                         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Calculate the total price for your steel ball order. Enter the ball size, quantity, and rate to get an instant estimate.
+                            Calculate the total price for your order. Enter the ball size, quantity, and rate to get an instant estimate.
                         </p>
                     </div>
 
