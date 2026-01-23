@@ -2,13 +2,24 @@
 User-agent: *
 Allow: /
 
-# Block search and filter URLs to prevent duplicate content
+# *
+User-agent: *
 Disallow: /products?search=
+
+# *
+User-agent: *
 Disallow: /products?category=
+
+# *
+User-agent: *
 Disallow: /products?product=
 
-# Block SearchAction template URL (soft 404 fix)
+# *
+User-agent: *
 Disallow: /products?search={search_term_string}
+
+# *
+User-agent: *
 Disallow: /products?search=%7Bsearch_term_string%7D
 
 # Host
