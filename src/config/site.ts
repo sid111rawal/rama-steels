@@ -11,7 +11,7 @@ export const siteConfig = {
     products: "Explore our comprehensive range of industrial steel products including ferrous balls, non-ferrous balls, precision gauges, and polish media. High-quality steel balls manufactured in India by Rama & Sons.",
     blog: "Stay updated with latest insights on steel manufacturing, industrial applications, and technical guides from Rama & Sons experts. Professional blog covering steel balls, polish media, and industrial products.",
     faq: "Get answers to frequently asked questions about steel balls, polish media, precision gauges, and industrial manufacturing services from Rama & Sons. Expert technical support and product guidance for Indian industries.",
-    contact: "Contact Rama & Sons for inquiries about steel balls, polish media, and precision gauges. Reach us at +91-63976-82296 or ramasons2001@gmail.com. Located in Agra, India. Get in touch for your industrial steel product needs.",
+    contact: "Contact Rama & Sons for inquiries about steel balls, polish media, and precision gauges. Reach us at +91-63976-82296 or info@ramason.in. Located in Agra, India. Get in touch for your industrial steel product needs.",
     tools: "Free online tools from Rama & Sons - Calculate pricing for steel balls and polish media products. Professional calculators for industrial steel product estimates.",
     priceCalculator: "Steel Ball Price Calculator - Calculate the total price for your steel ball order based on size, quantity, and rate. Includes MOQ and minimum billing support from Rama & Sons.",
   },
@@ -58,8 +58,8 @@ export const siteConfig = {
   contactInfo: {
     address: "Jaipur House, Agra, India",
     phone: "+91-63976-82296",
-    email: "ramasons2001@gmail.com",
-    formSubmitEmail: "sidrawal1200@gmail.com",
+    email: "info@ramason.in",
+    formSubmitEmail: "info@ramason.in",
     formSubmitRedirectUrl: "https://ramason.in/",
   },
   socialLinks: {
